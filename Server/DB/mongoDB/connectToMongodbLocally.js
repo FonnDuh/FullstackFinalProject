@@ -5,6 +5,7 @@ require("dotenv").config();
 const localMongoAddress = process.env.MONGO_LOCAL_URI;
 const connectToLocalDB = async () => {
   try {
+    console.log(chalk.blue("Connecting to the database..."));
     await mongoose.connect(localMongoAddress);
     console.log(chalk.bold.white.bgRed("Connected to MongoDB locally"));
   } catch (error) {
