@@ -85,4 +85,30 @@ router.get("/trending", rateLimiter, async (req, res, next) => {
   }
 });
 
+router.get("/upcoming", rateLimiter, async (req, res, next) => {
+  try {
+    const data = await fetchFromTmdb("movie/upcoming");
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching upcoming movies:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Upcoming movies not found." });
+    }
+    next(error);
+  }
+});
+
+router.get("/genres", rateLimiter, async (req, res, next) => {
+  try {
+    const data = await fetchFromTmdb("genre/movie/list");
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching movie genres:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Movie genres not found." });
+    }
+    next(error);
+  }
+});
+
 module.exports = router;

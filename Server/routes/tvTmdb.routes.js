@@ -85,4 +85,98 @@ router.get("/trending", rateLimiter, async (req, res, next) => {
   }
 });
 
+router.get("/upcoming", rateLimiter, async (req, res, next) => {
+  try {
+    const data = await fetchFromTmdb("tv/upcoming");
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching upcoming shows:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Upcoming shows not found." });
+    }
+    next(error);
+  }
+});
+
+router.get("/genres", rateLimiter, async (req, res, next) => {
+  try {
+    const data = await fetchFromTmdb("genre/tv/list");
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching show genres:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Show genres not found." });
+    }
+    next(error);
+  }
+});
+
+router.get(
+  "/:id/season/:season_number",
+  rateLimiter,
+  async (req, res, next) => {
+    const { id, season_number } = req.params;
+    if (!id || !season_number) {
+      return res
+        .status(400)
+        .json({ message: "ID and season_number parameters are required" });
+    }
+
+    const cacheKey = `tv:${id}:season:${season_number}`;
+    try {
+      const cached = await getCachedData(cacheKey);
+      if (cached) {
+        return res.json(cached);
+      }
+
+      const data = await fetchFromTmdb(`tv/${id}/season/${season_number}`);
+
+      await setCachedData(cacheKey, data, 3600);
+
+      res.json(data);
+    } catch (error) {
+      console.error("Error fetching season details:", error);
+      if (error.response && error.response.status === 404) {
+        return res.status(404).json({ message: "Season not found." });
+      }
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/:id/season/:season_number/episode/:episode_number",
+  rateLimiter,
+  async (req, res, next) => {
+    const { id, season_number, episode_number } = req.params;
+    if (!id || !season_number || !episode_number) {
+      return res.status(400).json({
+        message:
+          "ID, season_number, and episode_number parameters are required",
+      });
+    }
+    const cacheKey = `tv:${id}:season:${season_number}:episode:${episode_number}`;
+    try {
+      const cached = await getCachedData(cacheKey);
+      if (cached) {
+        return res.json(cached);
+      }
+
+      const data = await fetchFromTmdb(
+        `tv/${id}/season/${season_number}/episode/${episode_number}`
+      );
+
+      await setCachedData(cacheKey, data, 3600);
+
+      res.json(data);
+    } catch (error) {
+      console.error("Error fetching episode details:", error);
+      if (error.response && error.response.status === 404) {
+        return res.status(404).json({ message: "Episode not found." });
+      }
+      next(error);
+    }
+  }
+);
+
 module.exports = router;
