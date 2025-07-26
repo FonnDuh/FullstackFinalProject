@@ -44,8 +44,25 @@ router.post("/", auth, async (req, res, next) => {
   }
 });
 
-// get media by media id
-router.get("/:mediaId/all", auth, async (req, res, next) => {
+// Get all media for current user
+router.get("/", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+
+    const mediaList = await getMyUserMedia();
+    res.status(200).json(mediaList);
+  } catch (error) {
+    console.error("Error fetching user media:", error);
+    next(error);
+  }
+});
+
+// Get a single media for current user
+router.get("/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
@@ -65,75 +82,14 @@ router.get("/:mediaId/all", auth, async (req, res, next) => {
   }
 });
 
-// Get all user media
-router.get("/", auth, async (req, res, next) => {
-  try {
-    const userInfo = req.user;
-
-    if (!userInfo || !userInfo._id) {
-      return res.status(401).json({ message: "Unauthorized user." });
-    }
-
-    const mediaList = await getAllUserMedia();
-    res.status(200).json(mediaList);
-  } catch (error) {
-    console.error("Error fetching user media:", error);
-    next(error);
-  }
-});
-
-// Get user media by user id
-router.get("/:id", auth, async (req, res, next) => {
-  try {
-    const userInfo = req.user;
-
-    if (!userInfo || !userInfo._id) {
-      return res.status(401).json({ message: "Unauthorized user." });
-    }
-    const { id } = req.params;
-    if (id !== userInfo._id.toString()) {
-      return res.status(403).json({ message: "Access denied." });
-    }
-
-    const mediaList = await getAllUserMediaById(userInfo._id);
-    res.status(200).json(mediaList);
-  } catch (error) {
-    console.error("Error fetching user media:", error);
-    next(error);
-  }
-});
-
-// Get my user media
-router.get("/:id/my-media", auth, async (req, res, next) => {
+// Update a single media for current user
+router.put("/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
     if (!userInfo || !userInfo._id) {
       return res.status(401).json({ message: "Unauthorized user." });
     }
-
-    const { id } = req.params;
-    if (id !== userInfo._id.toString()) {
-      return res.status(403).json({ message: "Access denied." });
-    }
-    const media = await getMyUserMedia(id);
-    if (!media) {
-      return res.status(404).json({ message: "Media not found." });
-    }
-    res.status(200).json(media);
-  } catch (error) {
-    console.error("Error fetching your media:", error);
-    next(error);
-  }
-});
-
-// Update user media
-router.put("/:id", auth, async (req, res, next) => {
-  try {
-    const userInfo = req.user;
-    if (!userInfo || !userInfo._id) {
-      return res.status(401).json({ message: "Unauthorized user." });
-    }
-    const { id } = req.params;
+    const { mediaId } = req.params;
     const media = req.body;
     const validationError = userMediaValidation(media);
 
@@ -142,7 +98,7 @@ router.put("/:id", auth, async (req, res, next) => {
         .status(400)
         .json({ errors: formatValidationErrors(validationError) });
 
-    const updatedMedia = await updateMedia(id, userInfo._id, media);
+    const updatedMedia = await updateMedia(mediaId, userInfo._id, media);
     res.status(200).json(updatedMedia);
   } catch (error) {
     console.error("Error updating media:", error);
@@ -150,39 +106,64 @@ router.put("/:id", auth, async (req, res, next) => {
   }
 });
 
-// Delete user media
-router.delete("/:id", auth, async (req, res, next) => {
+// Delete a single media for current user
+router.delete("/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
     if (!userInfo || !userInfo._id) {
       return res.status(401).json({ message: "Unauthorized user." });
     }
-    const { id } = req.params;
-    const deleted = await deleteMedia(id, userInfo._id);
+    const { mediaId } = req.params;
+    const deleted = await deleteMedia(mediaId, userInfo._id);
     if (!deleted) {
       return res.status(404).json({ message: "Media not found." });
     }
-    res.status(204).send("Media deleted successfully.");
+    res.status(204).send();
   } catch (error) {
     console.error("Error deleting media:", error);
     next(error);
   }
 });
 
-// Delete all user media by user id
-router.delete("/:id/all", auth, async (req, res, next) => {
+// Admin: Get all media for a user
+router.get("/user/:userId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
+
     if (!userInfo || !userInfo._id) {
       return res.status(401).json({ message: "Unauthorized user." });
     }
-    const { id } = req.params;
-    if (id !== userInfo._id.toString()) {
-      return res.status(403).json({ message: "Access denied." });
-    }
 
-    await deleteAllUserMedia(userInfo._id);
-    res.status(204).send("All media deleted successfully.");
+    if (!userInfo.isAdmin)
+      return res
+        .status(403)
+        .json({ message: "Forbidden: Admin access required." });
+
+    const { userId } = req.params;
+    const mediaList = await getAllUserMediaById(userId);
+    res.status(200).json(mediaList);
+  } catch (error) {
+    console.error("Error fetching user media:", error);
+    next(error);
+  }
+});
+
+// Admin: Delete all media for a user
+router.delete("/user/:userId", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+    if (!userInfo.isAdmin)
+      return res
+        .status(403)
+        .json({ message: "Forbidden: Admin access required." });
+
+    const { userId } = req.params;
+    await deleteAllUserMedia(userId);
+    res.status(204).send();
   } catch (error) {
     console.error("Error deleting all user media:", error);
     next(error);
