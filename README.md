@@ -1,69 +1,63 @@
-# React + TypeScript + Vite
+# FullstackFinalProject Backend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the backend for a TMDB-powered media tracking application. It allows users to search for movies and TV shows, add them to their personal lists, track progress, and manage their media library. The backend is built with Node.js, Express, and MongoDB.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: Register, login, JWT-based authentication, and protected routes.
+- **Media Management**: Add, update, delete, and fetch user-specific media (movies, TV, anime, etc.).
+- **TMDB Integration**: Search and fetch details for movies and TV shows using the TMDB API, with caching and rate limiting.
+- **User Media Tracking**: Track status, rating, progress, favorites, and episode/season progress for each user/media pair.
+- **Validation & Error Handling**: Input validation and centralized error handling for robust API responses.
+- **Rate Limiting**: Protects TMDB endpoints from abuse.
 
-## Expanding the ESLint configuration
+## Main Endpoints
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Auth
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `POST /users` - Register a new user
+- `POST /users/login` - Login and receive a JWT
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Media
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `POST /media` - Add media to user list
+- `GET /media` - Get all media for the current user
+- `GET /media/:id` - Get all media for a specific user (if authorized)
+- `GET /media/:id/my-media` - Get all media for the current user (alias)
+- `PUT /media/:id` - Update a user's media entry
+- `DELETE /media/:id` - Delete a user's media entry
+- `DELETE /media/all/:id` - Delete all media for a user
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### TMDB
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `GET /movie/search?query=...` - Search for movies
+- `GET /movie/:id` - Get movie details
+- `GET /movie/popular` - Get popular movies
+- `GET /movie/trending` - Get trending movies
+- `GET /tv/search?query=...` - Search for TV shows
+- `GET /tv/:id` - Get TV show details
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Tech Stack
+
+- Node.js, Express
+- MongoDB (Mongoose)
+- TMDB API (v3/v4)
+- JWT for authentication
+- Joi for validation
+
+## Setup
+
+1. Clone the repo
+2. Run `npm install`
+3. Create a `.env` file with your MongoDB URI, TMDB API key, and other secrets
+4. Start the server: `npm start`
+
+## Notes
+
+- All protected routes require a valid JWT in the `Authorization` header.
+- Rate limiting is applied to TMDB endpoints.
+- Caching is used for TMDB search results to reduce API calls.
+
+---
+
+Feel free to extend this README as you add more features or endpoints!

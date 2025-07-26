@@ -7,7 +7,7 @@ const connectToLocalDB = async () => {
   try {
     console.log(chalk.blue("Connecting to the database..."));
     await mongoose.connect(localMongoAddress);
-    console.log(chalk.bold.white.bgRed("Connected to MongoDB locally"));
+    console.log(chalk.bold.white.bgCyan("Connected to MongoDB locally"));
   } catch (error) {
     console.error("Could not connect MongoDB locally", error);
   }

@@ -1,6 +1,3 @@
-// Simple in-memory rate limiter middleware for TMDB API usage
-// For production, use Redis or another distributed store
-
 const rateLimitWindowMs = 1000; // 1 second
 const maxRequests = 50; // per window per IP
 const ipRequestMap = new Map();
@@ -12,7 +9,6 @@ function rateLimiter(req, res, next) {
     ipRequestMap.set(ip, []);
   }
   const timestamps = ipRequestMap.get(ip);
-  // Remove timestamps outside the window
   while (timestamps.length && timestamps[0] <= now - rateLimitWindowMs) {
     timestamps.shift();
   }
