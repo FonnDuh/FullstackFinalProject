@@ -43,5 +43,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.post("findOneAndDelete", async function (doc) {
+  if (doc) {
+    // Delete all user media associated with this user
+    await mongoose.model("UserMedia").deleteMany({ user_id: doc._id });
+  }
+});
+
 const User = mongoose.model("User", userSchema);
 module.exports = User;

@@ -84,6 +84,57 @@ async function getAllUserMediaById(userId) {
   }
 }
 
+async function getUserMediaByStatus(userId, status) {
+  try {
+    const mediaList = await UserMedia.find({ user_id: userId, status })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    if (!mediaList || mediaList.length === 0) {
+      throw new AppError(
+        `No media found for status: ${status}`,
+        404,
+        "NO_MEDIA_FOUND"
+      );
+    }
+
+    return mediaList;
+  } catch (error) {
+    throw new AppError(
+      error.message,
+      error.status || 500,
+      "GET_MEDIA_BY_STATUS_ERROR"
+    );
+  }
+}
+
+async function getUserMediaByType(userId, mediaType) {
+  try {
+    const mediaList = await UserMedia.find({
+      user_id: userId,
+      media_type: mediaType,
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    if (!mediaList || mediaList.length === 0) {
+      throw new AppError(
+        `No media found for type: ${mediaType}`,
+        404,
+        "NO_MEDIA_FOUND"
+      );
+    }
+
+    return mediaList;
+  } catch (error) {
+    throw new AppError(
+      error.message,
+      error.status || 500,
+      "GET_MEDIA_BY_TYPE_ERROR"
+    );
+  }
+}
+
 async function getMyUserMedia(userId) {
   try {
     const mediaList = await UserMedia.find({ user_id: userId })
@@ -169,6 +220,8 @@ module.exports = {
   createMedia,
   getMediaById,
   getAllUserMediaById,
+  getUserMediaByStatus,
+  getUserMediaByType,
   getMyUserMedia,
   updateMedia,
   deleteMedia,

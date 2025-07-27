@@ -7,6 +7,7 @@ const {
   updateMedia,
   deleteMedia,
   getMediaById,
+  getUserMediaByStatus,
 } = require("../services/userMedia.service");
 const userMediaValidation = require("../validation/users/userMedia.validation");
 const router = express.Router();
@@ -56,6 +57,42 @@ router.get("/", auth, async (req, res, next) => {
     res.status(200).json(mediaList);
   } catch (error) {
     console.error("Error fetching user media:", error);
+    next(error);
+  }
+});
+
+// Get user media by status
+router.get("/:status", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+
+    const { status } = req.params;
+    const mediaList = await getUserMediaByStatus(userInfo._id, status);
+    res.status(200).json(mediaList);
+  } catch (error) {
+    console.error("Error fetching user media by status:", error);
+    next(error);
+  }
+});
+
+// Get user media by type
+router.get("/:mediaType", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+
+    const { mediaType } = req.params;
+    const mediaList = await getUserMediaByType(userInfo._id, mediaType);
+    res.status(200).json(mediaList);
+  } catch (error) {
+    console.error("Error fetching user media by type:", error);
     next(error);
   }
 });

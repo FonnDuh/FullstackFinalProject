@@ -6,12 +6,10 @@ const userMediaSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true,
     },
     media_id: {
       type: String,
       required: true,
-      index: true,
     },
     media_type: {
       type: String,
