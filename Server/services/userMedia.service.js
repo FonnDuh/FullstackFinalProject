@@ -26,14 +26,16 @@ async function createMedia(media, userId) {
       status: media.status || "plan_to_watch",
       rating: media.rating || null,
       progress: media.progress || 0,
+      progress_units: media.progress_units || "episodes",
       rewatch_count: media.rewatch_count || 0,
       is_favorite: media.is_favorite || false,
       started_date: media.started_date || null,
       completed_date: media.completed_date || null,
       current_season: media.current_season || null,
       current_episode: media.current_episode || null,
-      last_watched_episode: media.last_watched_episode || null,
-      last_watched_season: media.last_watched_season || null,
+      episode_watch_history: media.episode_watch_history || [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
 
     return await newMedia.save();
@@ -58,22 +60,6 @@ async function getMediaById(mediaId) {
       error.message,
       error.status || 500,
       "GET_MEDIA_BY_ID_ERROR"
-    );
-  }
-}
-
-async function getAllUserMedia() {
-  try {
-    const mediaList = await UserMedia.find().sort({ createdAt: -1 }).lean();
-    if (!mediaList || mediaList.length === 0) {
-      throw new AppError("No media found", 404, "NO_MEDIA_FOUND");
-    }
-    return mediaList;
-  } catch (error) {
-    throw new AppError(
-      error.message,
-      error.status || 500,
-      "GET_ALL_USER_MEDIA_ERROR"
     );
   }
 }
@@ -182,7 +168,6 @@ async function deleteAllUserMedia(userId) {
 module.exports = {
   createMedia,
   getMediaById,
-  getAllUserMedia,
   getAllUserMediaById,
   getMyUserMedia,
   updateMedia,

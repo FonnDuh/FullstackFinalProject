@@ -6,7 +6,6 @@ const {
   getMyUserMedia,
   updateMedia,
   deleteMedia,
-  getAllUserMedia,
   getMediaById,
 } = require("../services/userMedia.service");
 const userMediaValidation = require("../validation/users/userMedia.validation");

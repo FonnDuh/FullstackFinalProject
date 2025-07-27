@@ -42,6 +42,11 @@ const userMediaSchema = new Schema(
       type: Number,
       default: 0,
     },
+    progress_units: {
+      type: String,
+      enum: ["episodes", "chapters", "volumes", "minutes", "hours", "percent"],
+      default: "episodes",
+    },
     rewatch_count: {
       type: Number,
       default: 0,
@@ -52,26 +57,30 @@ const userMediaSchema = new Schema(
     },
     started_date: {
       type: Date,
+      default: null,
     },
     completed_date: {
       type: Date,
+      default: null,
     },
     // Optional TV tracking fields
-    current_season: {
-      type: Number,
-      default: null,
-    },
-    current_episode: {
-      type: Number,
-      default: null,
-    },
-    last_watched_episode: {
-      type: Number,
-      default: null,
-    },
-    last_watched_season: {
-      type: Number,
-      default: null,
+    tv_tracking: {
+      current_season: {
+        type: Number,
+        default: null,
+      },
+      current_episode: {
+        type: Number,
+        default: null,
+      },
+      episode_watch_history: [
+        {
+          episode_number: Number,
+          season_number: Number,
+          watched_at: Date,
+        },
+      ],
+      default: [],
     },
   },
   {
