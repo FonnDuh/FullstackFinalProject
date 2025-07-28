@@ -2,6 +2,9 @@ const { Schema, model } = require("mongoose");
 
 const userMediaSchema = new Schema(
   {
+    _id: {
+      type: Schema.Types.ObjectId,
+    },
     user_id: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const auth = (req, res, next) => {
   try {
-    const token = req.header("Authorization");
+    const token = req.header("Auth-Token");
     if (!token) {
       return next(new AppError("Please login for token.", 401, "NO_TOKEN"));
     }

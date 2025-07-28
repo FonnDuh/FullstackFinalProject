@@ -1,4 +1,3 @@
-const express = require("express");
 const {
   registerUser,
   getUserByID,
@@ -15,7 +14,8 @@ const {
 } = require("../validation/users/user.validation");
 const { AppError } = require("../middlewares/errorHandler");
 
-const router = express.Router();
+const { Router } = require("express");
+const router = Router();
 
 // Register a new user
 router.post("/", async (req, res) => {
@@ -159,6 +159,7 @@ router.put("/:id", auth, async (req, res) => {
 });
 
 // Delete user
+// Will also delete all user related media!
 router.delete("/:id", auth, async (req, res) => {
   const { id } = req.params;
   let userInfo = req.user;

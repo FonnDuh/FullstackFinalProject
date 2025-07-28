@@ -1,4 +1,4 @@
-const { UserMedia } = require("../models/Users/userMedia.model");
+const { UserMedia } = require("../models/media/userMedia.model");
 const { AppError } = require("../middlewares/errorHandler");
 require("dotenv").config();
 
@@ -18,6 +18,7 @@ async function createMedia(media, userId) {
     }
 
     const newMedia = new UserMedia({
+      _id: new mongoose.Types.ObjectId(),
       user_id: userId,
       media_id: media.media_id,
       media_type: media.media_type,
@@ -48,9 +49,9 @@ async function createMedia(media, userId) {
   }
 }
 
-async function getMediaById(mediaId) {
+async function getMediaById(mediaId, userId) {
   try {
-    const media = await UserMedia.findById(mediaId).lean();
+    const media = await UserMedia.findOne({ _id: mediaId, user_id: userId });
     if (!media) {
       throw new AppError("Media not found", 404, "MEDIA_NOT_FOUND");
     }

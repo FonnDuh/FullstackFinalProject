@@ -1,6 +1,8 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
+const router = Router();
 const rateLimiter = require("../utils/rateLimiter.js");
+const { getCachedData, setCachedData } = require("../services/cache.service.js");
+const fetchFromTmdb = require("../services/tmdb.service.js");
 
 router.get("/search", rateLimiter, async (req, res, next) => {
   const { query, page = 1 } = req.query;

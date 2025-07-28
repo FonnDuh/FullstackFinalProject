@@ -1,8 +1,9 @@
 const Joi = require("joi");
 
-const userMovieValidate = (movie) => {
+const userMediaValidate = (movie) => {
   const schema = Joi.object({
-    user_id: Joi.string(),
+    _id: Joi.string().optional(),
+    user_id: Joi.string().required(),
     media_id: Joi.string().required(),
     media_type: Joi.string()
       .valid("movie", "tv", "book", "anime", "game")
@@ -46,4 +47,4 @@ const userMovieValidate = (movie) => {
   return schema.validate(movie, { abortEarly: false });
 };
 
-module.exports = { userMovieValidate };
+module.exports = { userMediaValidate };

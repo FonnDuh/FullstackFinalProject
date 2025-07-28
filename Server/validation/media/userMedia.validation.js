@@ -1,4 +1,4 @@
-const { userMediaValidate } = require("../users/joi/userMediaValidate");
+const { userMediaValidate } = require("./joi/userMediaValidate");
 
 const userMediaValidation = (media) => {
   const { error } = userMediaValidate(media);
@@ -6,4 +6,4 @@ const userMediaValidation = (media) => {
   return null;
 };
 
-module.exports = userMediaValidation;
+module.exports = { userMediaValidation };

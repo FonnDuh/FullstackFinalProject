@@ -10,7 +10,7 @@ const generateToken = (user) => {
     isAdmin: user.isAdmin,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY);
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
   return token;
 };
 
