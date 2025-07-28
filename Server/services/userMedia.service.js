@@ -21,7 +21,7 @@ async function createMedia(media, userId) {
       _id: new mongoose.Types.ObjectId(),
       user_id: userId,
       media_id: media.media_id,
-      media_type: media.media_type,
+      media_type: media.media_type || "unknown",
       media_title: media.media_title || "",
       overview: media.overview || "",
       cover_url: media.cover_url || "",

@@ -16,7 +16,9 @@ const userMediaSchema = new Schema(
     },
     media_type: {
       type: String,
-      enum: ["movie", "tv", "book", "anime", "game"],
+      enum: ["movie", "tv", "book", "anime", "game", "unknown"],
+      default: "unknown",
+      required: true,
     },
     media_title: {
       type: String,

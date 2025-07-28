@@ -6,8 +6,9 @@ const userMediaValidate = (movie) => {
     user_id: Joi.string().required(),
     media_id: Joi.string().required(),
     media_type: Joi.string()
-      .valid("movie", "tv", "book", "anime", "game")
-      .required(),
+      .valid("movie", "tv", "book", "anime", "game", "unknown")
+      .required()
+      .default("unknown"),
     media_title: Joi.string().required().trim(),
     overview: Joi.string().required().trim(),
     cover_url: Joi.string().required().trim(),
