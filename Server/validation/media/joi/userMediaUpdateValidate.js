@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 const userMediaUpdateValidate = (update) => {
   const schema = Joi.object({
+    _id: Joi.string().optional(),
     user_id: Joi.string().optional(),
     media_id: Joi.string().optional(),
     media_type: Joi.string()
@@ -9,6 +10,7 @@ const userMediaUpdateValidate = (update) => {
       .optional(),
     media_title: Joi.string().trim().optional(),
     cover_url: Joi.string().trim().optional(),
+    overview: Joi.string().trim().optional(),
     status: Joi.string()
       .valid("watching", "completed", "plan_to_watch", "dropped", "on_hold")
       .optional(),

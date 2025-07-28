@@ -9,6 +9,7 @@ const userMediaValidate = (movie) => {
       .valid("movie", "tv", "book", "anime", "game")
       .required(),
     media_title: Joi.string().required().trim(),
+    overview: Joi.string().required().trim(),
     cover_url: Joi.string().required().trim(),
     status: Joi.string()
       .valid("watching", "completed", "plan_to_watch", "dropped", "on_hold")

@@ -23,6 +23,11 @@ const userMediaSchema = new Schema(
       required: true,
       trim: true,
     },
+    overview: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     cover_url: {
       type: String,
       required: true,
