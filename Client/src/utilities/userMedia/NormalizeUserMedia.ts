@@ -1,4 +1,4 @@
-export interface UserMedia {
+export interface normalizeUserMedia {
   _id?: string;
   user_id: string;
   media_id: string;

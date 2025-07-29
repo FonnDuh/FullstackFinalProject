@@ -1,28 +1,30 @@
-export interface IEpisode {
+export interface Episode {
   title: string;
   season: number;
   episode_number: number;
-  air_date?: string; // ISO date
+  air_date?: string;
 }
 
-export interface IMedia {
-  _id?: string; // optional for frontend use
-  title: string;
-  type: "movie" | "tv" | "book" | "anime" | "game";
+export interface Media {
+  _id?: string;
+  id?: number; // TMDB id
+  title?: string;
+  name?: string; // TV shows
+  original_name?: string;
+  original_language?: string;
+  overview?: string;
+  adult?: boolean;
+  backdrop_path?: string;
+  poster_path?: string;
+  genre_ids?: number[];
   genres?: string[];
-  release_date?: string; // ISO date string
-  poster_url?: string;
-  backdrop_url?: string;
-  description?: string;
-  external_id?: string;
-  rating?: number;
-  duration?: number; // in minutes
-  status?: "released" | "upcoming" | "ongoing";
-  director?: string;
-  cast?: string[];
-  trailer_url?: string;
-  tags?: string[];
-  episodes?: IEpisode[];
+  origin_country?: string[];
+  release_date?: string;
+  first_air_date?: string;
+  popularity?: number;
+  vote_average?: number;
+  vote_count?: number;
+  type?: "movie" | "tv" | "book" | "anime" | "game" | "unknown";
   createdAt?: string;
   updatedAt?: string;
 }

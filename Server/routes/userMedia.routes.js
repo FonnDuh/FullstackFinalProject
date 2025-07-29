@@ -67,6 +67,52 @@ router.get("/", auth, async (req, res, next) => {
   }
 });
 
+// Get a single media for current user
+router.get("/:mediaId", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+
+    const { mediaId } = req.params;
+    const media = await getMediaById(mediaId, userInfo._id);
+    if (!media) {
+      return res.status(404).json({ message: "Media not found." });
+    }
+    res.status(200).json(media);
+  } catch (error) {
+    console.error("Error fetching media by ID:", error);
+    next(error);
+  }
+});
+
+// Get media by media ID and user ID
+router.get("/user/:userId/media/:mediaId", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+
+    const { userId, mediaId } = req.params;
+    if (userId !== userInfo._id.toString()) {
+      return res.status(403).json({ message: "Forbidden: Access denied." });
+    }
+
+    const media = await getMediaById(mediaId, userId);
+    if (!media) {
+      return res.status(404).json({ message: "Media not found." });
+    }
+    res.status(200).json(media);
+  } catch (error) {
+    console.error("Error fetching media by user ID and media ID:", error);
+    next(error);
+  }
+});
+
 // Get user media by status
 router.get("/status/:status", auth, async (req, res, next) => {
   try {
@@ -103,27 +149,6 @@ router.get("/type/:mediaType", auth, async (req, res, next) => {
   }
 });
 
-// Get a single media for current user
-router.get("/:mediaId", auth, async (req, res, next) => {
-  try {
-    const userInfo = req.user;
-
-    if (!userInfo || !userInfo._id) {
-      return res.status(401).json({ message: "Unauthorized user." });
-    }
-
-    const { mediaId } = req.params;
-    const media = await getMediaById(mediaId, userInfo._id);
-    if (!media) {
-      return res.status(404).json({ message: "Media not found." });
-    }
-    res.status(200).json(media);
-  } catch (error) {
-    console.error("Error fetching media by ID:", error);
-    next(error);
-  }
-});
-
 // Update a single media for current user
 router.put("/:mediaId", auth, async (req, res, next) => {
   try {
@@ -147,6 +172,28 @@ router.put("/:mediaId", auth, async (req, res, next) => {
   }
 });
 
+// Update media status for current user
+router.patch("/:mediaId/status", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+    const { mediaId } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required." });
+    }
+
+    const updatedMedia = await updateMedia(mediaId, userInfo._id, { status });
+    res.status(200).json(updatedMedia);
+  } catch (error) {
+    console.error("Error updating media status:", error);
+    next(error);
+  }
+});
+
 // Delete a single media for current user
 router.delete("/:mediaId", auth, async (req, res, next) => {
   try {
@@ -162,6 +209,32 @@ router.delete("/:mediaId", auth, async (req, res, next) => {
     res.status(204).send();
   } catch (error) {
     console.error("Error deleting media:", error);
+    next(error);
+  }
+});
+
+// Admin: Delete a single media for any user
+router.delete("/user/:userId/media/:mediaId", auth, async (req, res, next) => {
+  try {
+    const userInfo = req.user;
+
+    if (!userInfo || !userInfo._id) {
+      return res.status(401).json({ message: "Unauthorized user." });
+    }
+
+    if (!userInfo.isAdmin)
+      return res
+        .status(403)
+        .json({ message: "Forbidden: Admin access required." });
+
+    const { userId, mediaId } = req.params;
+    const deleted = await deleteMedia(mediaId, userId);
+    if (!deleted) {
+      return res.status(404).json({ message: "Media not found." });
+    }
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting media for user:", error);
     next(error);
   }
 });

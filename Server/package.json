@@ -1,7 +1,7 @@
 {
   "name": "server",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.6.0",
+  "description": "A Node.js server for the Fullstack Final Project",
   "main": "app.js",
   "dependencies": {
     "axios": "^1.10.0",

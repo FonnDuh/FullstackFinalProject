@@ -1,7 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 const rateLimiter = require("../utils/rateLimiter.js");
-const { getCachedData, setCachedData } = require("../services/cache.service.js");
+const {
+  getCachedData,
+  setCachedData,
+} = require("../services/cache.service.js");
 const fetchFromTmdb = require("../services/tmdb.service.js");
 
 router.get("/search", rateLimiter, async (req, res, next) => {
@@ -62,8 +65,9 @@ router.get("/:id", rateLimiter, async (req, res, next) => {
 });
 
 router.get("/popular", rateLimiter, async (req, res, next) => {
+  const { page = 1 } = req.query;
   try {
-    const data = await fetchFromTmdb("tv/popular");
+    const data = await fetchFromTmdb("tv/popular", { page });
     res.json(data);
   } catch (error) {
     console.error("Error fetching popular shows:", error);
@@ -75,8 +79,9 @@ router.get("/popular", rateLimiter, async (req, res, next) => {
 });
 
 router.get("/trending", rateLimiter, async (req, res, next) => {
+  const { page = 1 } = req.query;
   try {
-    const data = await fetchFromTmdb("trending/tv/day");
+    const data = await fetchFromTmdb("trending/tv/day", { page });
     res.json(data);
   } catch (error) {
     console.error("Error fetching trending shows:", error);
@@ -88,8 +93,9 @@ router.get("/trending", rateLimiter, async (req, res, next) => {
 });
 
 router.get("/upcoming", rateLimiter, async (req, res, next) => {
+  const { page = 1 } = req.query;
   try {
-    const data = await fetchFromTmdb("tv/upcoming");
+    const data = await fetchFromTmdb("tv/upcoming", { page });
     res.json(data);
   } catch (error) {
     console.error("Error fetching upcoming shows:", error);
@@ -108,6 +114,62 @@ router.get("/genres", rateLimiter, async (req, res, next) => {
     console.error("Error fetching show genres:", error);
     if (error.response && error.response.status === 404) {
       return res.status(404).json({ message: "Show genres not found." });
+    }
+    next(error);
+  }
+});
+
+// Get TV show recommendations
+router.get("/:id/recommendations", rateLimiter, async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ message: "ID parameter is required" });
+  }
+
+  const cacheKey = `tv_recommendations:${id}`;
+  try {
+    const cached = await getCachedData(cacheKey);
+    if (cached) {
+      return res.json(cached);
+    }
+
+    const data = await fetchFromTmdb(`tv/${id}/recommendations`);
+
+    await setCachedData(cacheKey, data, 3600);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching TV recommendations:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Recommendations not found." });
+    }
+    next(error);
+  }
+});
+
+// Get TV show credits
+router.get("/:id/credits", rateLimiter, async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ message: "ID parameter is required" });
+  }
+
+  const cacheKey = `tv:${id}:credits`;
+  try {
+    const cached = await getCachedData(cacheKey);
+    if (cached) {
+      return res.json(cached);
+    }
+
+    const data = await fetchFromTmdb(`tv/${id}/credits`);
+
+    await setCachedData(cacheKey, data, 3600);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching TV credits:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "TV credits not found." });
     }
     next(error);
   }

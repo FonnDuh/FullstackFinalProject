@@ -1,4 +1,4 @@
-export interface IReview {
+export interface Review {
   _id?: string;
   user_id: string; // Mongo ObjectId
   media_id: string; // Mongo ObjectId
