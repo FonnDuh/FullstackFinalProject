@@ -1,4 +1,4 @@
-const axios = require("axios");
+const { get } = require("axios");
 const buildUrl = require("../utils/tmdbUriBuilder");
 const { AppError } = require("../middlewares/errorHandler");
 require("dotenv").config();
@@ -9,7 +9,7 @@ async function fetchFromTmdb(endpoint, params = {}) {
   try {
     const url = buildUrl(endpoint, { ...params, api_key: API_KEY });
 
-    const response = await axios.get(url);
+    const response = await get(url);
 
     if (response.status !== 200) {
       throw new AppError(

@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
-const cacheSchema = new mongoose.Schema({
+const cacheSchema = new Schema({
   key: { type: String, required: true, unique: true },
-  data: { type: mongoose.Schema.Types.Mixed, required: true },
+  data: { type: Schema.Types.Mixed, required: true },
   expiresAt: { type: Date, required: true },
 });
 
-const Cache = mongoose.models.Cache || mongoose.model("Cache", cacheSchema);
+const Cache = models.Cache || model("Cache", cacheSchema);
 
 // Get cached data by key if not expired
 async function getCachedData(key) {
