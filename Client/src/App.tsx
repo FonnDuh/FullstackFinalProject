@@ -1,10 +1,23 @@
+import { ToastContainer } from "react-toastify";
 import "./App.css";
+import "./styles/global.css";
 import Default from "./layouts/Default/Layout";
+import { AuthProvider } from "./context/AuthenticationContext";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import NotFound from "./components/common/NotFound";
 
 function App() {
   return (
     <>
-      <Default />
+      <ToastContainer />
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Default />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </>
   );
 }
