@@ -3,19 +3,23 @@ import "./App.css";
 import "./styles/global.css";
 import Default from "./layouts/Default/Layout";
 import { AuthProvider } from "./context/AuthenticationContext";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import NotFound from "./components/common/NotFound";
+import { BrowserRouter as Router } from "react-router-dom";
+import { useDarkMode } from "./hooks/useDarkMode";
+import { useEffect } from "react";
 
 function App() {
+  const { isDarkMode } = useDarkMode();
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
+
   return (
     <>
       <ToastContainer />
       <AuthProvider>
         <Router>
-          <Routes>
-            <Route path="/" element={<Default />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Default />
         </Router>
       </AuthProvider>
     </>

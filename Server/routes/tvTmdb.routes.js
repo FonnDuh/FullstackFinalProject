@@ -37,6 +37,99 @@ router.get("/search", rateLimiter, async (req, res, next) => {
   }
 });
 
+router.get("/popular", rateLimiter, async (req, res, next) => {
+  const { page = 1 } = req.query;
+
+  const cacheKey = `tv:popular:${page}`;
+  try {
+    const cached = await getCachedData(cacheKey);
+    if (cached) {
+      return res.json(cached);
+    }
+
+    const data = await fetchFromTmdb("tv/popular", { page });
+
+    await setCachedData(cacheKey, data, 3600);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching popular shows:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Popular shows not found." });
+    }
+    next(error);
+  }
+});
+
+router.get("/trending", rateLimiter, async (req, res, next) => {
+  const { page = 1 } = req.query;
+
+  const cacheKey = `tv:trending:${page}`;
+  try {
+    const cached = await getCachedData(cacheKey);
+    if (cached) {
+      return res.json(cached);
+    }
+
+    const data = await fetchFromTmdb("trending/tv/day", { page });
+
+    await setCachedData(cacheKey, data, 3600);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching trending shows:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Trending shows not found." });
+    }
+    next(error);
+  }
+});
+
+router.get("/upcoming", rateLimiter, async (req, res, next) => {
+  const { page = 1 } = req.query;
+
+  const cacheKey = `tv:upcoming:${page}`;
+  try {
+    const cached = await getCachedData(cacheKey);
+    if (cached) {
+      return res.json(cached);
+    }
+    const data = await fetchFromTmdb("tv/upcoming", { page });
+
+    await setCachedData(cacheKey, data, 3600);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching upcoming shows:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Upcoming shows not found." });
+    }
+    next(error);
+  }
+});
+
+router.get("/genres", rateLimiter, async (req, res, next) => {
+  const cacheKey = "tv_genres";
+  try {
+    const cached = await getCachedData(cacheKey);
+    if (cached) {
+      return res.json(cached);
+    }
+
+    const data = await fetchFromTmdb("genre/tv/list");
+
+    await setCachedData(cacheKey, data, 3600);
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching show genres:", error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: "Show genres not found." });
+    }
+    next(error);
+  }
+});
+
 router.get("/:id", rateLimiter, async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
@@ -64,62 +157,6 @@ router.get("/:id", rateLimiter, async (req, res, next) => {
   }
 });
 
-router.get("/popular", rateLimiter, async (req, res, next) => {
-  const { page = 1 } = req.query;
-  try {
-    const data = await fetchFromTmdb("tv/popular", { page });
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching popular shows:", error);
-    if (error.response && error.response.status === 404) {
-      return res.status(404).json({ message: "Popular shows not found." });
-    }
-    next(error);
-  }
-});
-
-router.get("/trending", rateLimiter, async (req, res, next) => {
-  const { page = 1 } = req.query;
-  try {
-    const data = await fetchFromTmdb("trending/tv/day", { page });
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching trending shows:", error);
-    if (error.response && error.response.status === 404) {
-      return res.status(404).json({ message: "Trending shows not found." });
-    }
-    next(error);
-  }
-});
-
-router.get("/upcoming", rateLimiter, async (req, res, next) => {
-  const { page = 1 } = req.query;
-  try {
-    const data = await fetchFromTmdb("tv/upcoming", { page });
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching upcoming shows:", error);
-    if (error.response && error.response.status === 404) {
-      return res.status(404).json({ message: "Upcoming shows not found." });
-    }
-    next(error);
-  }
-});
-
-router.get("/genres", rateLimiter, async (req, res, next) => {
-  try {
-    const data = await fetchFromTmdb("genre/tv/list");
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching show genres:", error);
-    if (error.response && error.response.status === 404) {
-      return res.status(404).json({ message: "Show genres not found." });
-    }
-    next(error);
-  }
-});
-
-// Get TV show recommendations
 router.get("/:id/recommendations", rateLimiter, async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
@@ -147,7 +184,6 @@ router.get("/:id/recommendations", rateLimiter, async (req, res, next) => {
   }
 });
 
-// Get TV show credits
 router.get("/:id/credits", rateLimiter, async (req, res, next) => {
   const { id } = req.params;
   if (!id) {

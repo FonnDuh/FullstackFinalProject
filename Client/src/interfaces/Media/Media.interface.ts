@@ -1,15 +1,10 @@
-export interface Episode {
-  title: string;
-  season: number;
-  episode_number: number;
-  air_date?: string;
-}
+import type { MediaType } from "../common/MediaSubtypes.interface";
 
 export interface Media {
   _id?: string;
   id?: number; // TMDB id
   title?: string;
-  name?: string; // TV shows
+  name?: string;
   original_name?: string;
   original_language?: string;
   overview?: string;
@@ -24,7 +19,7 @@ export interface Media {
   popularity?: number;
   vote_average?: number;
   vote_count?: number;
-  type?: "movie" | "tv" | "book" | "anime" | "game" | "unknown";
+  type?: MediaType;
   createdAt?: string;
   updatedAt?: string;
 }

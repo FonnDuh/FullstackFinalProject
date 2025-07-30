@@ -24,4 +24,8 @@ async function setCachedData(key, data, ttl = 3600) {
   );
 }
 
-module.exports = { getCachedData, setCachedData };
+async function clearCache() {
+  await Cache.deleteMany({});
+}
+
+module.exports = { getCachedData, setCachedData, clearCache };
