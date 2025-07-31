@@ -1,3 +1,5 @@
+@import "../styles/variables.css";
+
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -5,7 +7,6 @@
   max-width: 1230px;
   margin: 0 auto;
   padding: 20px;
-  font-family: sans-serif;
   background-color: #ffffff;
   color: #000000;
 }
@@ -25,9 +26,17 @@
   border: none;
   background-color: #1976d2;
   color: white;
-  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
 }
 
 .button:hover {
@@ -44,99 +53,13 @@
   text-align: center;
 }
 
-.movieList {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.movieItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 220px;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-}
-
-.moviePoster {
-  width: 100%;
-  height: auto;
-  margin: 10px 0;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-}
-
-.movieItem p {
-  font-size: 0.9rem;
-  margin: 4px 0;
-}
-
-.scrollRoot {
-  height: 800px;
-  overflow: hidden;
-  position: relative;
-  border-radius: 8px;
-}
-
-.scrollViewport {
-  padding-right: 10px;
-  height: 100%;
-}
-
-.scrollbar {
-  width: 10px;
-  background: transparent;
-  transition: background 160ms ease-out;
-  -webkit-transition: background 160ms ease-out;
-  -moz-transition: background 160ms ease-out;
-  -ms-transition: background 160ms ease-out;
-  -o-transition: background 160ms ease-out;
-}
-
-.scrollbar:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.thumb {
-  background-color: #999;
-  border-radius: 6px;
-  height: 100px;
-  transition: background 160ms ease-in-out;
-  -webkit-transition: background 160ms ease-in-out;
-  -moz-transition: background 160ms ease-in-out;
-  -ms-transition: background 160ms ease-in-out;
-  -o-transition: background 160ms ease-in-out;
-}
-
-.thumb:hover {
-  background-color: #666;
-}
-
-/* --- Dark mode --- */
 .dark {
   background-color: #121212;
   color: #e0e0e0;
 }
 
-.dark .movieItem {
-  background-color: #1e1e1e;
-  border-color: #333;
-}
-
 .dark .button {
-  background-color: #bb86fc;
+  background: linear-gradient(to right, var(--soft-blue), var(--soft-purple));
   color: black;
 }
 

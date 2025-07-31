@@ -211,13 +211,4 @@ router.get("/:id/credits", rateLimiter, async (req, res, next) => {
   }
 });
 
-// FOR TESTING PURPOSES ONLY!
-// --------------------------------------------
-router.delete("/clear", (req, res) => {
-  const { clearCache } = require("../services/cache.service.js");
-  clearCache();
-  res.status(200).json({ message: "Cache cleared successfully." });
-});
-// --------------------------------------------
-
 module.exports = router;

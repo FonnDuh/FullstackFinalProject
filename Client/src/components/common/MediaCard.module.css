@@ -1,0 +1,88 @@
+.mediaList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.mediaItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 220px;
+  border-radius: 8px;
+  padding: 10px;
+  /* background-color: #f9f9f9; */
+  border: 1px solid #ddd;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.mediaPoster {
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.mediaItem p {
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+
+.scrollRoot {
+  height: 800px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px;
+}
+
+.scrollViewport {
+  padding-right: 10px;
+  height: 100%;
+}
+
+.scrollbar {
+  width: 7px;
+  background: transparent;
+  transition: background 160ms ease-out;
+  -webkit-transition: background 160ms ease-out;
+  -moz-transition: background 160ms ease-out;
+  -ms-transition: background 160ms ease-out;
+  -o-transition: background 160ms ease-out;
+}
+
+.scrollbar:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.thumb {
+  background-color: #999;
+  height: 100px;
+  transition: background 160ms ease-in-out;
+  -webkit-transition: background 160ms ease-in-out;
+  -moz-transition: background 160ms ease-in-out;
+  -ms-transition: background 160ms ease-in-out;
+  -o-transition: background 160ms ease-in-out;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+.thumb:hover {
+  background-color: #666;
+}
+
+.dark .mediaItem {
+  background-color: #1e1e1e;
+  border-color: #333;
+}

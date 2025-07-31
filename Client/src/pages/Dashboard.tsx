@@ -2,15 +2,15 @@ import { useEffect, useState, type FunctionComponent } from "react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useAuth } from "../hooks/useAuth";
 import {
-  clearCache,
   getMovieGenres,
   getTrendingMovies,
 } from "../services/movieTmdbService";
 import type { Media } from "../interfaces/Media/Media.interface";
 import { errorMessage } from "../services/feedbackService";
 import styles from "./Dashboard.module.css";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 import type { Genre } from "../interfaces/Media/Genre.interface";
+import MediaCard from "../components/common/MediaCard";
+import ErrorBoundary from "../components/common/ErrorBoundary";
 
 const Dashboard: FunctionComponent = () => {
   const [movies, setMovies] = useState<Media[]>([]);
@@ -39,51 +39,11 @@ const Dashboard: FunctionComponent = () => {
       <p className={styles.welcome}>
         Welcome {user?.username} to your media dashboard!
       </p>
-      <button className={styles.button} onClick={clearCache}>
-        Clear
-      </button>
-
       <section className={styles.trendingSection}>
-        <h2 className={styles.sectionTitle}>Trending Movies</h2>
-        {movies.length > 0 ? (
-          <ScrollArea.Root className={styles.scrollRoot}>
-            <ScrollArea.Viewport className={styles.scrollViewport}>
-              <ul className={styles.movieList}>
-                {movies.map((movie) => (
-                  <li key={movie.id} className={styles.movieItem}>
-                    <h3>{movie.title}</h3>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
-                      className={styles.moviePoster}
-                    />
-                    <p>
-                      {movie.genre_ids?.length
-                        ? movie.genre_ids
-                            .map(
-                              (id) => movieGenres.find((g) => g.id === id)?.name
-                            )
-                            .join(", ")
-                        : "No genres"}
-                    </p>
-                    <p>{movie.overview}</p>
-                    <p>Release Date: {movie.release_date}</p>
-                    <p>Rating: {movie.vote_average?.toFixed(2)} / 10</p>
-                    <p>Votes: {movie.vote_count}</p>
-                    <p>Popularity: {movie.popularity?.toFixed(2)}</p>
-                  </li>
-                ))}
-              </ul>
-            </ScrollArea.Viewport>
-            <ScrollArea.Scrollbar
-              orientation="vertical"
-              className={styles.scrollbar}>
-              <ScrollArea.Thumb className={styles.thumb} />
-            </ScrollArea.Scrollbar>
-          </ScrollArea.Root>
-        ) : (
-          <p>No trending movies available.</p>
-        )}
+        <h2 className={styles.sectionTitle}>Trending media</h2>
+        <ErrorBoundary>
+          <MediaCard media={movies} genres={movieGenres} />
+        </ErrorBoundary>
       </section>
     </div>
   );

@@ -63,7 +63,3 @@ export function getMovieGenres() {
 export function getMovieCredits(id: number) {
   return axios.get(`${API}/${id}/credits`);
 }
-
-export function clearCache() {
-  return axios.delete(`${API}/clear`);
-}
