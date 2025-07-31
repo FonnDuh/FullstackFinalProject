@@ -1,12 +1,22 @@
-import { Route, Routes } from "react-router-dom";
-import NotFound from "../../components/common/NotFound";
-import Dashboard from "../../pages/Dashboard";
+// components/Layout/Layout.tsx
+import { Link } from "react-router-dom";
+import styles from "./layout.module.css";
 
-export default function Default() {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <div className={styles.layout}>
+      <aside className={styles.sidebar}>
+        <div className={styles.logo}>MyApp</div>
+        <nav className={styles.nav}>
+          <Link to="/">Dashboard</Link>
+          <Link to="/about">About</Link>
+        </nav>
+        <div className={styles.auth}>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
+        </div>
+      </aside>
+      <main className={styles.main}>{children}</main>
+    </div>
   );
 }

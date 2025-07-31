@@ -5,6 +5,7 @@ import {
   getMovieGenres,
   getTrendingMovies,
 } from "../services/movieTmdbService";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 import type { Media } from "../interfaces/Media/Media.interface";
 import { errorMessage } from "../services/feedbackService";
 import styles from "./Dashboard.module.css";
@@ -42,7 +43,24 @@ const Dashboard: FunctionComponent = () => {
       <section className={styles.trendingSection}>
         <h2 className={styles.sectionTitle}>Trending media</h2>
         <ErrorBoundary>
-          <MediaCard media={movies} genres={movieGenres} />
+          {movies.length > 0 ? (
+            <ScrollArea.Root className={styles.scrollRoot}>
+              <ScrollArea.Viewport className={styles.scrollViewport}>
+                <ul className={styles.mediaList}>
+                  {movies.map((movie) => (
+                    <MediaCard media={movie} genres={movieGenres} />
+                  ))}
+                </ul>
+              </ScrollArea.Viewport>
+              <ScrollArea.Scrollbar
+                orientation="vertical"
+                className={styles.scrollbar}>
+                <ScrollArea.Thumb className={styles.thumb} />
+              </ScrollArea.Scrollbar>
+            </ScrollArea.Root>
+          ) : (
+            <p>No media available.</p>
+          )}
         </ErrorBoundary>
       </section>
     </div>

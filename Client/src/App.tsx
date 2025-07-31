@@ -1,25 +1,48 @@
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "./styles/global.css";
-import Default from "./layouts/Default/Layout";
 import { AuthProvider } from "./context/AuthenticationContext";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useDarkMode } from "./hooks/useDarkMode";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Dashboard from "./pages/Dashboard";
+import NotFound from "./components/common/NotFound";
+import Layout from "./layouts/Default/Layout";
+import ScreenLoader from "./components/common/ScreenLoader";
 
 function App() {
   const { isDarkMode } = useDarkMode();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.body.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
+
+  useEffect(() => {
+    async function initializeApp() {
+      // Simulate data fetching or auth initialization
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Example: wait for auth or initial API calls before hiding loader
+      setLoading(false);
+    }
+
+    initializeApp();
+  }, []);
+
+  if (loading) return <ScreenLoader />;
 
   return (
     <>
       <ToastContainer />
       <AuthProvider>
         <Router>
-          <Default />
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
         </Router>
       </AuthProvider>
     </>

@@ -1,9 +1,8 @@
-.mediaList {
-  list-style: none;
-  padding: 0;
+.wrapper {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .mediaItem {
