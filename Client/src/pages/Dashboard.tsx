@@ -11,7 +11,7 @@ import { errorMessage } from "../services/feedbackService";
 import styles from "./Dashboard.module.css";
 import type { Genre } from "../interfaces/Media/Genre.interface";
 import MediaCard from "../components/common/MediaCard";
-import ErrorBoundary from "../components/common/ErrorBoundary";
+import ErrorBoundary from "../components/feedback/ErrorBoundary";
 
 const Dashboard: FunctionComponent = () => {
   const [movies, setMovies] = useState<Media[]>([]);
@@ -48,7 +48,9 @@ const Dashboard: FunctionComponent = () => {
               <ScrollArea.Viewport className={styles.scrollViewport}>
                 <ul className={styles.mediaList}>
                   {movies.map((movie) => (
-                    <MediaCard media={movie} genres={movieGenres} />
+                    <li key={movie.id}>
+                      <MediaCard media={movie} genres={movieGenres} />
+                    </li>
                   ))}
                 </ul>
               </ScrollArea.Viewport>

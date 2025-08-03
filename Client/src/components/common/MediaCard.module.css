@@ -1,29 +1,64 @@
-.wrapper {
+.card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 180px;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--card-bg, #fff);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -moz-transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -ms-transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -o-transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  -webkit-transform: translateY(-4px);
+  -moz-transform: translateY(-4px);
+  -ms-transform: translateY(-4px);
+  -o-transform: translateY(-4px);
+}
+
+.posterWrapper {
   position: relative;
-}
-
-.mediaItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 220px;
-  border-radius: 8px;
-  padding: 10px;
-  /* background-color: #f9f9f9; */
-  border: 1px solid #ddd;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-}
-
-.mediaPoster {
   width: 100%;
-  height: auto;
-  margin: 10px 0;
+  height: 270px;
+  overflow: hidden;
+}
+
+.posterWrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ratingBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 2px 6px;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -31,57 +66,164 @@
   -o-border-radius: 4px;
 }
 
-.mediaItem p {
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+.title {
   font-size: 0.9rem;
-  margin: 4px 0;
+  font-weight: 600;
+  color: var(--text-primary, #222);
+  margin: 0 0 0.25rem;
 }
 
-.scrollRoot {
-  height: 800px;
-  overflow: hidden;
-  position: relative;
-  border-radius: 8px;
+.genres {
+  font-size: 0.75rem;
+  color: var(--text-muted, #666);
+  margin: 0;
+  line-height: 1.2;
 }
 
-.scrollViewport {
-  padding-right: 10px;
-  height: 100%;
+.quickActions {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  -webkit-transition: opacity 0.2s ease, transform 0.2s ease;
+  -moz-transition: opacity 0.2s ease, transform 0.2s ease;
+  -ms-transition: opacity 0.2s ease, transform 0.2s ease;
+  -o-transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-6px);
+  -webkit-transform: translateY(-6px);
+  -moz-transform: translateY(-6px);
+  -ms-transform: translateY(-6px);
+  -o-transform: translateY(-6px);
 }
 
-.scrollbar {
-  width: 7px;
-  background: transparent;
-  transition: background 160ms ease-out;
-  -webkit-transition: background 160ms ease-out;
-  -moz-transition: background 160ms ease-out;
-  -ms-transition: background 160ms ease-out;
-  -o-transition: background 160ms ease-out;
+.card:hover .quickActions {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
 }
 
-.scrollbar:hover {
-  background: rgba(0, 0, 0, 0.1);
+.quickButton {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  outline: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease, transform 0.15s ease;
+  -webkit-transition: background 0.2s ease, transform 0.15s ease;
+  -moz-transition: background 0.2s ease, transform 0.15s ease;
+  -ms-transition: background 0.2s ease, transform 0.15s ease;
+  -o-transition: background 0.2s ease, transform 0.15s ease;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
 }
 
-.thumb {
-  background-color: #999;
-  height: 100px;
-  transition: background 160ms ease-in-out;
-  -webkit-transition: background 160ms ease-in-out;
-  -moz-transition: background 160ms ease-in-out;
-  -ms-transition: background 160ms ease-in-out;
-  -o-transition: background 160ms ease-in-out;
+.quickButton:hover {
+  background: rgba(255, 255, 255, 0.85);
+  color: #222;
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
+
+.quickButton:active {
+  transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  -o-transform: scale(0.95);
+}
+
+.tooltip {
+  background: var(--card-bg, #222);
+  color: var(--text-primary, #fff);
   border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -o-border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  max-width: 250px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 150ms ease forwards;
+  -webkit-animation: fadeIn 150ms ease forwards;
 }
 
-.thumb:hover {
-  background-color: #666;
+.tooltipArrow {
+  fill: var(--card-bg, #222);
+  max-height: 120px;
+  overflow-y: auto;
+}
+.tooltipOverview::-webkit-scrollbar {
+  width: 4px;
+}
+.tooltipOverview::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
 }
 
-.dark .mediaItem {
-  background-color: #1e1e1e;
-  border-color: #333;
+.tooltipTitle {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tooltipOverview {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-muted, #ccc);
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  max-height: none;
+}
+
+.tooltipMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-muted, #aaa);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+    -webkit-transform: translateY(-3px);
+    -moz-transform: translateY(-3px);
+    -ms-transform: translateY(-3px);
+    -o-transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+  }
 }

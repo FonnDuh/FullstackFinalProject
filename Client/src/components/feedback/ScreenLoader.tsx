@@ -1,4 +1,4 @@
-import styles from "./ScreeLoader.module.css";
+import styles from "./ScreenLoader.module.css";
 
 export default function ScreenLoader() {
   return (

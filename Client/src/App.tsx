@@ -6,9 +6,10 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useDarkMode } from "./hooks/useDarkMode";
 import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
-import NotFound from "./components/common/NotFound";
+import NotFound from "./components/feedback/NotFound";
+import ScreenLoader from "./components/feedback/ScreenLoader";
 import Layout from "./layouts/Default/Layout";
-import ScreenLoader from "./components/common/ScreenLoader";
+import Search from "./pages/Search";
 
 function App() {
   const { isDarkMode } = useDarkMode();
@@ -40,6 +41,7 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/search" element={<Search />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

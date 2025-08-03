@@ -54,11 +54,22 @@
 }
 
 .mediaList {
-  list-style: none;
-  padding: 0;
   display: flex;
   flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
   gap: 20px;
+}
+
+.thumb {
+  background-color: #999;
+  height: 100px;
+  transition: background 160ms ease-in-out;
+  border-radius: 6px;
+}
+
+.thumb:hover {
+  background-color: #666;
 }
 
 .dark {
