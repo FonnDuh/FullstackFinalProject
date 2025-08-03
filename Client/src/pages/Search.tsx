@@ -7,9 +7,9 @@ import {
 import { searchMovies } from "../services/movieTmdbService";
 import type { Media } from "../interfaces/Media/Media.interface";
 import ErrorBoundary from "../components/feedback/ErrorBoundary";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 import styles from "./Search.module.css";
-import MediaCard from "../components/common/MediaCard";
+import SearchResults from "../components/search/SearchResults";
+import { searchTv } from "../services/tvTmdbService";
 
 const Search: FunctionComponent = () => {
   const [media, setMedia] = useState<Media[]>([]);
@@ -29,10 +29,27 @@ const Search: FunctionComponent = () => {
       setMedia([]);
       return;
     }
-
     setLoading(true);
-    searchMovies(debouncedSearchQuery)
-      .then((results) => setMedia(results.data.results))
+    Promise.all([
+      searchMovies(debouncedSearchQuery),
+      searchTv(debouncedSearchQuery),
+    ])
+      .then(([movieResults, tvResults]) => {
+        const movies = movieResults.data.results.map((item: Media) => ({
+          ...item,
+          type: "movie",
+        }));
+
+        const tvShows = tvResults.data.results.map((item: Media) => ({
+          ...item,
+          type: "tv",
+        }));
+
+        const combined = [...movies, ...tvShows].sort(
+          (a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
+        );
+        setMedia(combined);
+      })
       .finally(() => setLoading(false));
   }, [debouncedSearchQuery]);
 
@@ -49,11 +66,11 @@ const Search: FunctionComponent = () => {
         <input
           type="text"
           id="search"
-          placeholder="Search for a movie..."
+          placeholder="Search for media..."
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <span>Search media by title</span>
+        <h2>Search media by title</h2>
         <i></i>
       </div>
 
@@ -63,26 +80,7 @@ const Search: FunctionComponent = () => {
         <div className="display-5">No movies found</div>
       ) : (
         <ErrorBoundary>
-          {media.length > 0 ? (
-            <ScrollArea.Root className={styles.scrollRoot}>
-              <ScrollArea.Viewport className={styles.scrollViewport}>
-                <ul className={styles.mediaList}>
-                  {media.map((movie) => (
-                    <li key={movie.id}>
-                      <MediaCard media={movie} genres={[]} />
-                    </li>
-                  ))}
-                </ul>
-              </ScrollArea.Viewport>
-              <ScrollArea.Scrollbar
-                orientation="vertical"
-                className={styles.scrollbar}>
-                <ScrollArea.Thumb className={styles.thumb} />
-              </ScrollArea.Scrollbar>
-            </ScrollArea.Root>
-          ) : (
-            <p>No media available.</p>
-          )}
+          <SearchResults media={media} />
         </ErrorBoundary>
       )}
     </>
