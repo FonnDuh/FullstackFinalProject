@@ -39,18 +39,8 @@ router.get("/search", rateLimiter, async (req, res, next) => {
 
 router.get("/popular", rateLimiter, async (req, res, next) => {
   const { page = 1 } = req.query;
-
-  const cacheKey = `tv:popular:${page}`;
   try {
-    const cached = await getCachedData(cacheKey);
-    if (cached) {
-      return res.json(cached);
-    }
-
     const data = await fetchFromTmdb("tv/popular", { page });
-
-    await setCachedData(cacheKey, data, 3600);
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching popular shows:", error);
@@ -63,18 +53,8 @@ router.get("/popular", rateLimiter, async (req, res, next) => {
 
 router.get("/trending", rateLimiter, async (req, res, next) => {
   const { page = 1 } = req.query;
-
-  const cacheKey = `tv:trending:${page}`;
   try {
-    const cached = await getCachedData(cacheKey);
-    if (cached) {
-      return res.json(cached);
-    }
-
     const data = await fetchFromTmdb("trending/tv/day", { page });
-
-    await setCachedData(cacheKey, data, 3600);
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching trending shows:", error);
@@ -87,17 +67,8 @@ router.get("/trending", rateLimiter, async (req, res, next) => {
 
 router.get("/upcoming", rateLimiter, async (req, res, next) => {
   const { page = 1 } = req.query;
-
-  const cacheKey = `tv:upcoming:${page}`;
   try {
-    const cached = await getCachedData(cacheKey);
-    if (cached) {
-      return res.json(cached);
-    }
     const data = await fetchFromTmdb("tv/upcoming", { page });
-
-    await setCachedData(cacheKey, data, 3600);
-
     res.json(data);
   } catch (error) {
     console.error("Error fetching upcoming shows:", error);
