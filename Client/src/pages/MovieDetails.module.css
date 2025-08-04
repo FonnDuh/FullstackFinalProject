@@ -1,0 +1,95 @@
+.movieDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--text-primary, #222);
+}
+
+.movieHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.poster {
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.movieBasic {
+  flex: 1;
+  min-width: 250px;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.tagline {
+  font-style: italic;
+  color: var(--text-muted, #666);
+  margin-bottom: 0.75rem;
+}
+
+.meta {
+  font-size: 0.95rem;
+  color: var(--text-muted, #555);
+  margin-bottom: 0.75rem;
+}
+
+.rating {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--primary-color, #5b6cff);
+}
+
+/* Overview */
+.overview {
+  max-width: 800px;
+}
+
+.overview h2 {
+  margin-bottom: 0.5rem;
+}
+
+.overview p {
+  line-height: 1.5;
+}
+
+/* Key Facts */
+.keyFacts h2,
+.production h2 {
+  margin-bottom: 0.5rem;
+}
+
+.keyFacts ul,
+.production ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.keyFacts li,
+.production li {
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #444);
+}
+
+/* Dark mode */
+.dark .movieDetails {
+  color: #eee;
+}
+
+.dark .tagline,
+.dark .meta,
+.dark .keyFacts li,
+.dark .production li {
+  color: #aaa;
+}

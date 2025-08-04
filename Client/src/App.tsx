@@ -10,10 +10,11 @@ import NotFound from "./components/feedback/NotFound";
 import ScreenLoader from "./components/feedback/ScreenLoader";
 import Layout from "./layouts/Default/Layout";
 import Search from "./pages/Search";
+import MediaDetails from "./pages/MediaDetails";
 
 function App() {
   const { isDarkMode } = useDarkMode();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("dark", isDarkMode);
@@ -42,6 +43,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/tmdb/:id" element={<MediaDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

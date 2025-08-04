@@ -42,9 +42,9 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
   const logout = () => {
     sessionStorage.removeItem("token");
     setUser(null);
-    if (window.location.pathname !== "/") {
-      window.location.href = "/";
-    }
+    // if (window.location.pathname !== "/") {
+    //   window.location.href = "/";
+    // }
   };
 
   useEffect(() => {

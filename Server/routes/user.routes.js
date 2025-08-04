@@ -48,10 +48,10 @@ router.get("/:id", auth, async (req, res) => {
         403,
         "UNAUTHORIZED_ACCESS"
       );
+
     const user = await getUserByID(id);
-    if (!user) {
-      throw new AppError("User not found", 404, "USER_NOT_FOUND");
-    }
+    if (!user) throw new AppError("User not found", 404, "USER_NOT_FOUND");
+
     res.status(200).send(user);
   } catch (error) {
     throw new AppError(
@@ -175,20 +175,20 @@ router.delete("/:id", auth, async (req, res) => {
     let user = await deleteUser(id);
     res.status(200).send(returnUser(user));
   } catch (error) {
-    if (error.status === 403) {
+    if (error.status === 403)
       throw new AppError(
         "Delete failed. " + error.message,
         403,
         "DELETE_FORBIDDEN"
       );
-    }
-    if (error.status === 404) {
+
+    if (error.status === 404)
       throw new AppError(
         "Delete failed. User not found.",
         404,
         "USER_NOT_FOUND"
       );
-    }
+
     throw new AppError(
       error.message || "Error deleting user.",
       500,

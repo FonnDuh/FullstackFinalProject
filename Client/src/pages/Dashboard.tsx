@@ -38,7 +38,7 @@ const Dashboard: FunctionComponent = () => {
     <div className={`${styles.dashboard} ${isDarkMode ? styles.dark : ""}`}>
       <h1 className={styles.heading}>Dashboard</h1>
       <p className={styles.welcome}>
-        Welcome {user?.username} to your media dashboard!
+        Welcome, {user ? user?.username : "guest"} to your media dashboard!
       </p>
       <section className={styles.trendingSection}>
         <h2 className={styles.sectionTitle}>Trending media</h2>

@@ -8,13 +8,11 @@ const cacheSchema = new Schema({
 
 const Cache = models.Cache || model("Cache", cacheSchema);
 
-// Get cached data by key if not expired
 async function getCachedData(key) {
   const entry = await Cache.findOne({ key, expiresAt: { $gt: new Date() } });
   return entry ? entry.data : null;
 }
 
-// Set cache with TTL (in seconds)
 async function setCachedData(key, data, ttl = 3600) {
   const expiresAt = new Date(Date.now() + ttl * 1000);
   await Cache.findOneAndUpdate(
@@ -24,8 +22,4 @@ async function setCachedData(key, data, ttl = 3600) {
   );
 }
 
-async function clearCache() {
-  await Cache.deleteMany({});
-}
-
-module.exports = { getCachedData, setCachedData, clearCache };
+module.exports = { getCachedData, setCachedData };

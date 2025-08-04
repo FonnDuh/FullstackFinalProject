@@ -4,6 +4,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import styles from "./MediaCard.module.css";
 import { useNavigate } from "react-router-dom";
 import type { FunctionComponent } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 interface MediaCardProps {
   media: Media;
@@ -14,6 +15,7 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
   media,
   genres = [],
 }) => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const displayTitle =
     media.title || media.name || media.original_name || "Untitled";
@@ -38,7 +40,7 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
         <Tooltip.Trigger asChild>
           <div
             className={styles.card}
-            onClick={() => navigate(`/media/${media.id}`)}>
+            onClick={() => navigate(`/tmdb/${media.id}`)}>
             <div className={styles.posterWrapper}>
               <img
                 src={displayPoster}
@@ -52,14 +54,18 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
               )}
             </div>
 
-            <div className={styles.quickActions}>
-              <button className={styles.quickButton} title="Add to Favorites">
-                ❤️
-              </button>
-              <button className={styles.quickButton} title="Add to Watchlist">
-                📌
-              </button>
-            </div>
+            {user ? (
+              <div className={styles.quickActions}>
+                <button className={styles.quickButton} title="Add to Favorites">
+                  ❤️
+                </button>
+                <button className={styles.quickButton} title="Add to Watchlist">
+                  📌
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
 
             <div className={styles.content}>
               <h4 className={styles.title}>{displayTitle}</h4>

@@ -19,11 +19,11 @@ const { Router } = require("express");
 const router = Router();
 
 function formatValidationErrors(errors) {
-  if (Array.isArray(errors)) {
+  if (Array.isArray(errors))
     return errors.map((e) => {
       return e.replace(/"/g, "");
     });
-  }
+
   return errors;
 }
 
@@ -32,9 +32,9 @@ router.post("/", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
+
     const media = req.body;
     const validationError = userMediaValidation(media);
     if (validationError)
@@ -55,9 +55,8 @@ router.get("/", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     const mediaList = await getMyUserMedia(userInfo._id);
     res.status(200).json(mediaList);
@@ -72,9 +71,8 @@ router.get("/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     const { mediaId } = req.params;
     const media = await getMediaById(mediaId, userInfo._id);
@@ -93,19 +91,16 @@ router.get("/user/:userId/media/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     const { userId, mediaId } = req.params;
-    if (userId !== userInfo._id.toString()) {
+    if (userId !== userInfo._id.toString())
       return res.status(403).json({ message: "Forbidden: Access denied." });
-    }
 
     const media = await getMediaById(mediaId, userId);
-    if (!media) {
-      return res.status(404).json({ message: "Media not found." });
-    }
+    if (!media) return res.status(404).json({ message: "Media not found." });
+
     res.status(200).json(media);
   } catch (error) {
     console.error("Error fetching media by user ID and media ID:", error);
@@ -118,9 +113,8 @@ router.get("/status/:status", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     const { status } = req.params;
     const mediaList = await getUserMediaByStatus(userInfo._id, status);
@@ -136,9 +130,8 @@ router.get("/type/:mediaType", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     const { mediaType } = req.params;
     const mediaList = await getUserMediaByType(userInfo._id, mediaType);
@@ -153,9 +146,9 @@ router.get("/type/:mediaType", auth, async (req, res, next) => {
 router.put("/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
+
     const { mediaId } = req.params;
     const media = req.body;
     const validationError = userMediaUpdateValidation(media);
@@ -176,9 +169,9 @@ router.put("/:mediaId", auth, async (req, res, next) => {
 router.patch("/:mediaId/status", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
+
     const { mediaId } = req.params;
     const { status } = req.body;
 
@@ -198,9 +191,9 @@ router.patch("/:mediaId/status", auth, async (req, res, next) => {
 router.delete("/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
+
     const { mediaId } = req.params;
     const deleted = await deleteMedia(mediaId, userInfo._id);
     if (!deleted) {
@@ -218,9 +211,8 @@ router.delete("/user/:userId/media/:mediaId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     if (!userInfo.isAdmin)
       return res
@@ -229,9 +221,8 @@ router.delete("/user/:userId/media/:mediaId", auth, async (req, res, next) => {
 
     const { userId, mediaId } = req.params;
     const deleted = await deleteMedia(mediaId, userId);
-    if (!deleted) {
-      return res.status(404).json({ message: "Media not found." });
-    }
+    if (!deleted) return res.status(404).json({ message: "Media not found." });
+
     res.status(204).send();
   } catch (error) {
     console.error("Error deleting media for user:", error);
@@ -244,9 +235,8 @@ router.get("/user/:userId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
 
     if (!userInfo.isAdmin)
       return res
@@ -267,9 +257,9 @@ router.delete("/user/:userId", auth, async (req, res, next) => {
   try {
     const userInfo = req.user;
 
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo || !userInfo._id)
       return res.status(401).json({ message: "Unauthorized user." });
-    }
+
     if (!userInfo.isAdmin)
       return res
         .status(403)

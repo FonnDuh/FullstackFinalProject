@@ -41,6 +41,6 @@
 .main {
   flex: 1;
   padding: 2rem;
-  background: var(--soft-blue);
+  background: #f4f4f4;
   overflow-y: auto;
 }

@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const API: string = import.meta.env.VITE_MOVIE;
+const MOVIE_API: string = import.meta.env.VITE_MOVIE;
 
 export function searchMovies(
   query: string,
   pages: number = 1,
   includeAdult: boolean = false
 ) {
-  return axios.get(`${API}/search`, {
+  return axios.get(`${MOVIE_API}/search`, {
     params: {
       query,
       page: pages,
@@ -16,8 +16,8 @@ export function searchMovies(
   });
 }
 
-export function getMovieDetails(id: number) {
-  return axios.get(`${API}/${id}`, {
+export function getMovieDetails(id: number | string) {
+  return axios.get(`${MOVIE_API}/${id}`, {
     params: {
       append_to_response: "videos,images,credits",
     },
@@ -25,7 +25,7 @@ export function getMovieDetails(id: number) {
 }
 
 export function getPopularMovies(pages: number = 1) {
-  return axios.get(`${API}/popular`, {
+  return axios.get(`${MOVIE_API}/popular`, {
     params: {
       page: pages,
     },
@@ -33,7 +33,7 @@ export function getPopularMovies(pages: number = 1) {
 }
 
 export function getTrendingMovies(pages: number = 1) {
-  return axios.get(`${API}/trending`, {
+  return axios.get(`${MOVIE_API}/trending`, {
     params: {
       page: pages,
     },
@@ -41,7 +41,7 @@ export function getTrendingMovies(pages: number = 1) {
 }
 
 export function getUpcomingMovies(pages: number = 1) {
-  return axios.get(`${API}/upcoming`, {
+  return axios.get(`${MOVIE_API}/upcoming`, {
     params: {
       page: pages,
     },
@@ -49,7 +49,7 @@ export function getUpcomingMovies(pages: number = 1) {
 }
 
 export function getMovieRecommendations(id: number, pages: number = 1) {
-  return axios.get(`${API}/${id}/recommendations`, {
+  return axios.get(`${MOVIE_API}/${id}/recommendations`, {
     params: {
       page: pages,
     },
@@ -57,9 +57,9 @@ export function getMovieRecommendations(id: number, pages: number = 1) {
 }
 
 export function getMovieGenres() {
-  return axios.get(`${API}/genres`);
+  return axios.get(`${MOVIE_API}/genres`);
 }
 
 export function getMovieCredits(id: number) {
-  return axios.get(`${API}/${id}/credits`);
+  return axios.get(`${MOVIE_API}/${id}/credits`);
 }

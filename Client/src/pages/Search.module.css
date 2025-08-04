@@ -35,12 +35,10 @@
   box-shadow: 0 0 0 3px rgba(91, 108, 255, 0.2);
 }
 
-.searchContainer span {
-  position: absolute;
+.searchContainer h2 {
+  /* position: absolute; */
   left: 1rem;
   top: -1.2rem;
-  font-size: 0.8rem;
-  color: var(--text-muted, #666);
 }
 
 /* =========================
