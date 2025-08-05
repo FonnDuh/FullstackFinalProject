@@ -11,6 +11,8 @@ import ScreenLoader from "./components/feedback/ScreenLoader";
 import Layout from "./layouts/Default/Layout";
 import Search from "./pages/Search";
 import MediaDetails from "./pages/MediaDetails";
+import Footer from "./components/common/Footer";
+import ErrorBoundary from "./components/feedback/ErrorBoundary";
 
 function App() {
   const { isDarkMode } = useDarkMode();
@@ -41,11 +43,40 @@ function App() {
         <Router>
           <Layout>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/tmdb/:id" element={<MediaDetails />} />
-              <Route path="*" element={<NotFound />} />
+              <Route
+                path="/"
+                element={
+                  <ErrorBoundary>
+                    <Dashboard />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/search"
+                element={
+                  <ErrorBoundary>
+                    <Search />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/tmdb/:id"
+                element={
+                  <ErrorBoundary>
+                    <MediaDetails />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <ErrorBoundary>
+                    <NotFound />
+                  </ErrorBoundary>
+                }
+              />
             </Routes>
+            <Footer />
           </Layout>
         </Router>
       </AuthProvider>
