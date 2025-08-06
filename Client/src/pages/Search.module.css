@@ -115,16 +115,16 @@
   margin-top: 2rem;
 }
 
-.dark .searchContainer input {
+body.dark-mode .searchContainer input {
   background-color: #1e1e1e;
   color: #fff;
   border-color: #333;
 }
 
-.dark .display-5 {
+body.dark-mode .display-5 {
   color: #999;
 }
 
-.dark .thumb {
+body.dark-mode .thumb {
   background-color: rgba(200, 200, 200, 0.4);
 }

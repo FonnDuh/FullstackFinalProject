@@ -3,7 +3,6 @@ import "./App.css";
 import "./styles/global.css";
 import { AuthProvider } from "./context/AuthenticationContext";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { useDarkMode } from "./hooks/useDarkMode";
 import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./components/feedback/NotFound";
@@ -15,12 +14,7 @@ import Footer from "./components/common/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
 
 function App() {
-  const { isDarkMode } = useDarkMode();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    document.body.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
 
   useEffect(() => {
     async function initializeApp() {

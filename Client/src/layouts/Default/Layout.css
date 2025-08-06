@@ -1,0 +1,125 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--background, #f9f9fb);
+  color: var(--text-primary, #1a1a1a);
+}
+
+.sidebar {
+  width: 220px;
+  background: var(--sidebar-bg, #ffffff);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1rem;
+  flex-shrink: 0;
+  height: 100vh;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.04);
+  overflow-y: auto;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  -webkit-transition: background 0.3s ease, border-color 0.3s ease;
+  -moz-transition: background 0.3s ease, border-color 0.3s ease;
+  -ms-transition: background 0.3s ease, border-color 0.3s ease;
+  -o-transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--primary-color, #4f46e5);
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navLink {
+  all: unset;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  color: var(--text-secondary, #444);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navLink:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary, #111);
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--primary-color, #4f46e5);
+  outline-offset: 2px;
+}
+
+.navLink[data-state="active"],
+.navLink.active {
+  color: var(--primary-color, #4f46e5);
+  background-color: rgba(79, 70, 229, 0.1);
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1rem;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  background: var(--main-bg, #f4f4f6);
+  overflow-y: auto;
+  transition: background 0.3s ease;
+}
+
+body.dark-mode .layout {
+  color: #f4f4f4;
+}
+
+body.dark-mode .sidebar {
+  background: #18181b;
+  color: #f4f4f4;
+  border-right-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .logo {
+  color: #6366f1;
+}
+
+body.dark-mode .navLink {
+  color: #bbb;
+}
+
+body.dark-mode .navLink:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+body.dark-mode .navLink[data-state="active"],
+body.dark-mode .navLink.active {
+  color: #6366f1;
+  background-color: rgba(99, 102, 241, 0.15);
+}
+
+body.dark-mode .auth {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .main {
+  background: #101014;
+}

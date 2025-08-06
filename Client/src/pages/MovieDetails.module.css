@@ -81,13 +81,13 @@
   color: var(--text-secondary, #444);
 }
 
-.dark .movieDetails {
+body.dark-mode .movieDetails {
   color: #eee;
 }
 
-.dark .tagline,
-.dark .meta,
-.dark .keyFacts li,
-.dark .production li {
+body.dark-mode .tagline,
+body.dark-mode .meta,
+body.dark-mode .keyFacts li,
+body.dark-mode .production li {
   color: #aaa;
 }

@@ -1,10 +1,9 @@
 import { useEffect, useState, type FunctionComponent } from "react";
-import { useDarkMode } from "../hooks/useDarkMode";
 import { useAuth } from "../hooks/useAuth";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import type { Media } from "../interfaces/Media/Media.interface";
 import { errorMessage } from "../services/feedback.service";
-import styles from "./Dashboard.module.css";
+import "./Dashboard.css";
 import type { Genre } from "../interfaces/Media/Genre.interface";
 import MediaCard from "../components/common/MediaCard";
 import ErrorBoundary from "../components/feedback/ErrorBoundary";
@@ -16,7 +15,6 @@ import {
 const Dashboard: FunctionComponent = () => {
   const [movies, setMovies] = useState<Media[]>([]);
   const [movieGenres, setMovieGenres] = useState<Genre[]>([]);
-  const { isDarkMode } = useDarkMode();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -35,18 +33,18 @@ const Dashboard: FunctionComponent = () => {
     fetchData();
   }, []);
   return (
-    <div className={`${styles.dashboard} ${isDarkMode ? styles.dark : ""}`}>
-      <h1 className={styles.heading}>Dashboard</h1>
-      <p className={styles.welcome}>
+    <div className="dashboard">
+      <h1 className="heading">Dashboard</h1>
+      <p className="welcome">
         Welcome, {user ? user?.username : "guest"} to your media dashboard!
       </p>
-      <section className={styles.trendingSection}>
-        <h2 className={styles.sectionTitle}>Trending media</h2>
+      <section className="trendingSection">
+        <h2 className="sectionTitle">Trending media</h2>
         <ErrorBoundary>
           {movies.length > 0 ? (
-            <ScrollArea.Root className={styles.scrollRoot}>
-              <ScrollArea.Viewport className={styles.scrollViewport}>
-                <ul className={styles.mediaList}>
+            <ScrollArea.Root className="scrollRoot">
+              <ScrollArea.Viewport className="scrollViewport">
+                <ul className="mediaList">
                   {movies.map((movie) => (
                     <li key={movie.id}>
                       <MediaCard media={movie} genres={movieGenres} />
@@ -56,8 +54,8 @@ const Dashboard: FunctionComponent = () => {
               </ScrollArea.Viewport>
               <ScrollArea.Scrollbar
                 orientation="vertical"
-                className={styles.scrollbar}>
-                <ScrollArea.Thumb className={styles.thumb} />
+                className="scrollbar">
+                <ScrollArea.Thumb className="thumb" />
               </ScrollArea.Scrollbar>
             </ScrollArea.Root>
           ) : (
