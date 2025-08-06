@@ -1,9 +1,9 @@
 import { useEffect, useState, type FunctionComponent } from "react";
-import { errorMessage } from "../services/feedbackService";
-import { getMovieDetails } from "../services/movieTmdbService";
+import { errorMessage } from "../services/feedback.service";
 import { useParams } from "react-router-dom";
 import type { TmdbMovieDetails } from "../interfaces/Media/TmdbMovieDetails";
 import styles from "./MovieDetails.module.css";
+import { getMediaDetails } from "../services/tmdb/tmdb.service";
 
 const MediaDetails: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,7 +15,7 @@ const MediaDetails: FunctionComponent = () => {
     let isCancelled = false;
     const fetchData = async () => {
       try {
-        const res = await getMovieDetails(Number(id));
+        const res = await getMediaDetails("movie", Number(id));
         if (!isCancelled) setMedia(res.data);
       } catch (error) {
         console.error("Error fetching media data:", error);
@@ -29,7 +29,6 @@ const MediaDetails: FunctionComponent = () => {
       isCancelled = true; // Prevents setState on unmounted component
     };
   }, [id]);
-
 
   if (!media) return <div>No Media Found</div>;
 
@@ -79,10 +78,16 @@ const MediaDetails: FunctionComponent = () => {
             <strong>Country:</strong> {countries || "N/A"}
           </li>
           <li>
-            <strong>Budget:</strong> ${media.budget.toLocaleString()}
+            <strong>Budget:</strong>{" "}
+            {media.budget.toLocaleString() == "$0"
+              ? media.budget.toLocaleString()
+              : " - "}
           </li>
           <li>
-            <strong>Revenue:</strong> ${media.revenue.toLocaleString()}
+            <strong>Revenue:</strong>{" "}
+            {media.revenue.toLocaleString() == "$0"
+              ? media.revenue.toLocaleString()
+              : " - "}
           </li>
           {media.imdb_id && (
             <li>

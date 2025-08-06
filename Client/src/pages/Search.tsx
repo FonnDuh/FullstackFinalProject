@@ -4,12 +4,11 @@ import {
   useState,
   type FunctionComponent,
 } from "react";
-import { searchMovies } from "../services/movieTmdbService";
 import type { Media } from "../interfaces/Media/Media.interface";
 import ErrorBoundary from "../components/feedback/ErrorBoundary";
 import styles from "./Search.module.css";
 import SearchResults from "../components/search/SearchResults";
-import { searchTv } from "../services/tvTmdbService";
+import { searchMedia } from "../services/tmdb/tmdb.service";
 
 const Search: FunctionComponent = () => {
   const [media, setMedia] = useState<Media[]>([]);
@@ -31,8 +30,8 @@ const Search: FunctionComponent = () => {
     }
     setLoading(true);
     Promise.all([
-      searchMovies(debouncedSearchQuery),
-      searchTv(debouncedSearchQuery),
+      searchMedia("movie", debouncedSearchQuery),
+      searchMedia("tv", debouncedSearchQuery),
     ])
       .then(([movieResults, tvResults]) => {
         const movies = movieResults.data.results.map((item: Media) => ({

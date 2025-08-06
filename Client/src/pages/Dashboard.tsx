@@ -1,17 +1,17 @@
 import { useEffect, useState, type FunctionComponent } from "react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useAuth } from "../hooks/useAuth";
-import {
-  getMovieGenres,
-  getTrendingMovies,
-} from "../services/movieTmdbService";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import type { Media } from "../interfaces/Media/Media.interface";
-import { errorMessage } from "../services/feedbackService";
+import { errorMessage } from "../services/feedback.service";
 import styles from "./Dashboard.module.css";
 import type { Genre } from "../interfaces/Media/Genre.interface";
 import MediaCard from "../components/common/MediaCard";
 import ErrorBoundary from "../components/feedback/ErrorBoundary";
+import {
+  getMediaGenres,
+  getTrendingMedia,
+} from "../services/tmdb/tmdb.service";
 
 const Dashboard: FunctionComponent = () => {
   const [movies, setMovies] = useState<Media[]>([]);
@@ -22,8 +22,8 @@ const Dashboard: FunctionComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getTrendingMovies();
-        const genres = await getMovieGenres();
+        const res = await getTrendingMedia("movie", "day");
+        const genres = await getMediaGenres("movie");
 
         setMovieGenres(genres.data.genres);
         setMovies(res.data.results);
