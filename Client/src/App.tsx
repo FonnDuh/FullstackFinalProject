@@ -12,6 +12,8 @@ import Search from "./pages/Search";
 import MediaDetails from "./pages/MediaDetails";
 import Footer from "./components/common/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -58,6 +60,22 @@ function App() {
                 element={
                   <ErrorBoundary>
                     <MediaDetails />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <ErrorBoundary>
+                    <Login />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <ErrorBoundary>
+                    <Register />
                   </ErrorBoundary>
                 }
               />

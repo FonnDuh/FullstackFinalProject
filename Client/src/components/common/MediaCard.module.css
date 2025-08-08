@@ -4,6 +4,7 @@
   width: 180px;
   cursor: pointer;
   overflow: hidden;
+  white-space: nowrap;
   background: var(--card-bg, #fff);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -67,9 +68,13 @@
 }
 
 .content {
+  width: 99%;
   display: flex;
   flex-direction: column;
+  position: relative;
   padding: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .title {
@@ -80,10 +85,19 @@
 }
 
 .genres {
+  display: inline-block;
+  position: relative;
   font-size: 0.75rem;
   color: var(--text-muted, #666);
   margin: 0;
   line-height: 1.2;
+  will-change: transform;
+  animation: none;
+  -webkit-animation: none;
+}
+
+.genres:hover {
+  animation-play-state: paused;
 }
 
 .quickActions {
@@ -163,7 +177,6 @@
 .tooltip {
   background: var(--card-bg, #222);
   color: var(--text-primary, #fff);
-  border-radius: 6px;
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   max-width: 250px;
@@ -171,6 +184,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   animation: fadeIn 150ms ease forwards;
   -webkit-animation: fadeIn 150ms ease forwards;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
 }
 
 .tooltipArrow {
@@ -184,6 +202,10 @@
 .tooltipOverview::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
 }
 
 .tooltipTitle {
@@ -209,6 +231,43 @@
   color: var(--text-muted, #aaa);
 }
 
+/* Favorite button specific styles */
+.quickButton.favorite {
+  /* Base background and color */
+  background: rgba(255, 0, 0, 0.7); /* red-ish */
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.quickButton.favorite:hover {
+  background: rgba(255, 0, 0, 0.9);
+  color: white;
+}
+
+.quickButton.favorite.active {
+  background: red;
+  color: white;
+  box-shadow: 0 0 8px red;
+}
+
+/* Watchlist button specific styles */
+.quickButton.watchlist {
+  background: rgba(0, 123, 255, 0.7); /* blue-ish */
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.quickButton.watchlist:hover {
+  background: rgba(0, 123, 255, 0.9);
+  color: white;
+}
+
+.quickButton.watchlist.active {
+  background: #007bff;
+  color: white;
+  box-shadow: 0 0 8px #007bff;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -225,5 +284,22 @@
     -moz-transform: translateY(0);
     -ms-transform: translateY(0);
     -o-transform: translateY(0);
+  }
+}
+
+@keyframes scroll-back-forth {
+  0% {
+    transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    -moz-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    -o-transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--scroll-diff)));
+    -webkit-transform: translateX(calc(-1 * var(--scroll-diff)));
+    -moz-transform: translateX(calc(-1 * var(--scroll-diff)));
+    -ms-transform: translateX(calc(-1 * var(--scroll-diff)));
+    -o-transform: translateX(calc(-1 * var(--scroll-diff)));
   }
 }

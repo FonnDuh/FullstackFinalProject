@@ -11,9 +11,6 @@ export function normalizedUser(user: newUserRegister): User {
     username: user.username,
     dateOfBirth: user.dateOfBirth,
     password: user.password,
-    image: {
-      url: user.url ?? "",
-      alt: user.alt ?? "",
-    },
+    image_url: user.image_url ?? "",
   };
 }

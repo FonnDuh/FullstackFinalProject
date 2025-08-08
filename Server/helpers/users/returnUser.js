@@ -5,10 +5,7 @@ const returnUser = (user) => {
       last: user.name.last,
     },
     email: user.email,
-    image: {
-      url: user.image?.url || null,
-      alt: user.image?.alt || null,
-    },
+    image_url: user.image?.url || null,
   };
 };
 

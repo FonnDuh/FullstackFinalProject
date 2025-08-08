@@ -1,0 +1,377 @@
+.invalid-feedback {
+  display: inline-block;
+  margin: 0;
+}
+
+.is-invalid {
+  border: 1.5px solid #ff3737;
+  animation: shake 0.5s;
+  -webkit-animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px);
+    -webkit-transform: translateX(-3px);
+    -moz-transform: translateX(-3px);
+    -ms-transform: translateX(-3px);
+    -o-transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(3px);
+    -webkit-transform: translateX(3px);
+    -moz-transform: translateX(3px);
+    -ms-transform: translateX(3px);
+    -o-transform: translateX(3px);
+  }
+  60% {
+    transform: translateX(-3px);
+    -webkit-transform: translateX(-3px);
+    -moz-transform: translateX(-3px);
+    -ms-transform: translateX(-3px);
+    -o-transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+    -webkit-transform: translateX(3px);
+    -moz-transform: translateX(3px);
+    -ms-transform: translateX(3px);
+    -o-transform: translateX(3px);
+  }
+  100% {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+}
+
+input::placeholder {
+  color: #888;
+}
+
+input::-webkit-input-placeholder {
+  color: #888;
+}
+
+input::-moz-placeholder {
+  color: #888;
+  opacity: 1;
+}
+
+input:-ms-input-placeholder {
+  color: #888;
+}
+
+input::-ms-input-placeholder {
+  color: #888;
+}
+
+body.dark-mode input::placeholder {
+  color: #ccc;
+  opacity: 1; /* Firefox */
+}
+
+body.dark-mode input::-webkit-input-placeholder {
+  color: #ccc;
+}
+
+body.dark-mode input::-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+
+body.dark-mode input:-ms-input-placeholder {
+  color: #ccc;
+}
+
+body.dark-mode input::-ms-input-placeholder {
+  color: #ccc;
+}
+
+.inputbox {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+}
+
+.inputbox input,
+.inputbox textarea {
+  position: relative;
+  width: 100%;
+  padding: 20px 10px 10px;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: #121212;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  z-index: 10;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+}
+
+.inputbox span {
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  left: 0;
+  padding: 20px 10px 10px;
+  font-size: 1em;
+  color: #121212;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+}
+
+.inputbox input:not(:focus),
+.inputbox textarea:not(:focus) {
+  color: #121212;
+}
+
+.inputbox input:focus ~ span,
+.inputbox textarea:focus ~ span {
+  transform: translateX(-10px) translateY(-34px);
+  -webkit-transform: translateX(-10px) translateY(-34px);
+  -moz-transform: translateX(-10px) translateY(-34px);
+  -ms-transform: translateX(-10px) translateY(-34px);
+  -o-transform: translateX(-10px) translateY(-34px);
+}
+
+.inputbox i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #dfdfdf;
+  pointer-events: none;
+  z-index: 9;
+  overflow: hidden;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  transition: height 0.5s;
+  -webkit-transition: height 0.5s;
+  -moz-transition: height 0.5s;
+  -ms-transition: height 0.5s;
+  -o-transition: height 0.5s;
+}
+
+.inputbox i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ccc 80%, #aaa 20%);
+  opacity: 0;
+  transition: left 0.4s, opacity 0.5s;
+  -webkit-transition: left 0.4s, opacity 0.5s;
+  -moz-transition: left 0.4s, opacity 0.5s;
+  -ms-transition: left 0.4s, opacity 0.5s;
+  -o-transition: left 0.4s, opacity 0.5s;
+}
+
+.inputbox input:not(:empty) ~ i,
+.inputbox textarea:not(:empty) ~ i,
+.inputbox input:focus ~ i,
+.inputbox textarea:focus ~ i {
+  height: 90%;
+}
+
+.inputbox input:focus ~ i::after,
+.inputbox textarea:focus ~ i::after {
+  left: 0;
+  opacity: 1;
+}
+
+.inputbox input:not(:placeholder-shown) ~ i,
+.inputbox textarea:not(:placeholder-shown) ~ i {
+  height: 90%;
+}
+
+.inputbox input:not(:placeholder-shown) ~ span,
+.inputbox textarea:not(:placeholder-shown) ~ span {
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+  transform: translateX(-10px) translateY(-34px);
+  -webkit-transform: translateX(-10px) translateY(-34px);
+  -moz-transform: translateX(-10px) translateY(-34px);
+  -ms-transform: translateX(-10px) translateY(-34px);
+  -o-transform: translateX(-10px) translateY(-34px);
+}
+
+body.dark-mode .inputbox input,
+.inputbox textarea {
+  color: #121212;
+}
+
+body.dark-mode .inputbox span {
+  color: white;
+}
+
+body.dark-mode .inputbox i {
+  background-color: #ffffffe6;
+}
+
+body.dark-mode .inputbox i::after {
+  background: linear-gradient(135deg, #ffffffe6 85%, #6969698e 15%);
+}
+
+.check-container {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+  /* Override bootstrap css */
+  padding: 5px 0 0 20px !important;
+  pointer-events: all !important;
+  overflow: unset !important;
+}
+
+.check-container:hover label {
+  color: #0b6e4f;
+}
+
+.check-container label {
+  cursor: pointer;
+  transition: color 0.3s;
+  -webkit-transition: color 0.3s;
+  -moz-transition: color 0.3s;
+  -ms-transition: color 0.3s;
+  -o-transition: color 0.3s;
+}
+
+.check-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  padding: 0.5em;
+  margin-right: 10px;
+  height: 1.3em;
+  width: 1.3em;
+  background-color: #ccc;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.check-container input:checked ~ .checkmark {
+  background-color: #0b6e4f;
+  animation: pulse 0.5s ease-in-out;
+  -webkit-animation: pulse 0.5s ease-in-out;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.check-container input:checked ~ .checkmark:after {
+  display: block;
+}
+.check-container input:checked ~ .bounce-text {
+  animation: bounce 0.5s ease-in-out forwards;
+  -webkit-animation: bounce 0.5s ease-in-out forwards;
+}
+
+.check-container .checkmark:after {
+  left: 0.45em;
+  top: 0.35em;
+  width: 0.35em;
+  height: 0.5em;
+  border: solid #e0e0e2;
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 #0b6e4f90;
+    rotate: 20deg;
+  }
+  50% {
+    rotate: -20deg;
+  }
+  75% {
+    box-shadow: 0 0 0 10px #0b6e4f60;
+  }
+  100% {
+    box-shadow: 0 0 0 13px #0b6e4f30;
+    rotate: 0;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+    -webkit-transform: translateX(3px);
+    -moz-transform: translateX(3px);
+    -ms-transform: translateX(3px);
+    -o-transform: translateX(3px);
+  }
+  100% {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+}

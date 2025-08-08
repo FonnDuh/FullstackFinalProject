@@ -1,4 +1,4 @@
-.not-found-container {
+.notFoundContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,18 +7,18 @@
   text-align: center;
 }
 
-.not-found-title {
+.notFoundTitle {
   font-size: 6rem;
   margin-bottom: 1rem;
 }
 
-.not-found-message {
+.notFoundMessage {
   font-size: 1.5rem;
   margin-bottom: 2rem;
 }
 
-.not-found-link {
-  font-size: 1.25rem;
+.notFoundLink {
+  font-size: 1.5rem;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border: 2px solid currentColor;
@@ -34,33 +34,33 @@
   -o-border-radius: 5px;
 }
 
-.not-found-link:hover {
+.notFoundLink:hover {
   background-color: currentColor;
   color: #fff !important;
 }
 
-.bg-dark .not-found-link:hover {
+.bgDark .notFoundLink:hover {
   background-color: #fff !important;
   color: #121212 !important;
 }
 
-.bg-light .not-found-link:hover {
+.bgLight .notFoundLink:hover {
   background-color: #000 !important;
   color: #fff !important;
 }
 
-.bg-dark {
+.bgDark {
   background-color: #121212 !important;
 }
 
-.bg-light {
+.bgLight {
   background-color: #f8f9fa !important;
 }
 
-.text-white {
+.textWhite {
   color: #e0e0e0 !important;
 }
 
-.text-dark {
+.textDark {
   color: #000 !important;
 }

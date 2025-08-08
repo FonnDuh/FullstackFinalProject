@@ -3,8 +3,9 @@ import type { Genre } from "../../interfaces/Media/Genre.interface";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import styles from "./MediaCard.module.css";
 import { useNavigate } from "react-router-dom";
-import type { FunctionComponent } from "react";
+import { useEffect, useRef, type FunctionComponent } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import MediaQuickActions from "./MediaQuickActions";
 
 interface MediaCardProps {
   media: Media;
@@ -17,6 +18,8 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const textRef = useRef<HTMLParagraphElement>(null);
+
   const displayTitle =
     media.title || media.name || media.original_name || "Untitled";
 
@@ -33,6 +36,22 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
           .filter(Boolean)
           .join(", ")
       : "Unknown";
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el || !el.parentElement) return;
+
+    const parent = el.parentElement;
+    const diff = el.scrollWidth - parent.clientWidth;
+
+    if (diff > 0) {
+      el.style.setProperty("--scroll-diff", `${diff}px`);
+      el.style.animation =
+        "scroll-back-forth 6s ease-in-out infinite alternate";
+    } else {
+      el.style.animation = "none";
+    }
+  }, [genreNames]);
 
   return (
     <Tooltip.Provider delayDuration={150}>
@@ -53,27 +72,19 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
                 </div>
               )}
             </div>
-
-            {user ? (
-              <div className={styles.quickActions}>
-                <button className={styles.quickButton} title="Add to Favorites">
-                  ❤️
-                </button>
-                <button className={styles.quickButton} title="Add to Watchlist">
-                  📌
-                </button>
-              </div>
+            {user && user._id ? (
+              <MediaQuickActions userId={user._id} media={media} />
             ) : (
               ""
             )}
-
             <div className={styles.content}>
               <h4 className={styles.title}>{displayTitle}</h4>
-              <p className={styles.genres}>{genreNames}</p>
+              <p className={styles.genres} ref={textRef}>
+                {genreNames}
+              </p>
             </div>
           </div>
         </Tooltip.Trigger>
-
         <Tooltip.Portal>
           <Tooltip.Content
             className={styles.tooltip}
@@ -94,7 +105,6 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
                 <span>👥 {media.vote_count} votes</span>
               )}
             </div>
-
             <Tooltip.Arrow className={styles.tooltipArrow} />
           </Tooltip.Content>
         </Tooltip.Portal>

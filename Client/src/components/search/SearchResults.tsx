@@ -14,9 +14,9 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ media }) => {
         <ScrollArea.Root className={styles.scrollRoot}>
           <ScrollArea.Viewport className={styles.scrollViewport}>
             <ul className={styles.mediaList}>
-              {media.map((movie) => (
-                <li key={movie.id}>
-                  <MediaCard media={movie} genres={[]} />
+              {media.map((media) => (
+                <li key={media.id}>
+                  <MediaCard media={media} genres={[]} />
                 </li>
               ))}
             </ul>

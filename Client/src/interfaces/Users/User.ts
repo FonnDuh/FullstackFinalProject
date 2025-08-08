@@ -1,4 +1,3 @@
-import type { UserImage } from "./UserImage";
 import type { UserName } from "./UserName";
 
 export interface User {
@@ -8,7 +7,7 @@ export interface User {
   username: string;
   dateOfBirth?: string;
   password: string;
-  image: UserImage;
+  image_url: string;
   isAdmin?: boolean;
   createdAt?: string;
   loginAttempts?: number;

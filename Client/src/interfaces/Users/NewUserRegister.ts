@@ -6,6 +6,5 @@ export interface newUserRegister {
   dateOfBirth: string;
   password: string;
   confirmPassword: string;
-  url?: string;
-  alt?: string;
+  image_url?: string;
 }

@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Name = require("../../helpers/users/mongodb/Name");
 const { EMAIL } = require("../../helpers/users/mongodb/mongooseValidator");
-const Image = require("../../helpers/users/mongodb/Image");
 
 const userSchema = new Schema({
   name: Name,
@@ -25,7 +24,10 @@ const userSchema = new Schema({
     required: true,
     trim: true,
   },
-  image: Image,
+  image_url: {
+    type: String,
+    required: true,
+  },
   isAdmin: {
     type: Boolean,
     default: false,

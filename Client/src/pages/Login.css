@@ -1,0 +1,82 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--background);
+}
+
+.login-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.login-separator {
+  margin-bottom: 1.5rem;
+}
+
+.login-form .form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: var(--icon-color);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.form-error {
+  font-size: 0.85rem;
+  color: red;
+  margin-top: 0.25rem;
+}
+
+.form-submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.form-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Dark Mode Example */
+body.dark-mode .login-card {
+  background: #1e1e1e;
+}
+body.dark-mode .form-input {
+  background: #2c2c2c;
+  color: #fff;
+}
