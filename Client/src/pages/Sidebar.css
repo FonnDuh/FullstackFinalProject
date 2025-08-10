@@ -1,24 +1,9 @@
-/* Sidebar container */
 .sidebar-body {
   gap: 2.5rem;
   justify-content: space-between;
-
-  /* display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: var(--sidebar-width, 250px);
-  background-color: var(--sidebar-bg, #1f2937);
-  color: var(--sidebar-text, #f9fafb);
-  overflow: hidden;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-  transition: width 0.3s ease-in;
-  -webkit-transition: width 0.3s ease-in;
-  -moz-transition: width 0.3s ease-in;
-  -ms-transition: width 0.3s ease-in;
-  -o-transition: width 0.3s ease-in; */
+  background-color: #f9fafb;
 }
 
-/* Main sidebar section (logo + nav) */
 .sidebar-main {
   display: flex;
   overflow-y: auto;
@@ -27,28 +12,18 @@
   flex: 1 1 0%;
 }
 
-/* Logo and LogoIcon container */
-.sidebar-main > :first-child {
-  margin-bottom: 2rem;
-  cursor: pointer;
-}
-
 /* ================= DESKTOP SIDEBAR ================= */
 .desktop-sidebar {
-  display: none;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
   flex-shrink: 0;
   height: 100%;
-  width: 300px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .desktop-sidebar {
-    display: flex;
-    flex-direction: column;
+    display: none;
   }
 }
 /* ================= DESKTOP SIDEBAR ================= */
@@ -79,10 +54,6 @@
   position: fixed;
   flex-direction: column;
   justify-content: space-between;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   padding: 2.5rem;
   width: 100%;
   height: 100%;
@@ -101,7 +72,7 @@
     display: none;
   }
 }
-/* ================= MOBILE SIDEBAR ================= */
+/* ================= MOBILE SIDEBAR END ================= */
 
 .sidebar-link {
   display: flex;
@@ -124,7 +95,6 @@
   transition-duration: 150ms;
 }
 
-/* Navigation links container */
 .nav-links {
   display: flex;
   margin-top: 2rem;
@@ -132,24 +102,25 @@
   gap: 0.5rem;
 }
 
-/* Each sidebar link */
 .nav-links a,
 .sidebar-footer a {
   display: flex;
   align-items: center;
   color: var(--sidebar-text, #f9fafb);
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
   font-weight: 500;
   transition: background-color 0.2s ease;
   -webkit-transition: background-color 0.2s ease;
   -moz-transition: background-color 0.2s ease;
   -ms-transition: background-color 0.2s ease;
   -o-transition: background-color 0.2s ease;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 
-/* Icon inside links */
 .nav-links a .icon,
 .sidebar-footer a .icon {
   margin-right: 0.75rem;
@@ -157,13 +128,11 @@
   flex-shrink: 0;
 }
 
-/* Hover effect on links */
 .nav-links a:hover,
 .sidebar-footer a:hover {
   background-color: var(--sidebar-hover-bg, #374151);
 }
 
-/* Sidebar footer */
 .sidebar-footer {
   display: flex;
   align-items: center;
@@ -173,28 +142,32 @@
   gap: 1rem;
 }
 
-/* Theme toggle button container */
 .sidebar-footer > :first-child {
   flex-shrink: 0;
 }
 
-/* DualPillLink container styling */
-/* .dual-pill-link {
-  display: flex;
-  gap: 0.5rem;
-  overflow: hidden;
-  background: var(--pill-bg, #3b82f6);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-  border-radius: 9999px;
-  -webkit-border-radius: 9999px;
-  -moz-border-radius: 9999px;
-  -ms-border-radius: 9999px;
-  -o-border-radius: 9999px;
-} */
+body.dark-mode .sidebar {
+  background: #18181b;
+  color: #f4f4f4;
+  border-right-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+}
 
-/* Responsive tip: shrink sidebar on smaller screens */
-@media (max-width: 768px) {
-  .sidebar-body {
-    width: 80px;
-  }
+body.dark-mode .sidebar-body {
+  background-color: #18181b;
+}
+
+body.dark-mode .navLink {
+  color: #bbb;
+}
+
+body.dark-mode .navLink:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+body.dark-mode .navLink[data-state="active"],
+body.dark-mode .navLink.active {
+  color: #6366f1;
+  background-color: rgba(99, 102, 241, 0.15);
 }
