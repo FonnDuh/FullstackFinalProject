@@ -2,7 +2,7 @@ import { type FunctionComponent } from "react";
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, User, Calendar } from "lucide-react";
-import "./Register.css";
+import "./Forms.css";
 import {
   initialValues,
   validationSchema,
@@ -22,16 +22,15 @@ const Register: FunctionComponent<object> = () => {
   };
 
   return (
-    <div className="register-container">
-      <div className="register-card">
-        <h1 className="register-title">Register</h1>
+    <div className="form-container">
+      <div className="form-card">
+        <h1 className="form-title">Register</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
-            <Form className="register-form">
-              {/* First Name */}
+            <Form className="form-body">
               <div className="input-group">
                 <User className="input-icon" />
                 <Field
@@ -39,7 +38,7 @@ const Register: FunctionComponent<object> = () => {
                   type="text"
                   name="firstName"
                   placeholder="First Name"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage
@@ -47,8 +46,6 @@ const Register: FunctionComponent<object> = () => {
                 component="div"
                 className="error"
               />
-
-              {/* Last Name */}
               <div className="input-group">
                 <User className="input-icon" />
                 <Field
@@ -56,12 +53,10 @@ const Register: FunctionComponent<object> = () => {
                   type="text"
                   name="lastName"
                   placeholder="Last Name"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage name="lastName" component="div" className="error" />
-
-              {/* Username */}
               <div className="input-group">
                 <User className="input-icon" />
                 <Field
@@ -69,12 +64,10 @@ const Register: FunctionComponent<object> = () => {
                   type="text"
                   name="username"
                   placeholder="Username"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage name="username" component="div" className="error" />
-
-              {/* Email */}
               <div className="input-group">
                 <Mail className="input-icon" />
                 <Field
@@ -82,25 +75,21 @@ const Register: FunctionComponent<object> = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage name="email" component="div" className="error" />
-
-              {/* Password */}
               <div className="input-group">
-                <Lock className="input-icon" />
+                <Lock className="input-icon" size={18} />
                 <Field
-                  as="input"
-                  type="password"
+                  id="password"
                   name="password"
+                  type="password"
+                  className="form-input"
                   placeholder="Password"
-                  className="register-input"
                 />
               </div>
               <ErrorMessage name="password" component="div" className="error" />
-
-              {/* Confirm Password */}
               <div className="input-group">
                 <Lock className="input-icon" />
                 <Field
@@ -108,7 +97,7 @@ const Register: FunctionComponent<object> = () => {
                   type="password"
                   name="confirmPassword"
                   placeholder="Confirm Password"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage
@@ -116,8 +105,6 @@ const Register: FunctionComponent<object> = () => {
                 component="div"
                 className="error"
               />
-
-              {/* Date of Birth */}
               <div className="input-group">
                 <Calendar className="input-icon" />
                 <Field
@@ -125,7 +112,7 @@ const Register: FunctionComponent<object> = () => {
                   type="date"
                   name="dateOfBirth"
                   placeholder="Date of Birth"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage
@@ -133,8 +120,6 @@ const Register: FunctionComponent<object> = () => {
                 component="div"
                 className="error"
               />
-
-              {/* Profile Image URL */}
               <div className="input-group">
                 <User className="input-icon" />
                 <Field
@@ -142,7 +127,7 @@ const Register: FunctionComponent<object> = () => {
                   type="url"
                   name="profileImageUrl"
                   placeholder="Profile Image URL"
-                  className="register-input"
+                  className="form-input"
                 />
               </div>
               <ErrorMessage
@@ -150,11 +135,10 @@ const Register: FunctionComponent<object> = () => {
                 component="div"
                 className="error"
               />
-
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="register-button">
+                className="form-button">
                 {isSubmitting ? "Registering..." : "Register"}
               </button>
             </Form>

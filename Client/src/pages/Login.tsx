@@ -2,11 +2,10 @@ import { type FunctionComponent, useCallback, useMemo } from "react";
 import * as yup from "yup";
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from "formik";
 import { Mail, Lock } from "lucide-react";
-import * as Label from "@radix-ui/react-label";
 import * as Separator from "@radix-ui/react-separator";
 import * as Button from "@radix-ui/react-slot";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./Forms.css";
 import { useAuth } from "../hooks/useAuth";
 import { loginUser } from "../services/user.service";
 import { errorMessage, successMessage } from "../services/feedback.service";
@@ -94,60 +93,42 @@ const Login: FunctionComponent = () => {
   );
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Login</h1>
-        <Separator.Root className="login-separator" />
+    <div className="form-container">
+      <div className="form-card">
+        <h1 className="form-title">Login</h1>
+        <Separator.Root className="form-separator" />
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
-            <Form className="login-form">
-              <div className="form-field">
-                <Label.Root htmlFor="email" className="form-label">
-                  Email
-                </Label.Root>
-                <div className="input-wrapper">
-                  <Mail className="input-icon" size={18} />
-                  <Field
-                    id="email"
-                    name="email"
-                    type="email"
-                    className="form-input"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <ErrorMessage
+            <Form className="form-body">
+              <div className="input-group">
+                <Mail className="input-icon" />
+                <Field
+                  as="input"
+                  type="email"
                   name="email"
-                  component="div"
-                  className="form-error"
+                  placeholder="Email"
+                  className="form-input"
                 />
               </div>
-              <div className="form-field">
-                <Label.Root htmlFor="password" className="form-label">
-                  Password
-                </Label.Root>
-                <div className="input-wrapper">
-                  <Lock className="input-icon" size={18} />
-                  <Field
-                    id="password"
-                    name="password"
-                    type="password"
-                    className="form-input"
-                    placeholder="Enter your password"
-                  />
-                </div>
-                <ErrorMessage
+              <ErrorMessage name="email" component="div" className="error" />
+              <div className="input-group">
+                <Lock className="input-icon" size={18} />
+                <Field
+                  id="password"
                   name="password"
-                  component="div"
-                  className="form-error"
+                  type="password"
+                  className="form-input"
+                  placeholder="Password"
                 />
               </div>
+              <ErrorMessage name="password" component="div" className="error" />
               <Button.Slot>
                 <button
                   type="submit"
-                  className="form-submit-btn"
+                  className="form-button"
                   disabled={isSubmitting}>
                   {isSubmitting ? "Logging in..." : "Login"}
                 </button>

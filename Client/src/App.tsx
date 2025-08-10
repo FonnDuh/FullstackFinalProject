@@ -1,7 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "./styles/global.css";
-import { AuthProvider } from "./context/AuthenticationContext";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
@@ -14,6 +13,7 @@ import Footer from "./components/common/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { AuthProvider } from "./providers/AuthProvider";
 
 function App() {
   const [loading, setLoading] = useState(false);
