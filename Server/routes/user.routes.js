@@ -22,6 +22,9 @@ router.post("/", async (req, res) => {
   try {
     const newUser = req.body;
     const validationErrors = validateRegister(newUser);
+    console.log(newUser);
+
+    console.log("VALIDATION ERRORS - "+validationErrors);
 
     if (validationErrors != "")
       return res.status(400).json({ message: validationErrors });

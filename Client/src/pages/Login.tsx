@@ -2,7 +2,6 @@ import { type FunctionComponent, useCallback, useMemo } from "react";
 import * as yup from "yup";
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from "formik";
 import { Mail, Lock } from "lucide-react";
-import * as Separator from "@radix-ui/react-separator";
 import * as Button from "@radix-ui/react-slot";
 import { useNavigate } from "react-router-dom";
 import "./Forms.css";
@@ -96,7 +95,6 @@ const Login: FunctionComponent = () => {
     <div className="form-container">
       <div className="form-card">
         <h1 className="form-title">Login</h1>
-        <Separator.Root className="form-separator" />
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

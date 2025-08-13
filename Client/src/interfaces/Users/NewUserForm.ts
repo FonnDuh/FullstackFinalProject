@@ -8,19 +8,29 @@ import type { ApiError } from "../ApiError";
 export const initialValues = {
   first: "",
   last: "",
-  email: "",
   username: "",
-  dateOfBirth: "",
+  email: "",
   password: "",
   confirmPassword: "",
+  dateOfBirth: "",
   image_url: "",
 };
 
 const minAge = 13;
+
 export const validationSchema = yup.object({
-  first: yup.string().min(2).max(256).required("First Name is required"),
-  last: yup.string().min(2).max(256).required("Last Name is required"),
-  email: yup.string().email().min(5).required("Email is required"),
+  first: yup
+    .string()
+    .min(2, "First name must be at least 2 characters")
+    .max(256, "First name must be at most 256 characters")
+    .required("First name is required"),
+
+  last: yup
+    .string()
+    .min(2, "Last name must be at least 2 characters")
+    .max(256, "Last name must be at most 256 characters")
+    .required("Last name is required"),
+
   username: yup
     .string()
     .required("Username is required")
@@ -31,7 +41,13 @@ export const validationSchema = yup.object({
       "Username can only contain letters, numbers, and underscores"
     ),
 
-  date_of_birth: yup
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .min(5, "Email must be at least 5 characters")
+    .required("Email is required"),
+
+  dateOfBirth: yup
     .date()
     .required("Date of birth is required")
     .typeError("Date of birth must be a valid date")
@@ -39,19 +55,32 @@ export const validationSchema = yup.object({
       new Date(new Date().setFullYear(new Date().getFullYear() - minAge)),
       `You must be at least ${minAge} years old`
     ),
+
   password: yup
     .string()
-    .min(7)
-    .max(20)
     .required("Password is required")
+    .min(7, "Password must be at least 7 characters")
+    .max(20, "Password must be at most 20 characters")
     .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*\-"])[A-Za-z\d!@#$%^&*\-"]{7,}$/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*-"), and be at least 7 characters long'
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*\-_])[A-Za-z\d!@#$%^&*\-_]{7,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*-_)"
     ),
+
   confirmPassword: yup
     .string()
+    .required("Confirm password is required")
     .oneOf([yup.ref("password")], "Passwords must match"),
-  image_url: yup.string().min(14).url("Invalid URL"),
+
+  image_url: yup
+    .string()
+    .url("Invalid URL")
+    .nullable()
+    .notRequired()
+    .test(
+      "min-length-if-present",
+      "Profile image URL must be at least 14 characters",
+      (value) => !value || value.length >= 14
+    ),
 });
 
 export const onSubmit = async (

@@ -1,9 +1,7 @@
-/* =========================
-   Search Input Box
-========================= */
 .searchContainer {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   margin: 1rem auto 2rem;
   position: relative;
   width: 100%;
@@ -36,14 +34,10 @@
 }
 
 .searchContainer h2 {
-  /* position: absolute; */
   left: 1rem;
   top: -1.2rem;
 }
 
-/* =========================
-   Scroll Area for Results
-========================= */
 .scrollRoot {
   height: 70vh;
   overflow: hidden;
@@ -93,9 +87,6 @@
   background-color: rgba(100, 100, 100, 0.8);
 }
 
-/* =========================
-   Media Card Grid
-========================= */
 .mediaList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -105,9 +96,6 @@
   margin: 0;
 }
 
-/* =========================
-   States
-========================= */
 .display-5 {
   text-align: center;
   font-size: 1.2rem;

@@ -2,6 +2,7 @@ import { type FunctionComponent } from "react";
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, User, Calendar } from "lucide-react";
+import * as Button from "@radix-ui/react-slot";
 import "./Forms.css";
 import {
   initialValues,
@@ -36,27 +37,23 @@ const Register: FunctionComponent<object> = () => {
                 <Field
                   as="input"
                   type="text"
-                  name="firstName"
+                  name="first"
                   placeholder="First Name"
                   className="form-input"
                 />
               </div>
-              <ErrorMessage
-                name="firstName"
-                component="div"
-                className="error"
-              />
+              <ErrorMessage name="first" component="div" className="error" />
               <div className="input-group">
                 <User className="input-icon" />
                 <Field
                   as="input"
                   type="text"
-                  name="lastName"
+                  name="last"
                   placeholder="Last Name"
                   className="form-input"
                 />
               </div>
-              <ErrorMessage name="lastName" component="div" className="error" />
+              <ErrorMessage name="last" component="div" className="error" />
               <div className="input-group">
                 <User className="input-icon" />
                 <Field
@@ -80,7 +77,7 @@ const Register: FunctionComponent<object> = () => {
               </div>
               <ErrorMessage name="email" component="div" className="error" />
               <div className="input-group">
-                <Lock className="input-icon" size={18} />
+                <Lock className="input-icon" />
                 <Field
                   id="password"
                   name="password"
@@ -125,22 +122,24 @@ const Register: FunctionComponent<object> = () => {
                 <Field
                   as="input"
                   type="url"
-                  name="profileImageUrl"
+                  name="image_url"
                   placeholder="Profile Image URL"
                   className="form-input"
                 />
               </div>
               <ErrorMessage
-                name="profileImageUrl"
+                name="image_url"
                 component="div"
                 className="error"
               />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="form-button">
-                {isSubmitting ? "Registering..." : "Register"}
-              </button>
+              <Button.Slot>
+                <button
+                  type="submit"
+                  className="form-button"
+                  disabled={isSubmitting}>
+                  {isSubmitting ? "Registering..." : "Register"}
+                </button>
+              </Button.Slot>
             </Form>
           )}
         </Formik>

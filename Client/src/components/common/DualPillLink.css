@@ -104,17 +104,30 @@
   z-index: 3;
 }
 
+.side:hover .content {
+  color: white;
+}
+
 .content {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   white-space: nowrap;
   font-size: 0.95rem;
+  color: black;
   transition: transform 0.2s ease-in;
   -webkit-transition: transform 0.2s ease-in;
   -moz-transition: transform 0.2s ease-in;
   -ms-transition: transform 0.2s ease-in;
   -o-transition: transform 0.2s ease-in;
+}
+
+body.dark-mode .pill-container{
+  background-color: #18181b;
+}
+
+body.dark-mode .content {
+  color: #fff;
 }
 
 @media (max-width: 420px) {
