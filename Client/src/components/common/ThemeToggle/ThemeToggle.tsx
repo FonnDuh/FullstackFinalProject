@@ -1,8 +1,8 @@
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
-import { useDarkMode } from "../../hooks/useDarkMode";
+import { useDarkMode } from "../../../hooks/useDarkMode";
 import { Sun, Moon, Monitor } from "lucide-react";
 import "./ThemeToggle.css";
-import type { ThemeMode } from "../../context/DarkModeContext";
+import type { ThemeMode } from "../../../context/DarkModeContext";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useDarkMode();
@@ -39,5 +39,4 @@ export default function ThemeToggle() {
       </ToggleGroup.Root>
     </div>
   );
-
 }

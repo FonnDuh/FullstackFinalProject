@@ -11,8 +11,8 @@
   height: var(--pill-height);
   line-height: var(--pill-height);
   margin-top: 15px;
-  border-radius: 9999px;
   user-select: none;
+  border-radius: 9999px;
   -webkit-border-radius: 9999px;
   -moz-border-radius: 9999px;
   -ms-border-radius: 9999px;

@@ -1,5 +1,3 @@
-// src/components/MediaQuickActions.tsx
-
 import { useEffect, useState } from "react";
 import type { Media } from "../../interfaces/Media/Media.interface";
 import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";

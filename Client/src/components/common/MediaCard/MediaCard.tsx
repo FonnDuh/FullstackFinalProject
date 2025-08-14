@@ -1,11 +1,11 @@
-import type { Media } from "../../interfaces/Media/Media.interface";
-import type { Genre } from "../../interfaces/Media/Genre.interface";
+import type { Media } from "../../../interfaces/Media/Media.interface";
+import type { Genre } from "../../../interfaces/Media/Genre.interface";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import styles from "./MediaCard.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, type FunctionComponent } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import MediaQuickActions from "./MediaQuickActions";
+// import { useAuth } from "../../hooks/useAuth";
+// import MediaQuickActions from "./MediaQuickActions";
 
 interface MediaCardProps {
   media: Media;
@@ -16,7 +16,7 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
   media,
   genres = [],
 }) => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const navigate = useNavigate();
   const textRef = useRef<HTMLParagraphElement>(null);
 
@@ -72,11 +72,11 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
                 </div>
               )}
             </div>
-            {user && user._id ? (
+            {/* {user && user._id ? (
               <MediaQuickActions userId={user._id} media={media} />
             ) : (
               ""
-            )}
+            )} */}
             <div className={styles.content}>
               <h4 className={styles.title}>{displayTitle}</h4>
               <p className={styles.genres} ref={textRef}>

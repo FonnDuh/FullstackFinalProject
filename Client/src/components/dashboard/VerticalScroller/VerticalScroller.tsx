@@ -1,9 +1,9 @@
 import type { FunctionComponent } from "react";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";
-import type { Media } from "../../interfaces/Media/Media.interface";
-import type { Genre } from "../../interfaces/Media/Genre.interface";
-import ErrorBoundary from "../feedback/ErrorBoundary";
-import MediaCard from "../common/MediaCard";
+import type { Media } from "../../../interfaces/Media/Media.interface";
+import type { Genre } from "../../../interfaces/Media/Genre.interface";
+import ErrorBoundary from "../../feedback/ErrorBoundary";
+import MediaCard from "../../common/MediaCard/MediaCard";
 import "./VerticalScroller.css";
 
 interface VerticalScrollerProps {

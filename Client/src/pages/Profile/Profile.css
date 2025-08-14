@@ -1,0 +1,139 @@
+/* Wrapper */
+.profileWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: system-ui, sans-serif;
+  color: hsl(240, 10%, 10%);
+}
+
+/* Title */
+.profileWrapper .title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: hsl(240, 6%, 10%);
+}
+
+/* No user state */
+.noUser {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1rem;
+  color: hsl(240, 6%, 30%);
+  background: hsl(240, 4%, 96%);
+  border: 1px solid hsl(240, 6%, 90%);
+  border-radius: 0.5rem;
+}
+
+/* Card */
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border: 1px solid hsl(240, 6%, 90%);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px hsl(0 0% 0% / 0.05);
+  overflow: hidden;
+}
+
+/* Card Header */
+.cardHeader {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid hsl(240, 6%, 90%);
+}
+
+.cardHeader h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Card Body */
+.cardBody {
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.profileImg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid hsl(240, 6%, 90%);
+  box-shadow: 0 2px 6px hsl(0 0% 0% / 0.08);
+}
+
+/* Info text */
+.cardBody p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: hsl(240, 6%, 20%);
+}
+
+.cardBody strong {
+  font-weight: 600;
+  color: hsl(240, 6%, 10%);
+}
+
+/* Edit button */
+.EditBtn {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background: hsl(240, 6%, 96%);
+  border: 1px solid hsl(240, 6%, 80%);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: hsl(240, 6%, 20%);
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.EditBtn:hover {
+  background: hsl(240, 6%, 92%);
+  border-color: hsl(240, 6%, 70%);
+}
+
+.EditBtn:active {
+  background: hsl(240, 6%, 88%);
+}
+
+/* Dark mode */
+body.dark-mode .profileWrapper {
+  color: hsl(0, 0%, 95%);
+}
+
+body.dark-mode .profileCard {
+  background: hsl(240, 6%, 12%);
+  border-color: hsl(240, 6%, 25%);
+}
+
+body.dark-mode .cardHeader {
+  border-bottom-color: hsl(240, 6%, 25%);
+}
+
+body.dark-mode .cardBody p {
+  color: hsl(0, 0%, 85%);
+}
+
+body.dark-mode .cardBody strong {
+  color: hsl(0, 0%, 98%);
+}
+
+body.dark-mode .EditBtn {
+  background: hsl(240, 6%, 20%);
+  border-color: hsl(240, 6%, 35%);
+  color: hsl(0, 0%, 95%);
+}
+
+body.dark-mode .EditBtn:hover {
+  background: hsl(240, 6%, 25%);
+}

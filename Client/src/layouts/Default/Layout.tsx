@@ -1,13 +1,22 @@
 "use client";
 import { useState } from "react";
-import { Menu, Search, ListChecks, Heart, Info, User } from "lucide-react";
+import {
+  Menu,
+  Search,
+  ListChecks,
+  Heart,
+  Info,
+  User,
+  LogIn,
+  UserPlus2,
+} from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Sidebar, SidebarBody } from "../../pages/Sidebar";
+import { Sidebar, SidebarBody } from "../../pages/Sidebar/Sidebar";
 import { SidebarLink } from "../../components/sidebar/SidebarLink";
-import ThemeToggle from "../../components/common/ThemeToggle";
-import DualPillLink from "../../components/common/DualPillLink";
+import ThemeToggle from "../../components/common/ThemeToggle/ThemeToggle";
+// import DualPillLink from "../../components/common/DualPillLink";
 import "./Layout.css";
 import "../../pages/Sidebar.css";
 
@@ -71,19 +80,37 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {user ? (
               <SidebarLink
                 link={{
-                  label: "Profile",
+                  label: user.username,
                   href: "/profile",
                   icon: <User className="icon" />,
                 }}
                 as={Link}
               />
             ) : (
-              <DualPillLink
-                leftHref="/login"
-                rightHref="/register"
-                leftContent="Login"
-                rightContent="Register"
-              />
+              // <DualPillLink
+              //   leftHref="/login"
+              //   rightHref="/register"
+              //   leftContent="Login"
+              //   rightContent="Register"
+              // />
+              <>
+                <SidebarLink
+                  link={{
+                    label: "Login",
+                    href: "/login",
+                    icon: <LogIn className="icon" />,
+                  }}
+                  as={Link}
+                />
+                <SidebarLink
+                  link={{
+                    label: "Register",
+                    href: "/register",
+                    icon: <UserPlus2 className="icon" />,
+                  }}
+                  as={Link}
+                />
+              </>
             )}
           </div>
         </SidebarBody>

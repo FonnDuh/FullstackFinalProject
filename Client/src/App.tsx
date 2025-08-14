@@ -3,17 +3,18 @@ import "./App.css";
 import "./styles/global.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Dashboard from "./pages/Dashboard";
-import NotFound from "./components/feedback/NotFound";
-import ScreenLoader from "./components/feedback/ScreenLoader";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import NotFound from "./components/feedback/NotFound/NotFound";
+import ScreenLoader from "./components/feedback/ScreenLoader/ScreenLoader";
 import Layout from "./layouts/Default/Layout";
-import Search from "./pages/Search";
-import MediaDetails from "./pages/MediaDetails";
-import Footer from "./components/common/Footer";
+import Search from "./pages/Search/Search";
+import MediaDetails from "./pages/MovieDetails/MediaDetails";
+import Footer from "./components/common/Footer/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./providers/AuthProvider";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -76,6 +77,14 @@ function App() {
                 element={
                   <ErrorBoundary>
                     <Register />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ErrorBoundary>
+                    <Profile />
                   </ErrorBoundary>
                 }
               />

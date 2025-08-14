@@ -1,15 +1,15 @@
 import { useEffect, useState, type FunctionComponent } from "react";
-import { useAuth } from "../hooks/useAuth";
-import type { Media } from "../interfaces/Media/Media.interface";
-import { errorMessage } from "../services/feedback.service";
+import { useAuth } from "../../hooks/useAuth";
+import type { Media } from "../../interfaces/Media/Media.interface";
+import { errorMessage } from "../../services/feedback.service";
 import "./Dashboard.css";
-import type { Genre } from "../interfaces/Media/Genre.interface";
+import type { Genre } from "../../interfaces/Media/Genre.interface";
 import {
   getMediaGenres,
   getTopRatedMedia,
   getTrendingMedia,
-} from "../services/tmdb/tmdb.service";
-import VerticalScroller from "../components/dashboard/VerticalScroller";
+} from "../../services/tmdb/tmdb.service";
+import VerticalScroller from "../../components/dashboard/VerticalScroller/VerticalScroller";
 
 const Dashboard: FunctionComponent = () => {
   const [trendingMovies, setTrendingMovies] = useState<Media[]>([]);

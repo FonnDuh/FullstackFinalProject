@@ -1,9 +1,9 @@
 import { useEffect, useState, type FunctionComponent } from "react";
-import { errorMessage } from "../services/feedback.service";
+import { errorMessage } from "../../services/feedback.service";
 import { useParams } from "react-router-dom";
-import type { TmdbMovieDetails } from "../interfaces/Media/TmdbMovieDetails";
-import styles from "./MovieDetails.module.css";
-import { getMediaDetails } from "../services/tmdb/tmdb.service";
+import type { TmdbMovieDetails } from "../../interfaces/Media/TmdbMovieDetails";
+import "./MovieDetails.css";
+import { getMediaDetails } from "../../services/tmdb/tmdb.service";
 
 const MediaDetails: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,32 +36,32 @@ const MediaDetails: FunctionComponent = () => {
   const countries = media.production_countries.map((c) => c.name).join(", ");
 
   return (
-    <div className={styles.movieDetails}>
-      <div className={styles.movieHeader}>
+    <div className="movieDetails">
+      <div className="movieHeader">
         <img
-          className={styles.poster}
+          className="poster"
           src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
           alt={media.title}
         />
-        <div className={styles.movieBasic}>
-          <h1 className={styles.title}>{media.title}</h1>
-          {media.tagline && <p className={styles.tagline}>{media.tagline}</p>}
-          <p className={styles.meta}>
+        <div className="movieBasic">
+          <h1 className="title">{media.title}</h1>
+          {media.tagline && <p className="tagline">{media.tagline}</p>}
+          <p className="meta">
             <span>{media.release_date.slice(0, 4)}</span> •{" "}
             <span>{media.runtime} min</span> • <span>{genres}</span>
           </p>
-          <p className={styles.rating}>
+          <p className="rating">
             ⭐ {media.vote_average.toFixed(1)} / 10 ({media.vote_count} votes)
           </p>
         </div>
       </div>
 
-      <div className={styles.overview}>
+      <div className="overview">
         <h2>Overview</h2>
         <p>{media.overview || "No overview available."}</p>
       </div>
 
-      <div className={styles.keyFacts}>
+      <div className="keyFacts">
         <h2>Key Facts</h2>
         <ul>
           <li>
@@ -97,7 +97,7 @@ const MediaDetails: FunctionComponent = () => {
         </ul>
       </div>
 
-      <div className={styles.production}>
+      <div className="production">
         <h2>Production Companies</h2>
         <ul>
           {media.production_companies.map((c) => (

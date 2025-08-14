@@ -6,9 +6,9 @@ import {
   type SetStateAction,
 } from "react";
 import { motion } from "framer-motion";
-import { DesktopSidebar } from "../components/sidebar/DesktopSidebar";
-import { MobileSidebar } from "../components/sidebar/MobileSidebar";
-import { SidebarProvider } from "../providers/SidebarProvider";
+import { DesktopSidebar } from "../../components/sidebar/DesktopSidebar";
+import { MobileSidebar } from "../../components/sidebar/MobileSidebar";
+import { SidebarProvider } from "../../providers/SidebarProvider";
 
 export const Sidebar = ({
   children,
