@@ -69,7 +69,7 @@ const Profile: FunctionComponent<object> = () => {
             <strong>Date of birth:</strong> {user.dateOfBirth}
           </p>
           <p>
-            <strong>Account Type:</strong> {user.isAdmin ? "Admin" : "Regular"}
+            <strong>Account Type:</strong> {user.isAdmin ? "Admin" : "Watcher"}
           </p>
           <p>
             <strong>User Created At:</strong> {formattedCreatedAt}

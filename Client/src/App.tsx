@@ -13,8 +13,8 @@ import Footer from "./components/common/Footer/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider } from "./providers/AuthProvider";
 import Profile from "./pages/Profile/Profile";
+import { AuthProvider } from "./providers/AuthProvider";
 
 function App() {
   const [loading, setLoading] = useState(false);

@@ -133,6 +133,12 @@
   background-color: var(--sidebar-hover-bg, #374151);
 }
 
+.active a {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .sidebar-footer {
   display: flex;
   align-items: center;

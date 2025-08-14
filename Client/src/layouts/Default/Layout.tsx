@@ -18,7 +18,7 @@ import { SidebarLink } from "../../components/sidebar/SidebarLink";
 import ThemeToggle from "../../components/common/ThemeToggle/ThemeToggle";
 // import DualPillLink from "../../components/common/DualPillLink";
 import "./Layout.css";
-import "../../pages/Sidebar.css";
+import "../../pages/Sidebar/Sidebar.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -61,7 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="layout">
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="sidebar-body">
+        <SidebarBody className={`sidebar-body ${open ? "active" : ""}`}>
           <div className="sidebar-main">
             {open ? <Logo /> : <LogoIcon />}
             <nav className="nav-links">
@@ -93,7 +93,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               //   leftContent="Login"
               //   rightContent="Register"
               // />
-              <>
+              <div className="nav-links">
                 <SidebarLink
                   link={{
                     label: "Login",
@@ -110,7 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   }}
                   as={Link}
                 />
-              </>
+              </div>
             )}
           </div>
         </SidebarBody>

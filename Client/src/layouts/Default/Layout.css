@@ -28,18 +28,27 @@
   gap: 0.25rem;
 }
 
-.nav-Link {
+/* .nav-Link {
   all: unset;
+  width: 100%;
   font-size: 14px;
   font-weight: 500;
   padding: 0.5rem 0.75rem;
-  border-radius: 6px;
   color: var(--text-secondary, #444);
   cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+  -webkit-transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+  -moz-transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+  -ms-transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+  -o-transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
 }
 
 .nav-Link:hover {
@@ -56,7 +65,7 @@
 .nav-Link.active {
   color: var(--primary-color, #4f46e5);
   background-color: rgba(79, 70, 229, 0.1);
-}
+} */
 
 .auth {
   display: flex;

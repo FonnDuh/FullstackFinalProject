@@ -4,11 +4,11 @@ import {
   useState,
   type FunctionComponent,
 } from "react";
-import type { Media } from "../interfaces/Media/Media.interface";
-import ErrorBoundary from "../components/feedback/ErrorBoundary";
 import styles from "./Search.module.css";
-import SearchResults from "../components/search/SearchResults";
-import { searchMedia } from "../services/tmdb/tmdb.service";
+import type { Media } from "../../interfaces/Media/Media.interface";
+import { searchMedia } from "../../services/tmdb/tmdb.service";
+import ErrorBoundary from "../../components/feedback/ErrorBoundary";
+import SearchResults from "../../components/search/SearchResults";
 
 const Search: FunctionComponent = () => {
   const [media, setMedia] = useState<Media[]>([]);

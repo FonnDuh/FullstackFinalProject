@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "react";
 import type { Media } from "../../interfaces/Media/Media.interface";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import styles from "../../pages/Search.module.css";
+import styles from "../../pages/Search/Search.module.css";
 import MediaCard from "../common/MediaCard/MediaCard";
 interface SearchResultsProps {
   media: Media[];
