@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import type { Media } from "../../interfaces/Media/Media.interface";
-import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
+import { useEffect, useMemo, useState } from "react";
 import {
   createMedia,
   getMediaByBothId,
   updateMediaForUser,
 } from "../../services/userMedia.service";
-import type { MediaStatus } from "../../interfaces/common/MediaSubtypes.interface";
-
+import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
+import type { Media } from "../../interfaces/Media/Media.interface";
 interface Props {
   userId: string;
-  media: Media; // now we receive full Media object
+  media: Media;
   className?: string;
   onChange?: (updated?: UserMedia | null) => void;
 }
@@ -23,33 +21,38 @@ export default function MediaQuickActions({
 }: Props) {
   const [userMedia, setUserMedia] = useState<UserMedia | null>(null);
   const [loading, setLoading] = useState(true);
-  const [savingFavorite, setSavingFavorite] = useState(false);
-  const [savingWatchlist, setSavingWatchlist] = useState(false);
+  const [saving, setSaving] = useState<null | "favorite" | "watchlist">(null);
+
+  const tmdbId = useMemo(() => String(media.id ?? ""), [media.id]); // external id
+  const userMediaId = userMedia?._id ?? null; // internal id (only after fetch/create)
 
   useEffect(() => {
+    if (!userId || !media?._id) return;
+
     let mounted = true;
     setLoading(true);
-    getMediaByBothId(userId, String(media.id))
+
+    getMediaByBothId(userId, media._id) // internal MongoDB id here
       .then((res) => {
         if (!mounted) return;
         setUserMedia(res?.data ?? null);
       })
       .catch((err) => {
-        if (err?.response?.status && err.response.status !== 404) {
-          console.error("Failed to fetch user media:", err);
-        }
-        setUserMedia(null);
+        if (err?.response?.status !== 404)
+          console.error("Fetch userMedia failed:", err);
+        if (mounted) setUserMedia(null);
       })
       .finally(() => mounted && setLoading(false));
+
     return () => {
       mounted = false;
     };
-  }, [userId, media.id]);
+  }, [userId, media?._id]); // depends on Mongo id now
 
-  function mapMediaToUserMedia(partial?: Partial<UserMedia>): UserMedia {
+  function baseUserMedia(partial?: Partial<UserMedia>): UserMedia {
     return {
       user_id: userId,
-      media_id: String(media.id ?? ""),
+      media_id: tmdbId, // always TMDB here
       media_type: media.type ?? "unknown",
       media_title:
         media.title || media.name || media.original_name || "Untitled",
@@ -59,64 +62,63 @@ export default function MediaQuickActions({
     };
   }
 
-  async function upsertUserMedia(partial: Partial<UserMedia>) {
-    if (userMedia && userMedia._id) {
-      const updatedBody: UserMedia = { ...userMedia, ...partial } as UserMedia;
-      const res = await updateMediaForUser(userMedia._id, updatedBody);
-      return res?.data;
+  async function upsert(partial: Partial<UserMedia>) {
+    if (userMediaId) {
+      const body = { ...(userMedia as UserMedia), ...partial };
+      const res = await updateMediaForUser(userMediaId, body);
+      return res?.data as UserMedia;
     } else {
-      const payload = mapMediaToUserMedia(partial);
+      const payload = baseUserMedia(partial);
       const res = await createMedia(payload);
-      return res?.data;
+      return res?.data as UserMedia;
     }
   }
 
-  const toggleFavorite = async () => {
-    const prev = userMedia?.is_favorite ?? false;
-    const next = !prev;
-    setUserMedia((u) =>
-      u
-        ? { ...u, is_favorite: next }
-        : mapMediaToUserMedia({ is_favorite: next })
-    );
-    setSavingFavorite(true);
-    try {
-      const saved = await upsertUserMedia({ is_favorite: next });
-      setUserMedia(saved ?? null);
-      onChange?.(saved ?? null);
-    } catch (err) {
-      setUserMedia((u) => (u ? { ...u, is_favorite: prev } : u));
-      console.error("Failed to toggle favorite:", err);
-    } finally {
-      setSavingFavorite(false);
-    }
-  };
+  async function toggleFavorite() {
+    if (saving) return; // prevent overlap
+    const next = !(userMedia?.is_favorite ?? false);
 
-  const toggleWatchlist = async () => {
-    const prevStatus = userMedia?.status;
-    const isInWatchlist = prevStatus === "plan_to_watch";
-    const nextStatus: MediaStatus | undefined = isInWatchlist
-      ? undefined
-      : "plan_to_watch";
-
+    // optimistic
+    setSaving("favorite");
     setUserMedia((u) =>
-      u
-        ? { ...u, status: nextStatus }
-        : mapMediaToUserMedia({ status: nextStatus })
+      u ? { ...u, is_favorite: next } : baseUserMedia({ is_favorite: next })
     );
 
-    setSavingWatchlist(true);
     try {
-      const saved = await upsertUserMedia({ status: nextStatus });
+      const saved = await upsert({ is_favorite: next });
       setUserMedia(saved ?? null);
       onChange?.(saved ?? null);
-    } catch (err) {
-      setUserMedia((u) => (u ? { ...u, status: prevStatus } : u));
-      console.error("Failed to toggle watchlist:", err);
+    } catch (e) {
+      console.error("Toggle favorite failed:", e);
+      setUserMedia((u) => (u ? { ...u, is_favorite: !next } : u)); // rollback
     } finally {
-      setSavingWatchlist(false);
+      setSaving(null);
     }
-  };
+  }
+
+  async function toggleWatchlist() {
+    if (saving) return;
+    const was = userMedia?.status;
+    const isInWatchlist = was === "plan_to_watch";
+    // Use null (not undefined). Many APIs ignore `undefined` in PATCH merges.
+    const next: UserMedia["status"] = isInWatchlist ? null : "plan_to_watch";
+
+    setSaving("watchlist");
+    setUserMedia((u) =>
+      u ? { ...u, status: next } : baseUserMedia({ status: next })
+    );
+
+    try {
+      const saved = await upsert({ status: next });
+      setUserMedia(saved ?? null);
+      onChange?.(saved ?? null);
+    } catch (e) {
+      console.error("Toggle watchlist failed:", e);
+      setUserMedia((u) => (u ? { ...u, status: was } : u)); // rollback
+    } finally {
+      setSaving(null);
+    }
+  }
 
   const favoriteActive = Boolean(userMedia?.is_favorite);
   const watchlistActive = userMedia?.status === "plan_to_watch";
@@ -128,7 +130,7 @@ export default function MediaQuickActions({
         title={favoriteActive ? "Remove from favorites" : "Add to favorites"}
         aria-pressed={favoriteActive}
         onClick={toggleFavorite}
-        disabled={loading || savingFavorite}>
+        disabled={loading || saving === "favorite"}>
         {favoriteActive ? "❤️" : "🤍"}
       </button>
 
@@ -137,7 +139,7 @@ export default function MediaQuickActions({
         title={watchlistActive ? "Remove from watchlist" : "Add to watchlist"}
         aria-pressed={watchlistActive}
         onClick={toggleWatchlist}
-        disabled={loading || savingWatchlist}>
+        disabled={loading || saving === "watchlist"}>
         {watchlistActive ? "📌" : "📎"}
       </button>
     </div>

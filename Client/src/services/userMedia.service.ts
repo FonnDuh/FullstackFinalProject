@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { UserMedia } from "../interfaces/UserMedia/UserMedia.interface";
 
-
 const API: string = import.meta.env.VITE_MEDIA;
 
 export function createMedia(media: UserMedia) {

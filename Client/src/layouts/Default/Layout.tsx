@@ -9,6 +9,8 @@ import {
   User,
   LogIn,
   UserPlus2,
+  Moon,
+  SunIcon,
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
@@ -19,9 +21,11 @@ import ThemeToggle from "../../components/common/ThemeToggle/ThemeToggle";
 // import DualPillLink from "../../components/common/DualPillLink";
 import "./Layout.css";
 import "../../pages/Sidebar/Sidebar.css";
+import { useDarkMode } from "../../hooks/useDarkMode";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
+  const { isDarkMode } = useDarkMode();
   const [open, setOpen] = useState(true);
 
   const links = [
@@ -41,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   const Logo = () => (
-    <a href="/" className="logo">
+    <a href="/" className="logo open-logo">
       <div className="logo-icon" />
       <motion.span
         initial={{ opacity: 0 }}
@@ -52,18 +56,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </a>
   );
 
-  const LogoIcon = () => (
-    <a href="/" className="logo">
-      <div className="logo-icon" />
-    </a>
-  );
+  // const LogoIcon = () => (
+  //   <a href="/" className="logo">
+  //     <div className="logo-icon"></div>
+  //   </a>
+  // );
 
   return (
     <div className="layout">
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className={`sidebar-body ${open ? "active" : ""}`}>
           <div className="sidebar-main">
-            {open ? <Logo /> : <LogoIcon />}
+            {open ? <Logo /> : ""}
             <nav className="nav-links">
               {links.map((link, idx) => (
                 <SidebarLink
@@ -76,7 +80,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="sidebar-footer">
-            <ThemeToggle />
+            {open ? <ThemeToggle /> : isDarkMode ? <Moon /> : <SunIcon />}
+
             {user ? (
               <SidebarLink
                 link={{

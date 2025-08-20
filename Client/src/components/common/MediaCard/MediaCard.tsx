@@ -4,8 +4,8 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import styles from "./MediaCard.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, type FunctionComponent } from "react";
-// import { useAuth } from "../../hooks/useAuth";
-// import MediaQuickActions from "./MediaQuickActions";
+// import { useAuth } from "../../../hooks/useAuth";
+// import MediaQuickActions from "../MediaQuickActions";
 
 interface MediaCardProps {
   media: Media;
