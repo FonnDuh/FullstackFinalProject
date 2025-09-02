@@ -1,4 +1,9 @@
-import { useEffect, useState, type FunctionComponent, type ReactNode } from "react";
+import {
+  useEffect,
+  useState,
+  type FunctionComponent,
+  type ReactNode,
+} from "react";
 import type { User } from "../interfaces/Users/User";
 import { decodeToken } from "../services/token.service";
 import type { CustomJwtPayload } from "../interfaces/Users/CustomJwtPayload";
@@ -26,6 +31,20 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
     sessionStorage.removeItem("token");
     setUser(null);
   };
+
+  useEffect(() => {
+    const handleApiError = (event: Event) => {
+      const error = (event as CustomEvent).detail;
+      if (
+        error?.response?.data?.code === "TOKEN_EXPIRED" ||
+        error?.response?.data?.message === "Token expired. Please login again."
+      ) {
+        logout();
+      }
+    };
+    window.addEventListener("apiError", handleApiError);
+    return () => window.removeEventListener("apiError", handleApiError);
+  }, []);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");

@@ -10,7 +10,18 @@ const auth = (req, res, next) => {
     }
 
     const userInfo = verifyToken(token);
-    if (!userInfo) {
+    if (userInfo instanceof Error) {
+      console.log("JWT verification failed:", userInfo);
+
+      if (userInfo.name === "TokenExpiredError") {
+        return next(
+          new AppError(
+            "Token expired. Please login again.",
+            401,
+            "TOKEN_EXPIRED"
+          )
+        );
+      }
       return next(
         new AppError("Invalid authentication token.", 403, "INVALID_TOKEN")
       );

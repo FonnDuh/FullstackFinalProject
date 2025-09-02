@@ -11,22 +11,22 @@ import {
   UserPlus2,
   Moon,
   SunIcon,
+  LogOut,
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { Sidebar, SidebarBody } from "../../pages/Sidebar/Sidebar";
 import { SidebarLink } from "../../components/sidebar/SidebarLink";
 import ThemeToggle from "../../components/common/ThemeToggle/ThemeToggle";
-// import DualPillLink from "../../components/common/DualPillLink";
 import "./Layout.css";
 import "../../pages/Sidebar/Sidebar.css";
 import { useDarkMode } from "../../hooks/useDarkMode";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { isDarkMode } = useDarkMode();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const links = [
     { label: "Dashboard", href: "/", icon: <Menu className="icon" /> },
@@ -44,17 +44,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { label: "About", href: "/about", icon: <Info className="icon" /> },
   ];
 
-  const Logo = () => (
-    <a href="/" className="logo open-logo">
-      <div className="logo-icon" />
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="logo-text">
-        MediaVault
-      </motion.span>
-    </a>
-  );
+  // const Logo = () => (
+  //   <a href="/" className="logo open-logo">
+  //     <div className="logo-icon" />
+  //     <motion.span
+  //       initial={{ opacity: 0 }}
+  //       animate={{ opacity: 1 }}
+  //       className="logo-text">
+  //       MediaVault
+  //     </motion.span>
+  //   </a>
+  // );
 
   // const LogoIcon = () => (
   //   <a href="/" className="logo">
@@ -67,7 +67,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className={`sidebar-body ${open ? "active" : ""}`}>
           <div className="sidebar-main">
-            {open ? <Logo /> : ""}
+            {/* {open ? <Logo /> : ""} */}
             <nav className="nav-links">
               {links.map((link, idx) => (
                 <SidebarLink
@@ -83,21 +83,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {open ? <ThemeToggle /> : isDarkMode ? <Moon /> : <SunIcon />}
 
             {user ? (
-              <SidebarLink
-                link={{
-                  label: user.username,
-                  href: "/profile",
-                  icon: <User className="icon" />,
-                }}
-                as={Link}
-              />
+              <div className="nav-Lins">
+                <SidebarLink
+                  link={{
+                    label: user.username,
+                    href: "/profile",
+                    icon: <User className="icon" />,
+                  }}
+                  as={Link}
+                />
+                <SidebarLink
+                  link={{
+                    label: "Logout",
+                    href: "/",
+                    icon: <LogOut className="icon" />,
+                  }}
+                  as={Link}
+                  onClick={() => {
+                    logout();
+                  }}
+                />
+              </div>
             ) : (
-              // <DualPillLink
-              //   leftHref="/login"
-              //   rightHref="/register"
-              //   leftContent="Login"
-              //   rightContent="Register"
-              // />
               <div className="nav-links">
                 <SidebarLink
                   link={{

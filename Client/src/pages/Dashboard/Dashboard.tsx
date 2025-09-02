@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, type FunctionComponent } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import type { Media } from "../../interfaces/Media/Media.interface";
@@ -27,25 +28,6 @@ const Dashboard: FunctionComponent = () => {
   type MediaType = "movie" | "tv";
   type Timeframe = "day" | "week";
 
-  const fetchStaticData = async (
-    type: MediaType,
-    setTopRated: React.Dispatch<React.SetStateAction<Media[]>>,
-    setGenres: React.Dispatch<React.SetStateAction<Genre[]>>
-  ) => {
-    try {
-      const [topRated, genres] = await Promise.all([
-        getTopRatedMedia(type),
-        getMediaGenres(type),
-      ]);
-
-      setTopRated(topRated.data.results);
-      setGenres(genres.data.genres);
-    } catch (error) {
-      console.error(`Error fetching ${type} static data:`, error);
-      errorMessage(`Failed to load ${type} static data.`);
-    }
-  };
-
   const fetchTrendingData = async (
     type: MediaType,
     timeframe: Timeframe,
@@ -60,20 +42,34 @@ const Dashboard: FunctionComponent = () => {
     }
   };
 
-  // ===== Effects =====
-
-  // Static data (only once)
   useEffect(() => {
+    const fetchStaticData = async (
+      type: MediaType,
+      setTopRated: React.Dispatch<React.SetStateAction<Media[]>>,
+      setGenres: React.Dispatch<React.SetStateAction<Genre[]>>
+    ) => {
+      try {
+        const [topRated, genres] = await Promise.all([
+          getTopRatedMedia(type),
+          getMediaGenres(type),
+        ]);
+
+        setTopRated(topRated.data.results);
+        setGenres(genres.data.genres);
+      } catch (error) {
+        console.error(`Error fetching ${type} static data:`, error);
+        errorMessage(`Failed to load ${type} static data.`);
+      }
+    };
+
     fetchStaticData("movie", setTopRatedMovies, setMovieGenres);
     fetchStaticData("tv", setTopRatedTv, setTvGenres);
   }, []);
 
-  // Trending movies (updates on movieTimeframe change)
   useEffect(() => {
     fetchTrendingData("movie", movieTimeframe, setTrendingMovies);
   }, [movieTimeframe]);
 
-  // Trending TV (updates on tvTimeframe change)
   useEffect(() => {
     fetchTrendingData("tv", tvTimeframe, setTrendingTv);
   }, [tvTimeframe]);

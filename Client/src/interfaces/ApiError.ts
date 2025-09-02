@@ -1,3 +1,10 @@
 export interface ApiError {
-  response: { data: unknown; status: number };
+  response: {
+    data: {
+      message?: string;
+      code?: string;
+      [key: string]: unknown;
+    };
+    status: number;
+  };
 }

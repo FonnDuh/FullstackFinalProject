@@ -4,7 +4,11 @@ import type { UserMedia } from "../interfaces/UserMedia/UserMedia.interface";
 const API: string = import.meta.env.VITE_MEDIA;
 
 export function createMedia(media: UserMedia) {
-  return axios.post(API, media);
+  return axios.post(API, media, {
+    headers: {
+      "Auth-Token": sessionStorage.getItem("token"),
+    },
+  });
 }
 
 export function getAllMediaForUser() {
@@ -31,14 +35,6 @@ export function getAllMediaByUserId(userId: string) {
   });
 }
 
-export function getMediaByBothId(userId: string, mediaId: string) {
-  return axios.get(`${API}/user/${userId}/media/${mediaId}`, {
-    headers: {
-      "Auth-Token": sessionStorage.getItem("token"),
-    },
-  });
-}
-
 export function getMediaByStatus(status: string) {
   return axios.get(`${API}/status/${status}`, {
     headers: {
@@ -55,7 +51,10 @@ export function getMediaByType(mediaType: string) {
   });
 }
 
-export function updateMediaForUser(id: string, updatedMedia: UserMedia) {
+export function updateMediaForUser(
+  id: string,
+  updatedMedia: Partial<UserMedia>
+) {
   return axios.put(`${API}/${id}`, updatedMedia, {
     headers: {
       "Auth-Token": sessionStorage.getItem("token"),

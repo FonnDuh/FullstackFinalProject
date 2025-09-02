@@ -1,5 +1,6 @@
 const { UserMedia } = require("../models/media/userMedia.model");
 const { AppError } = require("../middlewares/errorHandler");
+const { Types } = require("mongoose");
 require("dotenv").config();
 
 async function createMedia(media, userId) {
@@ -18,7 +19,7 @@ async function createMedia(media, userId) {
     }
 
     const newMedia = new UserMedia({
-      _id: new mongoose.Types.ObjectId(),
+      _id: new Types.ObjectId(),
       user_id: userId,
       media_id: media.media_id,
       media_type: media.media_type || "unknown",
@@ -31,10 +32,10 @@ async function createMedia(media, userId) {
       progress_units: media.progress_units || "episodes",
       rewatch_count: media.rewatch_count || 0,
       is_favorite: media.is_favorite || false,
-      started_date: media.started_date || null,
+      started_date: media.started_date || new Date(),
       completed_date: media.completed_date || null,
-      current_season: media.current_season || null,
-      current_episode: media.current_episode || null,
+      current_season: media.current_season || 0,
+      current_episode: media.current_episode || 0,
       episode_watch_history: media.episode_watch_history || [],
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -72,10 +73,6 @@ async function getAllUserMediaById(userId) {
       .sort({ createdAt: -1 })
       .lean();
 
-    if (!mediaList || mediaList.length === 0) {
-      throw new AppError("No media found for this user", 404, "NO_MEDIA_FOUND");
-    }
-
     return mediaList;
   } catch (error) {
     throw new AppError(
@@ -91,14 +88,6 @@ async function getUserMediaByStatus(userId, status) {
     const mediaList = await UserMedia.find({ user_id: userId, status })
       .sort({ createdAt: -1 })
       .lean();
-
-    if (!mediaList || mediaList.length === 0) {
-      throw new AppError(
-        `No media found for status: ${status}`,
-        404,
-        "NO_MEDIA_FOUND"
-      );
-    }
 
     return mediaList;
   } catch (error) {
@@ -119,14 +108,6 @@ async function getUserMediaByType(userId, mediaType) {
       .sort({ createdAt: -1 })
       .lean();
 
-    if (!mediaList || mediaList.length === 0) {
-      throw new AppError(
-        `No media found for type: ${mediaType}`,
-        404,
-        "NO_MEDIA_FOUND"
-      );
-    }
-
     return mediaList;
   } catch (error) {
     throw new AppError(
@@ -142,9 +123,7 @@ async function getMyUserMedia(userId) {
     const mediaList = await UserMedia.find({ user_id: userId })
       .sort({ createdAt: -1 })
       .lean();
-    if (!mediaList || mediaList.length === 0) {
-      throw new AppError("No media found for this user", 404, "NO_MEDIA_FOUND");
-    }
+
     return mediaList;
   } catch (error) {
     throw new AppError(

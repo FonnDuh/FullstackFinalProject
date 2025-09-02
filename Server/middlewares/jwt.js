@@ -20,7 +20,7 @@ const verifyToken = (token) => {
     return decoded;
   } catch (error) {
     console.error("JWT verification failed:", error);
-    return null;
+    return error;
   }
 };
 

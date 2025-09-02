@@ -1,13 +1,26 @@
 import { useEffect, useState, type FunctionComponent } from "react";
-import { errorMessage } from "../../services/feedback.service";
+import { errorMessage, successMessage } from "../../services/feedback.service";
 import { useParams } from "react-router-dom";
 import type { TmdbMovieDetails } from "../../interfaces/Media/TmdbMovieDetails";
 import "./MovieDetails.css";
 import { getMediaDetails } from "../../services/tmdb/tmdb.service";
+import { createMedia } from "../../services/userMedia.service";
+import {
+  getAllMediaForUser,
+  updateMediaForUser,
+  deleteMediaForUser,
+} from "../../services/userMedia.service";
+import { useAuth } from "../../hooks/useAuth";
+import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
+import { Modal } from "../../components/common/Modal/Modal";
 
 const MediaDetails: FunctionComponent = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const [media, setMedia] = useState<TmdbMovieDetails>();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isInList, setIsInList] = useState(false);
+  const [existingMedia, setExistingMedia] = useState<UserMedia | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -29,6 +42,122 @@ const MediaDetails: FunctionComponent = () => {
       isCancelled = true; // Prevents setState on unmounted component
     };
   }, [id]);
+
+  useEffect(() => {
+    if (!user || !media) return;
+    let cancelled = false;
+    const checkSaved = async () => {
+      try {
+        const res = await getAllMediaForUser();
+        if (!cancelled && res && res.data) {
+          const found = res.data.find(
+            (m: UserMedia) => m.media_id === media.id.toString()
+          );
+          if (found) {
+            setExistingMedia(found as UserMedia);
+            setIsInList(true);
+          } else {
+            setExistingMedia(null);
+            setIsInList(false);
+          }
+        }
+      } catch {
+        setExistingMedia(null);
+        setIsInList(false);
+      }
+    };
+
+    checkSaved();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, media]);
+
+  const handleAddToFavorites = async () => {
+    if (!media || !user) return;
+    try {
+      if (!existingMedia || !existingMedia._id) {
+        errorMessage("Add this item to your list first to mark as favorite.");
+        return;
+      }
+
+      const payload = { is_favorite: !existingMedia.is_favorite };
+      const updated = await updateMediaForUser(existingMedia._id, payload);
+
+      if (updated && updated.data) {
+        setExistingMedia(updated.data as UserMedia);
+      } else {
+        setExistingMedia((prev) =>
+          prev
+            ? ({ ...prev, is_favorite: !prev.is_favorite } as UserMedia)
+            : prev
+        );
+      }
+
+      successMessage(
+        !existingMedia.is_favorite ? "Marked as favorite!" : "Removed favorite."
+      );
+    } catch (error) {
+      console.error("Error updating favorite status:", error);
+      errorMessage("Failed to update favorite status.");
+    }
+  };
+
+  const handleAddToMyList = async () => {
+    if (!media || !user) return;
+    try {
+      const res = await getAllMediaForUser();
+      const existing = res.data.find(
+        (m: UserMedia) => m.media_id === media.id.toString()
+      );
+      if (existing) {
+        errorMessage("Already in your list.");
+        setExistingMedia(existing);
+        setIsInList(true);
+      } else {
+        const createRes = await createMedia({
+          user_id: user._id ?? "",
+          media_id: media.id.toString(),
+          media_type: "movie",
+          media_title: media.title,
+          overview: media.overview,
+          cover_url: media.poster_path ?? undefined,
+          progress_units: "minutes",
+        });
+        successMessage("Added to your list!");
+        if (createRes && createRes.data) {
+          setExistingMedia(createRes.data as UserMedia);
+        }
+        setIsInList(true);
+      }
+    } catch (error) {
+      console.error("Error adding media to list:", error);
+      errorMessage("Failed to add media to list.");
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!user || !media) return;
+    try {
+      if (existingMedia && existingMedia._id) {
+        await deleteMediaForUser(existingMedia._id);
+      } else {
+        const res = await getAllMediaForUser();
+        const found = res.data.find(
+          (m: UserMedia) => m.media_id === media.id.toString()
+        );
+        if (found && found._id) await deleteMediaForUser(found._id);
+      }
+      successMessage("Removed from your list.");
+      setIsInList(false);
+      setExistingMedia(null);
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error removing media from list:", error);
+      errorMessage("Failed to remove media from your list.");
+    }
+  };
 
   if (!media) return <div>No Media Found</div>;
 
@@ -54,6 +183,34 @@ const MediaDetails: FunctionComponent = () => {
             ⭐ {media.vote_average.toFixed(1)} / 10 ({media.vote_count} votes)
           </p>
         </div>
+        {user ? (
+          <div className="media-actions">
+            {isInList && (
+              <button
+                onClick={handleAddToFavorites}
+                className="media-action-btn favorite-btn">
+                {existingMedia && existingMedia.is_favorite
+                  ? "💛 Favorited"
+                  : "❤️ Add to Favorites"}
+              </button>
+            )}
+            <button
+              onClick={async () => {
+                if (isInList) {
+                  // temporarily clear the 'Added' state while confirming
+                  setIsInList(false);
+                  setModalOpen(true);
+                } else {
+                  await handleAddToMyList();
+                }
+              }}
+              className="media-action-btn list-btn">
+              {isInList ? "✓ Added to list" : "➕ Add to My List"}
+            </button>
+          </div>
+        ) : (
+          <p>Please log in to add this media to your favorites or watchlist.</p>
+        )}
       </div>
 
       <div className="overview">
@@ -107,6 +264,33 @@ const MediaDetails: FunctionComponent = () => {
           ))}
         </ul>
       </div>
+
+      <Modal
+        open={modalOpen}
+        onOpenChange={(open) => {
+          setModalOpen(open);
+          if (!open && existingMedia) setIsInList(true);
+        }}
+        title="Remove from your watchlist"
+        description="Are you sure you want to remove this item from your watchlist?">
+        <p>This action will remove the item from your personal watchlist.</p>
+        <div className="modal-actions" style={{ marginTop: 12 }}>
+          <button
+            className="media-action-btn"
+            onClick={() => {
+              setModalOpen(false);
+              if (existingMedia) setIsInList(true);
+            }}>
+            Cancel
+          </button>
+          <button
+            className="media-action-btn list-btn"
+            onClick={handleConfirmDelete}
+            style={{ marginLeft: 8 }}>
+            Remove
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

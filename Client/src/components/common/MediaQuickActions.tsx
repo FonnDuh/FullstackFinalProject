@@ -101,7 +101,9 @@ export default function MediaQuickActions({
     const was = userMedia?.status;
     const isInWatchlist = was === "plan_to_watch";
     // Use null (not undefined). Many APIs ignore `undefined` in PATCH merges.
-    const next: UserMedia["status"] = isInWatchlist ? null : "plan_to_watch";
+    const next: UserMedia["status"] = isInWatchlist
+      ? undefined
+      : "plan_to_watch";
 
     setSaving("watchlist");
     setUserMedia((u) =>

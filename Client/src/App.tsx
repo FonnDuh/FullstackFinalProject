@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile/Profile";
 import { AuthProvider } from "./providers/AuthProvider";
+import Watchlist from "./pages/Watchlist/Watchlist";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,14 @@ function App() {
                 element={
                   <ErrorBoundary>
                     <Search />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/watchlist"
+                element={
+                  <ErrorBoundary>
+                    <Watchlist />
                   </ErrorBoundary>
                 }
               />

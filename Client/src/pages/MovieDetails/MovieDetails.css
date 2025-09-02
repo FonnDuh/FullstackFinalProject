@@ -1,3 +1,43 @@
+/* MediaDetails action buttons */
+.media-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.media-action-btn {
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  -webkit-transition: background 0.2s, color 0.2s;
+  -moz-transition: background 0.2s, color 0.2s;
+  -ms-transition: background 0.2s, color 0.2s;
+  -o-transition: background 0.2s, color 0.2s;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.favorite-btn {
+  background: #f87171;
+  color: #fff;
+}
+.favorite-btn:hover {
+  background: #ef4444;
+}
+
+.list-btn {
+  background: #5b6cff;
+  color: #fff;
+}
+.list-btn:hover {
+  background: #3743a6;
+}
 .movieDetails {
   display: flex;
   flex-direction: column;
