@@ -37,7 +37,7 @@
   margin: 0 -1rem;
   padding: 0 1rem;
   scrollbar-width: thin;
-  scrollbar-color: #666 transparent;
+  scrollbar-color: var(--text-muted) transparent;
 }
 
 .mediaScrollContainer::-webkit-scrollbar {
@@ -45,7 +45,7 @@
 }
 
 .mediaScrollContainer::-webkit-scrollbar-thumb {
-  background: #666;
+  background: var(--text-muted);
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -55,7 +55,7 @@
 
 .toggleGroup {
   display: flex;
-  background: #1e1e1e;
+  background: var(--card-bg);
   border-radius: 9999px;
   padding: 2px;
   gap: 2px;
@@ -63,15 +63,19 @@
 
 .toggleBtn {
   background: transparent;
-  color: white;
+  color: var(--text-primary);
   border-radius: 9999px;
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   cursor: pointer;
   transition: background 0.2s;
+  -webkit-transition: background 0.2s;
+  -moz-transition: background 0.2s;
+  -ms-transition: background 0.2s;
+  -o-transition: background 0.2s;
 }
 
 .toggleBtn[data-state="on"] {
-  background: teal;
-  color: black;
+  background: var(--primary-color);
+  color: var(--text-primary);
 }

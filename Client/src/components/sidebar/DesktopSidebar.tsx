@@ -9,7 +9,7 @@ export const DesktopSidebar = ({
   const { open, setOpen, animate } = useSidebar();
   return (
     <motion.div
-      className={`desktop-sidebar${className ? " " + className : ""}`}
+      className={`desktop-sidebar ${className ?? ""}`}
       animate={{
         width: animate ? (open ? "300px" : "60px") : "300px",
       }}

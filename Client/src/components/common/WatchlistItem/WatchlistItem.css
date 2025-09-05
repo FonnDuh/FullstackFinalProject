@@ -1,0 +1,76 @@
+.watchlist-item {
+  background: var(--card-bg);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s, box-shadow 0.15s;
+  -webkit-transition: transform 0.15s, box-shadow 0.15s;
+  -moz-transition: transform 0.15s, box-shadow 0.15s;
+  -ms-transition: transform 0.15s, box-shadow 0.15s;
+  -o-transition: transform 0.15s, box-shadow 0.15s;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+
+  &:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px) scale(1.02);
+    -webkit-transform: translateY(-4px) scale(1.02);
+    -moz-transform: translateY(-4px) scale(1.02);
+    -ms-transform: translateY(-4px) scale(1.02);
+    -o-transform: translateY(-4px) scale(1.02);
+  }
+}
+
+.watchlist-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.watchlist-poster {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  background: var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.watchlist-info {
+  padding: 1rem 1rem 0.7rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.watchlist-media-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem 0;
+  color: var(--text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.watchlist-media-type {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+  text-transform: capitalize;
+}
+
+.watchlist-media-status {
+  font-size: 0.92rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.watchlist-media-favorite {
+  font-size: 0.92rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}

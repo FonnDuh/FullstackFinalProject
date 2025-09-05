@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--soft-blue);
-  color: #1a0b2e;
+  color: var(--text-primary);
   z-index: 9999;
   transition: opacity 0.3s ease;
   -webkit-transition: opacity 0.3s ease;
@@ -37,5 +37,5 @@
     -moz-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     -o-transform: rotate(360deg);
-}
+  }
 }

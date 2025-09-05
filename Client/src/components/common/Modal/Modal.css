@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--overlay);
   backdrop-filter: blur(2px);
 }
 
@@ -14,7 +14,8 @@
   width: 90%;
   max-width: 600px;
   z-index: 1001;
-  background: white;
+  background: var(--card-bg);
+  color: var(--text-primary);
   padding: 1.5rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   outline: none;
@@ -52,16 +53,16 @@
   -moz-border-radius: 6px;
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
-}
 
-.modal-close:hover {
-  background: rgba(0, 0, 0, 0.05);
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .modal-description {
   margin-top: 0.25rem;
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .modal-body {
@@ -73,21 +74,4 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-}
-
-body.dark-mode .modal-content {
-  background: #333;
-  color: #fff;
-}
-
-body.dark-mode .modal-header {
-  border-bottom: 1px solid #444;
-}
-
-body.dark-mode .modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .modal-footer {
-  border-top: 1px solid #444;
 }

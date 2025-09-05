@@ -2,17 +2,19 @@
   padding: 40px 0;
   text-align: center;
   z-index: 1;
+  color: var(--text-primary);
+  background: transparent;
 }
 
 .footer .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 10px 20px;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -ms-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
 }
 
 .footer-content {
@@ -52,17 +54,17 @@
 }
 
 .footer-section ul li a {
-  color: #333;
+  color: var(--text-primary);
   text-decoration: none;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-}
+  transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -ms-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
 
-.footer-section ul li a:hover {
-  color: #17a2b8;
+  &:hover {
+    color: var(--primary-color);
+  }
 }
 
 .footer-section ul.social-media li {
@@ -72,16 +74,16 @@
 
 .footer-section ul.social-media li a {
   font-size: 1.5rem;
-  color: #333;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-}
+  color: var(--text-muted);
+  transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -ms-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
 
-.footer-section ul.social-media li a:hover {
-  color: #17a2b8;
+  &:hover {
+    color: var(--primary-color);
+  }
 }
 
 .footer-section form {
@@ -92,58 +94,53 @@
 .footer-section form input {
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
+  border: 1px solid var(--color-border);
+  background: var(--color-input);
+  color: var(--text-primary);
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
-}
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  -webkit-transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  -moz-transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  -ms-transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  -o-transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
-.footer-section form input:focus {
-  border-color: #17a2b8;
-  box-shadow: 0 0 5px #17a2b880;
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .footer-section form button {
   padding: 10px;
   border: none;
-  background-color: #17a2b8;
+  background-color: var(--primary-color);
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
-}
+  transition: background 0.2s ease;
+  -webkit-transition: background 0.2s ease;
+  -moz-transition: background 0.2s ease;
+  -ms-transition: background 0.2s ease;
+  -o-transition: background 0.2s ease;
 
-.footer-section form button:hover {
-  background-color: #14889a;
-}
-
-body.dark-mode .footer-link {
-  color: white;
-}
-
-body.dark-mode .social-media li a {
-  color: white;
+  &:hover {
+    filter: brightness(0.95);
+    -webkit-filter: brightness(0.95);
+  }
 }
 
 .footer-bottom {
   margin-top: 20px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--color-border);
   padding: 20px 0;
 }
 

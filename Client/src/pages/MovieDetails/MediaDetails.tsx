@@ -204,7 +204,7 @@ const MediaDetails: FunctionComponent = () => {
                   await handleAddToMyList();
                 }
               }}
-              className="media-action-btn list-btn">
+              className="media-action-btn">
               {isInList ? "✓ Added to list" : "➕ Add to My List"}
             </button>
           </div>
@@ -284,7 +284,7 @@ const MediaDetails: FunctionComponent = () => {
             Cancel
           </button>
           <button
-            className="media-action-btn list-btn"
+            className="media-action-btn"
             onClick={handleConfirmDelete}
             style={{ marginLeft: 8 }}>
             Remove

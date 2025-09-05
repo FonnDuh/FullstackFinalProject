@@ -11,11 +11,11 @@
 .searchContainer input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color, #ccc);
+  border: 1px solid var(--color-border);
   font-size: 1rem;
   outline: none;
-  background-color: var(--input-bg, #fff);
-  color: var(--text-primary, #222);
+  background-color: var(--color-input);
+  color: var(--text-primary);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   -webkit-transition: border-color 0.2s ease, box-shadow 0.2s ease;
   -moz-transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -29,8 +29,8 @@
 }
 
 .searchContainer input:focus {
-  border-color: var(--primary-color, #5b6cff);
-  box-shadow: 0 0 0 3px rgba(91, 108, 255, 0.2);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
 }
 
 .searchContainer h2 {
@@ -63,14 +63,14 @@
   -moz-transition: background 0.2s ease;
   -ms-transition: background 0.2s ease;
   -o-transition: background 0.2s ease;
-}
 
-.scrollbar:hover {
-  background: rgba(0, 0, 0, 0.05);
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .thumb {
-  background-color: rgba(150, 150, 150, 0.5);
+  background-color: color-mix(in srgb, var(--text-muted) 45%, transparent 55%);
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -81,10 +81,14 @@
   -moz-transition: background 0.2s ease;
   -ms-transition: background 0.2s ease;
   -o-transition: background 0.2s ease;
-}
 
-.thumb:hover {
-  background-color: rgba(100, 100, 100, 0.8);
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--text-muted) 65%,
+      transparent 35%
+    );
+  }
 }
 
 .mediaList {
@@ -99,18 +103,18 @@
 .display-5 {
   text-align: center;
   font-size: 1.2rem;
-  color: var(--text-muted, #666);
+  color: var(--text-muted);
   margin-top: 2rem;
 }
 
 body.dark-mode .searchContainer input {
-  background-color: #1e1e1e;
-  color: #fff;
-  border-color: #333;
+  background-color: var(--color-input);
+  color: var(--text-primary);
+  border-color: var(--color-border);
 }
 
 body.dark-mode .display-5 {
-  color: #999;
+  color: var(--text-muted);
 }
 
 body.dark-mode .thumb {

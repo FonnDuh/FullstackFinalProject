@@ -8,11 +8,6 @@
 
 body {
   font-family: "Heebo", sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
-}
-
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: var(--color-bg);
+  color: var(--text-primary);
 }

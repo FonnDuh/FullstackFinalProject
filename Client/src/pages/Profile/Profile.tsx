@@ -80,7 +80,7 @@ const Profile: FunctionComponent<object> = () => {
         </div>
       </div>
       <Link
-        className="EditBtn"
+        className="editBtn"
         to={`/profile/${user._id}/edit`}
         aria-label="Edit Profile">
         Edit

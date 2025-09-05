@@ -10,11 +10,13 @@
 .notFoundTitle {
   font-size: 6rem;
   margin-bottom: 1rem;
+  color: var(--text-primary);
 }
 
 .notFoundMessage {
   font-size: 1.5rem;
   margin-bottom: 2rem;
+  color: var(--text-muted);
 }
 
 .notFoundLink {
@@ -34,33 +36,18 @@
   -o-border-radius: 5px;
 }
 
-.notFoundLink:hover {
-  background-color: currentColor;
-  color: #fff !important;
-}
-
-.bgDark .notFoundLink:hover {
-  background-color: #fff !important;
-  color: #121212 !important;
-}
-
-.bgLight .notFoundLink:hover {
-  background-color: #000 !important;
-  color: #fff !important;
-}
-
 .bgDark {
-  background-color: #121212 !important;
+  background-color: var(--color-bg) !important;
 }
 
 .bgLight {
-  background-color: #f8f9fa !important;
+  background-color: var(--color-card) !important;
 }
 
 .textWhite {
-  color: #e0e0e0 !important;
+  color: var(--text-muted) !important;
 }
 
 .textDark {
-  color: #000 !important;
+  color: var(--text-primary) !important;
 }

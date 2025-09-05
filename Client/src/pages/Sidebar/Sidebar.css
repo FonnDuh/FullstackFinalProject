@@ -2,7 +2,7 @@
 .sidebar-body {
   gap: 2.5rem;
   justify-content: space-between;
-  background-color: #f9fafb;
+  background-color: var(--sidebar-bg);
 }
 
 .sidebar-main {
@@ -39,6 +39,10 @@
   -moz-transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
   -ms-transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
   -o-transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    color: var(--primary-color);
+  }
 }
 
 .nav-links {
@@ -50,21 +54,24 @@
 
 .nav-links a,
 .sidebar-footer a {
-  display: flex;
-  align-items: center;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-primary);
   text-decoration: none;
-  border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
   transition: background-color 0.2s ease;
   -webkit-transition: background-color 0.2s ease;
   -moz-transition: background-color 0.2s ease;
   -ms-transition: background-color 0.2s ease;
   -o-transition: background-color 0.2s ease;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+
+  &:hover {
+    background-color: var(--color-input);
+    color: var(--text-primary);
+  }
 }
 
 .nav-links a .icon,
@@ -72,12 +79,6 @@
   flex-shrink: 0;
   margin-right: 0.75rem;
   font-size: 1.2rem;
-}
-
-.nav-links a:hover,
-.sidebar-footer a:hover {
-  background-color: #374151;
-  color: #f4f4f4;
 }
 
 .active a {
@@ -90,7 +91,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
 }
 
 .sidebar-footer > :first-child {
@@ -98,7 +98,7 @@
 }
 
 .active > .sidebar-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* ================= DESKTOP SIDEBAR ================= */
@@ -144,7 +144,8 @@
   width: 100%;
   height: 100%;
   padding: 2.5rem;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
 }
 
 .mobile-sidebar-close {
@@ -158,32 +159,4 @@
   .mobile-sidebar-header {
     display: none;
   }
-}
-/* ================= MOBILE SIDEBAR END ================= */
-
-/* ================= DARK MODE ================= */
-body.dark-mode .sidebar {
-  background: #18181b;
-  color: #f4f4f4;
-  border-right-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode .sidebar-body {
-  background-color: #18181b;
-}
-
-body.dark-mode .nav-links a,
-body.dark-mode .sidebar-footer a {
-  color: #f9fafb;
-}
-
-body.dark-mode .navLink:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: #fff;
-}
-
-body.dark-mode .navLink.active {
-  color: #6366f1;
-  background-color: rgba(99, 102, 241, 0.15);
 }

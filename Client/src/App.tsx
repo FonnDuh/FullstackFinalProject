@@ -1,6 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import "./styles/global.css";
+import "./styles/variables.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -9,7 +10,7 @@ import ScreenLoader from "./components/feedback/ScreenLoader/ScreenLoader";
 import Layout from "./layouts/Default/Layout";
 import Search from "./pages/Search/Search";
 import MediaDetails from "./pages/MovieDetails/MediaDetails";
-import Footer from "./components/common/Footer/Footer";
+// import Footer from "./components/common/Footer/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -106,7 +107,7 @@ function App() {
                 }
               />
             </Routes>
-            <Footer />
+            {/* <Footer /> */}
           </Layout>
         </Router>
       </AuthProvider>
