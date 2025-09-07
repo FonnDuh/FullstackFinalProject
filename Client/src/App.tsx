@@ -10,7 +10,6 @@ import ScreenLoader from "./components/feedback/ScreenLoader/ScreenLoader";
 import Layout from "./layouts/Default/Layout";
 import Search from "./pages/Search/Search";
 import MediaDetails from "./pages/MovieDetails/MediaDetails";
-// import Footer from "./components/common/Footer/Footer";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -19,7 +18,7 @@ import { AuthProvider } from "./providers/AuthProvider";
 import Watchlist from "./pages/Watchlist/Watchlist";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function initializeApp() {
@@ -107,7 +106,6 @@ function App() {
                 }
               />
             </Routes>
-            {/* <Footer /> */}
           </Layout>
         </Router>
       </AuthProvider>

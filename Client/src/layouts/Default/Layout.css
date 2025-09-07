@@ -1,5 +1,5 @@
 .layout {
-  display: flex;
+  display: inline-block;
   overflow: hidden;
   height: 100vh;
   width: 100%;
@@ -39,6 +39,7 @@
 
 .main {
   flex: 1;
+  padding: 0 4rem;
   background: var(--color-bg);
   overflow-y: auto;
   transition: background 0.3s ease;
@@ -46,6 +47,12 @@
   -moz-transition: background 0.3s ease;
   -ms-transition: background 0.3s ease;
   -o-transition: background 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 2.5rem 0 0 0;
+  }
 }
 
 .modal-footer {
@@ -66,8 +73,7 @@
   -moz-transition: background 0.2s ease;
   -ms-transition: background 0.2s ease;
   -o-transition: background 0.2s ease;
-  f
-  &:hover {
+  f &:hover {
     background: var(--color-bg-hover);
   }
 }

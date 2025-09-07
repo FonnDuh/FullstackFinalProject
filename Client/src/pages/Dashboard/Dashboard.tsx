@@ -11,6 +11,7 @@ import {
   getTrendingMedia,
 } from "../../services/tmdb/tmdb.service";
 import VerticalScroller from "../../components/dashboard/VerticalScroller/VerticalScroller";
+import Footer from "../../components/common/Footer/Footer";
 
 const Dashboard: FunctionComponent = () => {
   const [trendingMovies, setTrendingMovies] = useState<Media[]>([]);
@@ -104,6 +105,7 @@ const Dashboard: FunctionComponent = () => {
         media={topRatedTv}
         genres={tvGenres}
       />
+      <Footer />
     </div>
   );
 };

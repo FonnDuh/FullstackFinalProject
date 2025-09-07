@@ -1,5 +1,7 @@
 /* ================= SIDEBAR BASE ================= */
 .sidebar-body {
+  position: fixed;
+  z-index: 1000;
   gap: 2.5rem;
   justify-content: space-between;
   background-color: var(--sidebar-bg);

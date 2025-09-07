@@ -19,6 +19,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
 
   const links = useMemo(() => getVisibleLinks(user), [user]);
+  const footerLinks = useMemo(() => getFooterLinks(user), [user]);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   // const Logo = () => (
@@ -60,7 +61,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             {open ? <ThemeToggle /> : isDarkMode ? <Moon /> : <SunIcon />}
 
             <div className="nav-links">
-              {getFooterLinks(user).map((f, i) => {
+              {footerLinks.map((f, i) => {
                 if (f.label === "Logout") {
                   return (
                     <SidebarLink

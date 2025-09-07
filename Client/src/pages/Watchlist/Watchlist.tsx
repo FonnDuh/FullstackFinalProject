@@ -5,16 +5,19 @@ import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../services/feedback.service";
 import "./Watchlist.css";
 import WatchlistItem from "../../components/common/WatchlistItem/WatchlistItem";
+import SearchFilters from "../../components/search/SearchFilters";
 
 const Watchlist: FunctionComponent = () => {
   type WatchlistFilters = {
     sort:
-      | "date_desc"
-      | "date_asc"
+      | "popularity_desc"
+      | "popularity_asc"
       | "rating_desc"
       | "rating_asc"
       | "title_asc"
-      | "title_desc";
+      | "title_desc"
+      | "release_desc"
+      | "release_asc";
     mediaType: "all" | "movie" | "tv" | "book" | "anime" | "game";
     status:
       | "all"
@@ -33,11 +36,9 @@ const Watchlist: FunctionComponent = () => {
   const [mediaList, setMediaList] = useState<UserMedia[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // UI state for filtering & sorting
   const [filter, setFilter] = useState<"all" | "favorites">("all");
-  const [sort, setSort] = useState<WatchlistFilters["sort"]>("date_desc");
+  const [sort, setSort] = useState<WatchlistFilters["sort"]>("release_desc");
 
-  // Additional filters
   const [mediaType, setMediaType] =
     useState<WatchlistFilters["mediaType"]>("all");
   const [statusFilter, setStatusFilter] =
@@ -66,11 +67,9 @@ const Watchlist: FunctionComponent = () => {
       .finally(() => setLoading(false));
   }, [user]);
 
-  // Derived, memoized list according to filter & sort
   const displayedList = useMemo(() => {
     let list = mediaList.slice();
 
-    // basic filters
     if (filter === "favorites") {
       list = list.filter((m) => Boolean(m.is_favorite));
     }
@@ -83,7 +82,6 @@ const Watchlist: FunctionComponent = () => {
       list = list.filter((m) => m.status === statusFilter);
     }
 
-    // rating range
     if (minRating !== "") {
       list = list.filter((m) =>
         typeof m.rating === "number" ? m.rating >= minRating : false
@@ -95,7 +93,6 @@ const Watchlist: FunctionComponent = () => {
       );
     }
 
-    // date range (uses created_at)
     if (dateFrom) {
       const df = Date.parse(dateFrom);
       list = list.filter((m) =>
@@ -109,7 +106,6 @@ const Watchlist: FunctionComponent = () => {
       );
     }
 
-    // search by title / overview / media_id
     if (searchTerm.trim() !== "") {
       const q = searchTerm.toLowerCase();
       list = list.filter((m) => {
@@ -121,12 +117,11 @@ const Watchlist: FunctionComponent = () => {
       });
     }
 
-    // sorting
     list.sort((a, b) => {
-      if (sort === "date_desc" || sort === "date_asc") {
+      if (sort === "release_desc" || sort === "release_asc") {
         const ta = a.created_at ? Date.parse(String(a.created_at)) : 0;
         const tb = b.created_at ? Date.parse(String(b.created_at)) : 0;
-        return sort === "date_desc" ? tb - ta : ta - tb;
+        return sort === "release_desc" ? tb - ta : ta - tb;
       }
       if (sort === "rating_desc" || sort === "rating_asc") {
         const ra = typeof a.rating === "number" ? a.rating : -Infinity;
@@ -198,21 +193,6 @@ const Watchlist: FunctionComponent = () => {
             <option value="favorites">Favorites</option>
           </select>
 
-          <label htmlFor="mediaType">Type:</label>
-          <select
-            id="mediaType"
-            value={mediaType}
-            onChange={(e) =>
-              setMediaType(e.target.value as WatchlistFilters["mediaType"])
-            }>
-            <option value="all">All</option>
-            <option value="movie">Movie</option>
-            <option value="tv">TV</option>
-            <option value="book">Book</option>
-            <option value="anime">Anime</option>
-            <option value="game">Game</option>
-          </select>
-
           <label htmlFor="statusFilter">Status:</label>
           <select
             id="statusFilter"
@@ -229,88 +209,34 @@ const Watchlist: FunctionComponent = () => {
           </select>
         </div>
 
-        <div className="watchlist-filter-group">
-          <label htmlFor="minRating">Rating ≥</label>
-          <input
-            id="minRating"
-            type="number"
-            min={0}
-            max={10}
-            value={minRating as WatchlistFilters["minRating"]}
-            onChange={(e) =>
-              setMinRating(e.target.value === "" ? "" : Number(e.target.value))
-            }
-          />
-          <label htmlFor="maxRating">Rating ≤</label>
-          <input
-            id="maxRating"
-            type="number"
-            min={0}
-            max={10}
-            value={maxRating as WatchlistFilters["maxRating"]}
-            onChange={(e) =>
-              setMaxRating(e.target.value === "" ? "" : Number(e.target.value))
-            }
-          />
-
-          <label htmlFor="dateFrom">From</label>
-          <input
-            id="dateFrom"
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-          />
-          <label htmlFor="dateTo">To</label>
-          <input
-            id="dateTo"
-            type="date"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-          />
-        </div>
-
-        <div className="watchlist-filter-group">
-          <label htmlFor="search">Search</label>
-          <input
-            id="search"
-            type="search"
-            placeholder="title, overview, tmdb id..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-
-          <label htmlFor="sort">Sort by</label>
-          <select
-            id="sort"
-            value={sort}
-            onChange={(e) =>
-              setSort(e.target.value as WatchlistFilters["sort"])
-            }>
-            <option value="date_desc">Recently added</option>
-            <option value="date_asc">Oldest added</option>
-            <option value="rating_desc">Highest rating</option>
-            <option value="rating_asc">Lowest rating</option>
-            <option value="title_asc">Title A→Z</option>
-            <option value="title_desc">Title Z→A</option>
-          </select>
-
-          <button
-            onClick={() => {
-              setFilter("all");
-              setMediaType("all");
-              setStatusFilter("all");
-              setMinRating("");
-              setMaxRating("");
-              setSearchTerm("");
-              setDateFrom("");
-              setDateTo("");
-              setSort("date_desc");
-            }}
-            type="button"
-            className="watchlist-reset">
-            Reset
-          </button>
-        </div>
+        <SearchFilters
+          mediaType={mediaType}
+          setMediaType={setMediaType}
+          minRating={minRating}
+          setMinRating={setMinRating}
+          maxRating={maxRating}
+          setMaxRating={setMaxRating}
+          dateFrom={dateFrom}
+          setDateFrom={setDateFrom}
+          dateTo={dateTo}
+          setDateTo={setDateTo}
+          sort={sort}
+          setSort={setSort}
+          resetFilters={() => {
+            setFilter("all");
+            setMediaType("all");
+            setStatusFilter("all");
+            setMinRating("");
+            setMaxRating("");
+            setSearchTerm("");
+            setDateFrom("");
+            setDateTo("");
+            setSort("release_desc");
+          }}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          showMediaType={false}
+        />
 
         <div className="watchlist-count">
           Showing {displayedList.length} of {mediaList.length}

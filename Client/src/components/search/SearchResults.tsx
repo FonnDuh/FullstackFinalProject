@@ -28,7 +28,7 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({ media }) => {
           </ScrollArea.Scrollbar>
         </ScrollArea.Root>
       ) : (
-        <p>No media available.</p>
+        <p className={styles["display-5"]}>No media available.</p>
       )}
     </>
   );

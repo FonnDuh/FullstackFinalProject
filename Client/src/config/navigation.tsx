@@ -15,7 +15,7 @@ export type NavLink = {
   href: string;
   icon?: ReactNode;
   public?: boolean;
-  roles?: string[]; // optional allowed roles (e.g. ['admin','user'])
+  roles?: string[];
 };
 
 export const navLinks: NavLink[] = [
@@ -52,9 +52,7 @@ export type UserShape = {
 } | null;
 
 export function getVisibleLinks(user: UserShape) {
-  if (!user) {
-    return navLinks.filter((l) => l.public === true);
-  }
+  if (!user) return navLinks.filter((link) => link.public === true);
 
   const userRole =
     (user && (user.role || (user.roles && user.roles[0]))) || "user";
@@ -66,9 +64,6 @@ export function getVisibleLinks(user: UserShape) {
   });
 }
 
-export default navLinks;
-
-// Footer links: different sets for authenticated vs unauthenticated users.
 export const footerLinks = {
   authenticated: [
     { label: "Profile", href: "/profile", icon: <User className="icon" /> },
@@ -87,3 +82,5 @@ export const footerLinks = {
 export function getFooterLinks(user: UserShape) {
   return user ? footerLinks.authenticated : footerLinks.anonymous;
 }
+
+export default navLinks;
