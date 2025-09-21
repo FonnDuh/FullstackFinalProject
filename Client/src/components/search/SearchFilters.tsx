@@ -46,27 +46,31 @@ export default function SearchFilters({
   resetFilters,
   searchTerm,
   setSearchTerm,
-  showMediaType = true,
 }: Props & { showMediaType?: boolean }) {
   return (
     <div className={styles.container}>
       <div className={styles.group}>
-        {showMediaType ? (
-          <>
-            <label htmlFor="mediaType">Type:</label>
-            <select
-              id="mediaType"
-              value={mediaType}
-              onChange={(e) => setMediaType(e.target.value as MediaType)}>
-              <option value="all">All</option>
-              <option value="movie">Movie</option>
-              <option value="tv">TV</option>
-              <option value="book">Book</option>
-              <option value="anime">Anime</option>
-              <option value="game">Game</option>
-            </select>
-          </>
-        ) : null}
+        <label htmlFor="mediaType">Type:</label>
+        <select
+          id="mediaType"
+          value={mediaType}
+          onChange={(e) => setMediaType(e.target.value as MediaType)}>
+          <option value="all">All</option>
+          <option value="movie">Movie</option>
+          <option value="tv">TV</option>
+          <option value="book" disabled>
+            {/* Not implemented yet */}
+            Book
+          </option>
+          <option value="anime" disabled>
+            {/* Not implemented yet */}
+            Anime
+          </option>
+          <option value="game" disabled>
+            {/* Not implemented yet */}
+            Game
+          </option>
+        </select>
 
         <label htmlFor="minRating">Rating ≥</label>
         <input

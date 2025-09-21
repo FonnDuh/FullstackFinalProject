@@ -20,7 +20,7 @@
 .media-tracking select {
   padding: 0.45rem 0.6rem;
   font-size: 0.95rem;
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--border-color);
   background-color: var(--card-bg);
   color: var(--text-primary);
   cursor: pointer;
@@ -34,6 +34,7 @@
 
 .media-tracking select:focus {
   outline: none;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
 }
 

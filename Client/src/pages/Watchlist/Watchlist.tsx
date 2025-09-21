@@ -235,7 +235,6 @@ const Watchlist: FunctionComponent = () => {
           }}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          showMediaType={false}
         />
 
         <div className="watchlist-count">

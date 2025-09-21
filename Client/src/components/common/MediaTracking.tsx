@@ -106,9 +106,6 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
 
       const updated = await updateMediaForUser(existingMedia._id, payload);
       if (updated && updated.data) {
-        // update local state from response
-        // caller (parent) may also update existingMedia when it re-fetches, but sync locally
-        // Note: we only update watched_episodes/watch status in this component
         successMessage("Progress updated");
       }
     } catch (err) {
