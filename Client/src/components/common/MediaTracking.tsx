@@ -24,8 +24,8 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
 }) => {
   const { user } = useAuth();
   const [tvDetails, setTvDetails] = useState<TmdbTvDetails | null>(null);
-  const [watchStatus, setWatchStatus] = useState(
-    existingMedia?.status || "Plan to Watch"
+  const [watchStatus, setWatchStatus] = useState<MediaStatus>(
+    (existingMedia?.status as MediaStatus) ?? "plan_to_watch"
   );
   const [watchedEpisodes, setWatchedEpisodes] = useState<number[]>(
     existingMedia?.watched_episodes || []
@@ -81,7 +81,6 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
   };
 
   useEffect(() => {
-    // sync selected season/episode when existingMedia changes
     if (existingMedia && existingMedia.tv_tracking) {
       setSelectedSeason(existingMedia.tv_tracking.current_season ?? null);
       setSelectedEpisode(existingMedia.tv_tracking.current_episode ?? null);
@@ -124,10 +123,11 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
       <select
         value={watchStatus}
         onChange={(e) => handleStatusChange(e.target.value as MediaStatus)}>
-        <option value="Plan to Watch">Plan to Watch</option>
-        <option value="Watching">Watching</option>
-        <option value="Completed">Completed</option>
-        <option value="Dropped">Dropped</option>
+        <option value="plan_to_watch">Plan to Watch</option>
+        <option value="watching">Watching</option>
+        <option value="completed">Completed</option>
+        <option value="dropped">Dropped</option>
+        <option value="on_hold">On Hold</option>
       </select>
 
       {mediaType === "tv" && tvDetails && (
