@@ -24,4 +24,5 @@ export interface UserMedia {
   tv_tracking?: TvTracking;
   created_at?: string;
   updated_at?: string;
+  watched_episodes?: number[];
 }

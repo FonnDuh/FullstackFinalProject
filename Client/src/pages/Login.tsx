@@ -34,6 +34,10 @@ const formOnSubmit = async (
       const apiError = err as ApiError;
       if (apiError.response.status === 401) {
         errorMessage("Email or Password is incorrect");
+      } else if (apiError.response.data.message == "User not found") {
+        errorMessage("User not found. Please check your credentials.");
+      } else if (apiError.response.status === 429) {
+        errorMessage("Too many login attempts. Please try again later.");
       } else {
         errorMessage("Connection error. Please try again later.");
       }

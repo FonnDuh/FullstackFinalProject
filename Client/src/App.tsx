@@ -66,7 +66,7 @@ function App() {
                 }
               />
               <Route
-                path="/tmdb/:id"
+                path="/tmdb/:type/:id"
                 element={
                   <ErrorBoundary>
                     <MediaDetails />

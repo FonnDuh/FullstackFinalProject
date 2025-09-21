@@ -50,13 +50,19 @@ const MediaCard: FunctionComponent<MediaCardProps> = ({
     }
   }, [genreNames]);
 
+  const mediaType =
+    media.type ?? (media.first_air_date || media.name ? "tv" : "movie");
+
   return (
     <Tooltip.Provider delayDuration={150}>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <div
             className={styles.card}
-            onClick={() => navigate(`/tmdb/${media.id}`)}>
+            onClick={() => {
+              if (!media.id) return;
+              navigate(`/tmdb/${mediaType}/${media.id}`);
+            }}>
             <div className={styles.posterWrapper}>
               <img
                 src={displayPoster}

@@ -1,0 +1,153 @@
+.media-tracking {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+}
+
+.media-tracking h3 {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+}
+
+.media-tracking .controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.media-tracking select {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-primary);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  min-width: 160px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+.media-tracking select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+}
+
+.tv-tracking {
+  margin-top: 1rem;
+}
+
+.tv-tracking h4 {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.season {
+  margin-bottom: 0.75rem;
+}
+
+.season h5 {
+  font-size: 0.98rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.season ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px 12px;
+}
+
+.season ul li {
+  margin: 0;
+}
+
+.season ul li label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 8px;
+  transition: background 0.12s ease;
+  -webkit-transition: background 0.12s ease;
+  -moz-transition: background 0.12s ease;
+  -ms-transition: background 0.12s ease;
+  -o-transition: background 0.12s ease;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+.season ul li label:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.season ul li input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.season ul li label,
+.tv-tracking,
+.media-tracking {
+  color: var(--text-primary);
+}
+
+.season ul li input[type="checkbox"]:checked + span,
+.season ul li input[type="checkbox"]:checked ~ span {
+  color: var(--text-primary);
+  opacity: 0.95;
+}
+
+.season ul li label.checked {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.tv-progress {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.tv-progress h5 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tv-progress label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.tv-progress select {
+  min-width: 92px;
+}
+
+.tv-progress button.media-action-btn {
+  margin-left: 6px;
+}
+
+@media (max-width: 520px) {
+  .season ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .media-tracking .controls {
+    gap: 8px;
+  }
+  .media-tracking select {
+    min-width: 120px;
+  }
+}
