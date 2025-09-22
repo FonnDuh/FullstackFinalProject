@@ -1,16 +1,9 @@
 import type { Dispatch, SetStateAction } from "react";
 import styles from "./SearchFilters.module.css";
-
-type MediaType = "all" | "movie" | "tv" | "book" | "anime" | "game";
-type sort =
-  | "popularity_desc"
-  | "popularity_asc"
-  | "rating_desc"
-  | "rating_asc"
-  | "title_asc"
-  | "title_desc"
-  | "release_desc"
-  | "release_asc";
+import type {
+  MediaSort,
+  MediaType,
+} from "../../interfaces/common/MediaSubtypes.interface";
 
 type Props = {
   mediaType: MediaType;
@@ -24,7 +17,7 @@ type Props = {
   dateTo: string;
   setDateTo: Dispatch<SetStateAction<string>>;
   sort: string;
-  setSort: Dispatch<SetStateAction<sort>>;
+  setSort: Dispatch<SetStateAction<MediaSort>>;
   resetFilters: () => void;
   searchTerm: string;
   setSearchTerm: Dispatch<SetStateAction<string>>;
@@ -128,7 +121,7 @@ export default function SearchFilters({
         <select
           id="sort"
           value={sort}
-          onChange={(e) => setSort(e.target.value as sort)}>
+          onChange={(e) => setSort(e.target.value as MediaSort)}>
           <option value="popularity_desc">Most popular</option>
           <option value="popularity_asc">Least popular</option>
           <option value="rating_desc">Highest rating</option>

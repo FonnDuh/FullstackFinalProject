@@ -8,7 +8,7 @@ import {
   initialValues,
   validationSchema,
   onSubmit as formOnSubmit,
-} from "../interfaces/Users/NewUserForm";
+} from "../../interfaces/Users/NewUserForm";
 
 const Register: FunctionComponent<object> = () => {
   const navigate = useNavigate();

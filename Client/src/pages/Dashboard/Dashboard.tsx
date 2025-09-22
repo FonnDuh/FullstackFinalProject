@@ -1,110 +1,102 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, type FunctionComponent } from "react";
+import { type FunctionComponent, useEffect, useState, useMemo } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import type { Media } from "../../interfaces/Media/Media.interface";
-import { errorMessage } from "../../services/feedback.service";
 import "./Dashboard.css";
-import type { Genre } from "../../interfaces/Media/Genre.interface";
-import {
-  getMediaGenres,
-  getTopRatedMedia,
-  getTrendingMedia,
-} from "../../services/tmdb/tmdb.service";
-import VerticalScroller from "../../components/dashboard/VerticalScroller/VerticalScroller";
 import Footer from "../../components/common/Footer/Footer";
+import WelcomeSection from "../../components/dashboard/WelcomeSection";
+import StatsCards from "../../components/dashboard/StatsCards";
+import ContinueWatching from "../../components/dashboard/ContinueWatching";
+import RecentActivity from "../../components/dashboard/RecentActivity";
+import { getAllMediaForUser } from "../../services/userMedia.service";
+import { errorMessage } from "../../services/feedback.service";
+import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
 
 const Dashboard: FunctionComponent = () => {
-  const [trendingMovies, setTrendingMovies] = useState<Media[]>([]);
-  const [movieGenres, setMovieGenres] = useState<Genre[]>([]);
-  const [topRatedMovies, setTopRatedMovies] = useState<Media[]>([]);
-  const [movieTimeframe, setMovieTimeframe] = useState<"day" | "week">("day");
-
-  const [trendingTv, setTrendingTv] = useState<Media[]>([]);
-  const [topRatedTv, setTopRatedTv] = useState<Media[]>([]);
-  const [tvGenres, setTvGenres] = useState<Genre[]>([]);
-  const [tvTimeframe, setTvTimeframe] = useState<"day" | "week">("day");
-
   const { user } = useAuth();
+  const username = user?.username ?? "guest";
 
-  type MediaType = "movie" | "tv";
-  type Timeframe = "day" | "week";
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
-  const fetchTrendingData = async (
-    type: MediaType,
-    timeframe: Timeframe,
-    setTrending: React.Dispatch<React.SetStateAction<Media[]>>
-  ) => {
-    try {
-      const trending = await getTrendingMedia(type, timeframe);
-      setTrending(trending.data.results);
-    } catch (error) {
-      console.error(`Error fetching ${type} trending:`, error);
-      errorMessage(`Failed to load ${type} trending.`);
+  const [mediaList, setMediaList] = useState<UserMedia[]>([]);
+
+  useEffect(() => {
+    if (!user) {
+      setMediaList([]);
+      return;
     }
-  };
 
-  useEffect(() => {
-    const fetchStaticData = async (
-      type: MediaType,
-      setTopRated: React.Dispatch<React.SetStateAction<Media[]>>,
-      setGenres: React.Dispatch<React.SetStateAction<Genre[]>>
-    ) => {
-      try {
-        const [topRated, genres] = await Promise.all([
-          getTopRatedMedia(type),
-          getMediaGenres(type),
-        ]);
+    getAllMediaForUser()
+      .then((res) => setMediaList(res.data))
+      .catch((err) => {
+        console.error("Failed to load user media for dashboard:", err);
+        errorMessage("Failed to load dashboard stats.");
+        setMediaList([]);
+      });
+  }, [user]);
 
-        setTopRated(topRated.data.results);
-        setGenres(genres.data.genres);
-      } catch (error) {
-        console.error(`Error fetching ${type} static data:`, error);
-        errorMessage(`Failed to load ${type} static data.`);
+  const counts = useMemo(() => {
+    const watching = mediaList.filter((m) => m.status === "watching").length;
+    const completed = mediaList.filter((m) => m.status === "completed").length;
+    const plan_to_watch = mediaList.filter(
+      (m) => m.status === "plan_to_watch"
+    ).length;
+    const favorites = mediaList.filter((m) => Boolean(m.is_favorite)).length;
+
+    let hours = 0;
+    mediaList.forEach((m) => {
+      if (typeof m.progress === "number" && m.progress_units) {
+        if (m.progress_units === "hours") hours += m.progress;
+        else if (m.progress_units === "minutes") hours += m.progress / 60;
       }
+    });
+
+    return {
+      watching,
+      completed,
+      plan_to_watch,
+      favorites,
+      hours: Math.round(hours * 10) / 10,
     };
+  }, [mediaList]);
 
-    fetchStaticData("movie", setTopRatedMovies, setMovieGenres);
-    fetchStaticData("tv", setTopRatedTv, setTvGenres);
-  }, []);
-
-  useEffect(() => {
-    fetchTrendingData("movie", movieTimeframe, setTrendingMovies);
-  }, [movieTimeframe]);
-
-  useEffect(() => {
-    fetchTrendingData("tv", tvTimeframe, setTrendingTv);
-  }, [tvTimeframe]);
+  const stats = [
+    { key: "watching", label: "Watching", icon: "🔵", count: counts.watching },
+    {
+      key: "completed",
+      label: "Completed",
+      icon: "🟢",
+      count: counts.completed,
+    },
+    {
+      key: "plan_to_watch",
+      label: "Plan to Watch",
+      icon: "🟣",
+      count: counts.plan_to_watch,
+    },
+    { key: "hours", label: "Hours Tracked", icon: "🟠", count: counts.hours },
+    {
+      key: "favorites",
+      label: "Favorites",
+      icon: "🔴",
+      count: counts.favorites,
+    },
+  ];
 
   return (
     <div className="dashboard">
-      <h1 className="heading">Dashboard</h1>
-      <p className="welcome">
-        Welcome, {user ? user?.username : "guest"} to your media dashboard!
-      </p>
-      <VerticalScroller
-        mediaType="Trending - Movies"
-        media={trendingMovies}
-        genres={movieGenres}
-        timeFrame={movieTimeframe}
-        setTimeframe={setMovieTimeframe}
-      />
-      <VerticalScroller
-        mediaType="Trending - Series"
-        media={trendingTv}
-        genres={tvGenres}
-        timeFrame={tvTimeframe}
-        setTimeframe={setTvTimeframe}
-      />
-      <VerticalScroller
-        mediaType="Top Rated - Movies"
-        media={topRatedMovies}
-        genres={movieGenres}
-      />
-      <VerticalScroller
-        mediaType="Top Rated - Series"
-        media={topRatedTv}
-        genres={tvGenres}
-      />
+      <WelcomeSection username={username} formattedDate={formattedDate} />
+
+      <StatsCards stats={stats} />
+
+      <main className="dashboard__main">
+        <ContinueWatching />
+        <RecentActivity />
+      </main>
+
       <Footer />
     </div>
   );

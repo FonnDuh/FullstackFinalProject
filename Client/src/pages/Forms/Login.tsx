@@ -5,10 +5,11 @@ import { Mail, Lock } from "lucide-react";
 import * as Button from "@radix-ui/react-slot";
 import { useNavigate } from "react-router-dom";
 import "./Forms.css";
-import { useAuth } from "../hooks/useAuth";
-import { loginUser } from "../services/user.service";
-import { errorMessage, successMessage } from "../services/feedback.service";
-import type { ApiError } from "../interfaces/ApiError";
+import { loginUser } from "../../services/user.service";
+import { errorMessage, successMessage } from "../../services/feedback.service";
+import type { ApiError } from "../../interfaces/ApiError";
+import { useAuth } from "../../hooks/useAuth";
+
 
 const formOnSubmit = async (
   values: { email: string; password: string },

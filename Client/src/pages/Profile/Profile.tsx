@@ -1,5 +1,5 @@
 import { type FunctionComponent, useMemo } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import "./Profile.css";
 
@@ -79,12 +79,12 @@ const Profile: FunctionComponent<object> = () => {
           </p>
         </div>
       </div>
-      <Link
+      {/* <Link
         className="editBtn"
         to={`/profile/${user._id}/edit`}
         aria-label="Edit Profile">
         Edit
-      </Link>
+      </Link> */}
     </div>
   );
 };

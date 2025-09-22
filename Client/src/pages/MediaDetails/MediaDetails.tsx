@@ -2,8 +2,11 @@ import { useEffect, useState, type FunctionComponent } from "react";
 import { errorMessage, successMessage } from "../../services/feedback.service";
 import { useParams } from "react-router-dom";
 import type { TmdbMovieDetails } from "../../interfaces/Media/TmdbMovieDetails";
-import "./MovieDetails.css";
-import { getMediaDetails } from "../../services/tmdb/tmdb.service";
+import "./MediaDetails.css";
+import {
+  getMediaDetails,
+  getMediaRecommendations,
+} from "../../services/tmdb/tmdb.service";
 import { createMedia } from "../../services/userMedia.service";
 import {
   getAllMediaForUser,
@@ -13,13 +16,18 @@ import {
 import { useAuth } from "../../hooks/useAuth";
 import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
 import { Modal } from "../../components/common/Modal/Modal";
-import MediaTracking from "../../components/common/MediaTracking";
+import MediaTracking from "../../components/Watchlist/MediaTracking/MediaTracking";
 import type { TmdbTvDetails } from "../../interfaces/Media/TmdbTvDetails";
+import VerticalScroller from "../../components/dashboard/VerticalScroller/VerticalScroller";
+import type { Media } from "../../interfaces/Media/Media.interface";
+import type { Genre } from "../../interfaces/Media/Genre.interface";
 
 const MediaDetails: FunctionComponent = () => {
   const { user } = useAuth();
   const { type, id } = useParams<{ type?: string; id?: string }>();
   const [media, setMedia] = useState<TmdbMovieDetails | TmdbTvDetails>();
+  const [recommendations, setRecommendations] = useState<Media[]>([]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [isInList, setIsInList] = useState(false);
   const [existingMedia, setExistingMedia] = useState<UserMedia | null>(null);
@@ -33,7 +41,16 @@ const MediaDetails: FunctionComponent = () => {
     const fetchData = async () => {
       try {
         const res = await getMediaDetails(tmdbType, Number(id));
-        if (!isCancelled) setMedia(res.data);
+        const recommendationsRes = await getMediaRecommendations(
+          tmdbType,
+          Number(id)
+        );
+        if (!isCancelled) {
+          setMedia(res.data);
+          const recs =
+            recommendationsRes.data?.results ?? recommendationsRes.data ?? [];
+          setRecommendations(recs);
+        }
       } catch (error) {
         console.error("Error fetching media data:", error);
         errorMessage("Failed to load media details.");
@@ -237,14 +254,14 @@ const MediaDetails: FunctionComponent = () => {
   }
 
   return (
-    <div className="movieDetails">
-      <div className="movieHeader">
+    <div className="mediaDetails">
+      <div className="mediaHeader">
         <img
           className="poster"
           src={`https://image.tmdb.org/t/p/w500${posterPath}`}
           alt={title}
         />
-        <div className="movieBasic">
+        <div className="mediaBasic">
           <h1 className="title">{title}</h1>
           {tagline && <p className="tagline">{tagline}</p>}
           <p className="meta">
@@ -350,6 +367,14 @@ const MediaDetails: FunctionComponent = () => {
           mediaId={(media as TmdbMovieDetails | TmdbTvDetails).id.toString()}
           mediaType={tmdbType as "movie" | "tv"}
           existingMedia={existingMedia}
+        />
+      )}
+
+      {recommendations && recommendations.length > 0 && (
+        <VerticalScroller
+          mediaType="Recommendations"
+          media={recommendations}
+          genres={media.genres as Genre[]}
         />
       )}
 

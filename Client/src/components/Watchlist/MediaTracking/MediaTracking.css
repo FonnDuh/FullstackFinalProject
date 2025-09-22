@@ -30,12 +30,12 @@
   -moz-border-radius: 6px;
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
-}
 
-.media-tracking select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+  }
 }
 
 .tv-tracking {
@@ -87,10 +87,10 @@
   -moz-border-radius: 6px;
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
-}
 
-.season ul li label:hover {
-  background: rgba(0, 0, 0, 0.03);
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
 }
 
 .season ul li input[type="checkbox"] {

@@ -1,15 +1,18 @@
 import { useEffect, useState, type FunctionComponent } from "react";
-import { getMediaDetails } from "../../services/tmdb/tmdb.service";
-import { updateMediaForUser } from "../../services/userMedia.service";
-import { successMessage, errorMessage } from "../../services/feedback.service";
-import { useAuth } from "../../hooks/useAuth";
-import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
+import { getMediaDetails } from "../../../services/tmdb/tmdb.service";
+import { updateMediaForUser } from "../../../services/userMedia.service";
+import {
+  successMessage,
+  errorMessage,
+} from "../../../services/feedback.service";
+import { useAuth } from "../../../hooks/useAuth";
+import type { UserMedia } from "../../../interfaces/UserMedia/UserMedia.interface";
 import type {
   MediaStatus,
   MediaType,
-} from "../../interfaces/common/MediaSubtypes.interface";
+} from "../../../interfaces/common/MediaSubtypes.interface";
 import "./MediaTracking.css";
-import type { TmdbTvDetails } from "../../interfaces/Media/TmdbTvDetails";
+import type { TmdbTvDetails } from "../../../interfaces/Media/TmdbTvDetails";
 
 interface MediaTrackingProps {
   mediaId: string;

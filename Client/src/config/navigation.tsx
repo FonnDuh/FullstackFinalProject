@@ -8,6 +8,7 @@ import {
   LogOut,
   LogIn,
   UserPlus2,
+  Home,
 } from "lucide-react";
 
 export type NavLink = {
@@ -22,6 +23,12 @@ export const navLinks: NavLink[] = [
   {
     label: "Dashboard",
     href: "/",
+    icon: <Home className="icon" />,
+    public: true,
+  },
+  {
+    label: "Browse",
+    href: "/browse",
     icon: <Menu className="icon" />,
     public: true,
   },

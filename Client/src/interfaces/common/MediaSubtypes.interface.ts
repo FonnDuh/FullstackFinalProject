@@ -1,5 +1,13 @@
-export type MediaType = "movie" | "tv" | "book" | "anime" | "game" | "unknown";
+export type MediaType =
+  | "all"
+  | "movie"
+  | "tv"
+  | "book"
+  | "anime"
+  | "game"
+  | "unknown";
 export type MediaStatus =
+  | "all"
   | "watching"
   | "completed"
   | "plan_to_watch"
@@ -12,3 +20,12 @@ export type ProgressUnit =
   | "minutes"
   | "hours"
   | "percent";
+export type MediaSort =
+  | "popularity_desc"
+  | "popularity_asc"
+  | "rating_desc"
+  | "rating_asc"
+  | "title_asc"
+  | "title_desc"
+  | "release_desc"
+  | "release_asc";

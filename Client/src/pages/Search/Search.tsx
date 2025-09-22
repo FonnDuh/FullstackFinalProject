@@ -10,30 +10,23 @@ import type { Media } from "../../interfaces/Media/Media.interface";
 import { searchMedia } from "../../services/tmdb/tmdb.service";
 import ErrorBoundary from "../../components/feedback/ErrorBoundary";
 import SearchResults from "../../components/search/SearchResults";
+import type {
+  MediaSort,
+  MediaType,
+} from "../../interfaces/common/MediaSubtypes.interface";
 
 const Search: FunctionComponent = () => {
   const [media, setMedia] = useState<Media[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [mediaType, setMediaType] = useState<
-    "all" | "movie" | "tv" | "book" | "anime" | "game"
-  >("all");
+  const [mediaType, setMediaType] = useState<MediaType>("all");
   const [minRating, setMinRating] = useState<number | "">("");
   const [maxRating, setMaxRating] = useState<number | "">("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-  type Sort =
-    | "popularity_desc"
-    | "popularity_asc"
-    | "rating_desc"
-    | "rating_asc"
-    | "title_asc"
-    | "title_desc"
-    | "release_desc"
-    | "release_asc";
 
-  const [sort, setSort] = useState<Sort>("popularity_desc");
+  const [sort, setSort] = useState<MediaSort>("popularity_desc");
 
   useEffect(() => {
     const timer = setTimeout(() => {

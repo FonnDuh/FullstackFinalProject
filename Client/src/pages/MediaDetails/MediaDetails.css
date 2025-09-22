@@ -39,7 +39,7 @@
   }
 }
 
-.movieDetails {
+.mediaDetails {
   display: flex;
   flex-direction: column;
   color: var(--text-primary);
@@ -48,7 +48,7 @@
   margin: 0 auto;
 }
 
-.movieHeader {
+.mediaHeader {
   display: flex;
   align-items: flex-start;
   color: var(--text-muted);
@@ -65,7 +65,7 @@
   -o-border-radius: 8px;
 }
 
-.movieBasic {
+.mediaBasic {
   flex: 1;
   min-width: 250px;
 }
@@ -124,7 +124,7 @@
   color: var(--text-primary);
 }
 
-body.dark-mode .movieDetails {
+body.dark-mode .mediaDetails {
   color: var(--text-primary);
 }
 

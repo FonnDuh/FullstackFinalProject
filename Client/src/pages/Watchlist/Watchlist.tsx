@@ -4,28 +4,16 @@ import type { UserMedia } from "../../interfaces/UserMedia/UserMedia.interface";
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../services/feedback.service";
 import "./Watchlist.css";
-import WatchlistItem from "../../components/common/WatchlistItem/WatchlistItem";
+import WatchlistItem from "../../components/Watchlist/WatchlistItem/WatchlistItem";
 import SearchFilters from "../../components/search/SearchFilters";
+import type {
+  MediaSort,
+  MediaStatus,
+  MediaType,
+} from "../../interfaces/common/MediaSubtypes.interface";
 
 const Watchlist: FunctionComponent = () => {
   type WatchlistFilters = {
-    sort:
-      | "popularity_desc"
-      | "popularity_asc"
-      | "rating_desc"
-      | "rating_asc"
-      | "title_asc"
-      | "title_desc"
-      | "release_desc"
-      | "release_asc";
-    mediaType: "all" | "movie" | "tv" | "book" | "anime" | "game";
-    status:
-      | "all"
-      | "watching"
-      | "completed"
-      | "plan_to_watch"
-      | "dropped"
-      | "on_hold";
     minRating: number | "";
     maxRating: number | "";
     searchTerm: string;
@@ -37,12 +25,10 @@ const Watchlist: FunctionComponent = () => {
   const [loading, setLoading] = useState(true);
 
   const [filter, setFilter] = useState<"all" | "favorites">("all");
-  const [sort, setSort] = useState<WatchlistFilters["sort"]>("release_desc");
+  const [sort, setSort] = useState<MediaSort>("release_desc");
 
-  const [mediaType, setMediaType] =
-    useState<WatchlistFilters["mediaType"]>("all");
-  const [statusFilter, setStatusFilter] =
-    useState<WatchlistFilters["status"]>("all");
+  const [mediaType, setMediaType] = useState<MediaType>("all");
+  const [statusFilter, setStatusFilter] = useState<MediaStatus>("all");
   const [minRating, setMinRating] = useState<WatchlistFilters["minRating"]>("");
   const [maxRating, setMaxRating] = useState<WatchlistFilters["maxRating"]>("");
   const [searchTerm, setSearchTerm] =
@@ -197,9 +183,7 @@ const Watchlist: FunctionComponent = () => {
           <select
             id="statusFilter"
             value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(e.target.value as WatchlistFilters["status"])
-            }>
+            onChange={(e) => setStatusFilter(e.target.value as MediaStatus)}>
             <option value="all">All</option>
             <option value="watching">Watching</option>
             <option value="completed">Completed</option>

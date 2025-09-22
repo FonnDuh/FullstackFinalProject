@@ -18,7 +18,7 @@ const MediaStatus: Record<string, string> = {
 const WatchlistItem: FunctionComponent<WatchlistItemProps> = ({ media }) => {
   return (
     <div className="watchlist-item">
-      <Link to={`/tmdb/${media.media_id}`} className="watchlist-link">
+      <Link to={`/tmdb/${media.media_type}/${media.media_id}`} className="watchlist-link">
         <img
           src={`https://image.tmdb.org/t/p/w500${media.cover_url}`}
           alt={media.media_title}

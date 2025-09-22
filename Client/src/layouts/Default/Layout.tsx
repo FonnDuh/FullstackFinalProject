@@ -22,30 +22,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   const footerLinks = useMemo(() => getFooterLinks(user), [user]);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
-  // const Logo = () => (
-  //   <a href="/" className="logo open-logo">
-  //     <div className="logo-icon" />
-  //     <motion.span
-  //       initial={{ opacity: 0 }}
-  //       animate={{ opacity: 1 }}
-  //       className="logo-text">
-  //       MediaVault
-  //     </motion.span>
-  //   </a>
-  // );
-
-  // const LogoIcon = () => (
-  //   <a href="/" className="logo">
-  //     <div className="logo-icon"></div>
-  //   </a>
-  // );
-
   return (
     <div className="layout">
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className={`sidebar-body ${open ? "active" : ""}`}>
           <div className="sidebar-main">
-            {/* {open ? <Logo /> : ""} */}
             <nav className="nav-links">
               {links.map((link, idx) => (
                 <SidebarLink
