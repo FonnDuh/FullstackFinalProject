@@ -18,21 +18,37 @@ interface MediaTrackingProps {
   mediaId: string;
   mediaType: MediaType;
   existingMedia: UserMedia | null;
+  onMediaUpdated?: (m: UserMedia) => void;
 }
 
 const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
   mediaId,
   mediaType,
   existingMedia,
+  onMediaUpdated,
 }) => {
   const { user } = useAuth();
   const [tvDetails, setTvDetails] = useState<TmdbTvDetails | null>(null);
   const [watchStatus, setWatchStatus] = useState<MediaStatus>(
     (existingMedia?.status as MediaStatus) ?? "plan_to_watch"
   );
-  const [watchedEpisodes, setWatchedEpisodes] = useState<number[]>(
-    existingMedia?.watched_episodes || []
-  );
+  const keyFor = (s: number, e: number) => `${s}:${e}`;
+  const [watchedSet, setWatchedSet] = useState<Set<string>>(() => {
+    const hist = existingMedia?.tv_tracking?.episode_watch_history ?? [];
+    const arr = Array.isArray(hist)
+      ? hist.map((h) => {
+          const rec = h as Record<string, unknown>;
+          const seasonN =
+            (rec["season_number"] as number) ?? (rec["season"] as number) ?? 1;
+          const epN =
+            (rec["episode_number"] as number) ??
+            (rec["episode"] as number) ??
+            0;
+          return keyFor(seasonN, epN);
+        })
+      : [];
+    return new Set(arr);
+  });
   const [selectedSeason, setSelectedSeason] = useState<number | null>(
     existingMedia?.tv_tracking?.current_season ?? null
   );
@@ -55,6 +71,23 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
     }
   }, [mediaId, mediaType]);
 
+  useEffect(() => {
+    const hist = existingMedia?.tv_tracking?.episode_watch_history ?? [];
+    const arr = Array.isArray(hist)
+      ? hist.map((h) => {
+          const rec = h as Record<string, unknown>;
+          const seasonN =
+            (rec["season_number"] as number) ?? (rec["season"] as number) ?? 1;
+          const epN =
+            (rec["episode_number"] as number) ??
+            (rec["episode"] as number) ??
+            0;
+          return keyFor(seasonN, epN);
+        })
+      : [];
+    setWatchedSet(new Set(arr));
+  }, [existingMedia]);
+
   const handleStatusChange = async (status: MediaStatus) => {
     if (!user || !existingMedia || !existingMedia._id) return;
 
@@ -66,20 +99,81 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
     }
   };
 
-  const handleEpisodeToggle = async (episodeNumber: number) => {
+  const handleEpisodeToggle = async (
+    seasonNumber: number,
+    episodeNumber: number
+  ) => {
     if (!user || !existingMedia || !existingMedia._id) return;
 
-    const updatedEpisodes = watchedEpisodes.includes(episodeNumber)
-      ? watchedEpisodes.filter((ep) => ep !== episodeNumber)
-      : [...watchedEpisodes, episodeNumber];
+    const currentHistory = Array.isArray(
+      existingMedia.tv_tracking?.episode_watch_history
+    )
+      ? [...existingMedia.tv_tracking!.episode_watch_history!]
+      : [];
+
+    const already = currentHistory.some((h: unknown) => {
+      const rec = h as Record<string, unknown>;
+      return (
+        (rec["episode_number"] as number) === episodeNumber &&
+        (rec["season_number"] as number) === seasonNumber
+      );
+    });
+
+    let newHistory;
+    if (already) {
+      newHistory = currentHistory.filter((h: unknown) => {
+        const rec = h as Record<string, unknown>;
+        return !(
+          (rec["episode_number"] as number) === episodeNumber &&
+          (rec["season_number"] as number) === seasonNumber
+        );
+      });
+    } else {
+      newHistory = [
+        ...currentHistory,
+        {
+          episode_number: episodeNumber,
+          season_number: seasonNumber,
+          watched_at: new Date(),
+        },
+      ];
+    }
+
+    const payload = {
+      tv_tracking: {
+        current_season: existingMedia.tv_tracking?.current_season ?? undefined,
+        current_episode:
+          existingMedia.tv_tracking?.current_episode ?? undefined,
+        episode_watch_history: newHistory.map((h: Record<string, unknown>) => ({
+          episode_number: h.episode_number,
+          season_number: h.season_number,
+          watched_at:
+            h.watched_at instanceof Date
+              ? h.watched_at.toISOString()
+              : h.watched_at,
+        })),
+      },
+    } as Partial<UserMedia>;
 
     try {
-      const updated = await updateMediaForUser(existingMedia._id, {
-        watched_episodes: updatedEpisodes,
-      });
-      setWatchedEpisodes(updated.data.watched_episodes);
+      const updated = await updateMediaForUser(existingMedia._id, payload);
+      if (updated && updated.data) {
+        const hist = updated.data.tv_tracking?.episode_watch_history ?? [];
+        const arr = Array.isArray(hist)
+          ? hist.map((h) => {
+              const rec = h as Record<string, unknown>;
+              const seasonN = (rec["season_number"] as number) ?? 1;
+              const epN = (rec["episode_number"] as number) ?? 0;
+              return keyFor(seasonN, epN);
+            })
+          : [];
+        setWatchedSet(new Set(arr));
+        if (typeof onMediaUpdated === "function")
+          onMediaUpdated(updated.data as UserMedia);
+      }
     } catch (error) {
       console.error("Error updating watched episodes:", error);
+      errorMessage("Failed to update watched episode.");
     }
   };
 
@@ -141,18 +235,24 @@ const MediaTracking: FunctionComponent<MediaTrackingProps> = ({
                   {Array.from(
                     { length: season.episode_count ?? 0 },
                     (_, i) => i + 1
-                  ).map((episodeNumber) => (
-                    <li key={episodeNumber}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={watchedEpisodes.includes(episodeNumber)}
-                          onChange={() => handleEpisodeToggle(episodeNumber)}
-                        />
-                        Episode {episodeNumber}
-                      </label>
-                    </li>
-                  ))}
+                  ).map((episodeNumber) => {
+                    const sNum = (season.season_number ?? 1) as number;
+                    const checked = watchedSet.has(keyFor(sNum, episodeNumber));
+                    return (
+                      <li key={episodeNumber}>
+                        <label className={checked ? "checked" : undefined}>
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() =>
+                              handleEpisodeToggle(sNum, episodeNumber)
+                            }
+                          />
+                          <span>Episode {episodeNumber}</span>
+                        </label>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}

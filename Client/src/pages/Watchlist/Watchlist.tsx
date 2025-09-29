@@ -185,11 +185,11 @@ const Watchlist: FunctionComponent = () => {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as MediaStatus)}>
             <option value="all">All</option>
-            <option value="watching">Watching</option>
-            <option value="completed">Completed</option>
             <option value="plan_to_watch">Plan to Watch</option>
-            <option value="dropped">Dropped</option>
+            <option value="watching">Watching</option>
             <option value="on_hold">On Hold</option>
+            <option value="dropped">Dropped</option>
+            <option value="completed">Completed</option>
           </select>
         </div>
 

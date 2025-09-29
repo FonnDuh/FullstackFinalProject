@@ -110,6 +110,71 @@
   gap: 12px;
 }
 
+.continue-watching {
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.continue-watching::after {
+  /* subtle dark overlay */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.6)
+  );
+  pointer-events: none;
+}
+
+.continue-watching .cw-row {
+  display: flex;
+  gap: 12px;
+  position: relative; /* sit above overlay */
+  z-index: 1;
+  align-items: center;
+}
+
+.cw-cover {
+  width: 96px;
+  height: 136px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+
+.cw-meta h4 {
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+
+.cw-meta p {
+  margin: 0 0 10px 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cw-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.continue-watching .btn-primary {
+  background: var(--accent);
+  border: none;
+}
+
+.btn-link {
+  background: transparent;
+  color: #fff;
+  text-decoration: underline;
+}
+
 .dashboard__main-right {
   grid-column: 2 / 3;
   min-height: 200px;

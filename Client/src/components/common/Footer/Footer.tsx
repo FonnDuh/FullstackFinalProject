@@ -79,7 +79,7 @@ const Footer: FunctionComponent<object> = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 BCard. All rights reserved.</p>
+          <p>&copy; 2025 MediaVault. All rights reserved.</p>
         </div>
       </div>
     </footer>
